@@ -4,7 +4,11 @@ class M_siswa extends CI_Model
 {
     public function tampil_data()
     {
-        return $this->db->get('siswa');
+        $this->db->select('*');
+        $this->db->from('siswa');
+        $this->db->join('user', 'user.id = siswa.id_user');
+        $query = $this->db->get();
+        return $query;
     }
 
     public function detail_siswa($id = null)

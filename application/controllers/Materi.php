@@ -2,7 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-
 class Materi extends CI_Controller
 {
     public function __construct()
@@ -32,8 +31,8 @@ class Materi extends CI_Controller
         $this->list_materi['agama_xii'] = $this->m_materi->agama_xii()->result();
     }
 
-    function generateMateri($materi){
-    
+    function generateMateri($materi)
+    {
         $data['materi'] = $this->list_materi[$materi];
         $data['user'] = $this->db->get_where('siswa', ['id_user' =>
             $this->session->userdata('id')])->row_array();
@@ -47,6 +46,8 @@ class Materi extends CI_Controller
         $detail = $this->m_materi->belajar($id);
         $data['detail'] = $detail;
         $data['disqus'] = $this->disqus->get_html();
+        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
+            $this->session->userdata('id')])->row_array();
         $this->load->view('materi/belajar', $data);
     }
 
@@ -65,64 +66,64 @@ class Materi extends CI_Controller
         $this->generateMateri('matematika_xii');
     }
 
-    public function ipa_x()
-    {
-        $this->generateMateri('ipa_x');
-    }
+    // public function ipa_x()
+    // {
+    //     $this->generateMateri('ipa_x');
+    // }
 
-    public function ipa_xi()
-    {
-        $this->generateMateri('ipa_xi');
-    }
+    // public function ipa_xi()
+    // {
+    //     $this->generateMateri('ipa_xi');
+    // }
 
-    public function ipa_xii()
-    {
-        $this->generateMateri('ipa_xii');
-    }
+    // public function ipa_xii()
+    // {
+    //     $this->generateMateri('ipa_xii');
+    // }
 
-    public function indo_x()
-    {
-        $this->generateMateri('indo_x');
-    }
+    // public function indo_x()
+    // {
+    //     $this->generateMateri('indo_x');
+    // }
 
-    public function indo_xi()
-    {
-        $this->generateMateri('indo_xi');
-    }
+    // public function indo_xi()
+    // {
+    //     $this->generateMateri('indo_xi');
+    // }
 
-    public function indo_xii()
-    {
-        $this->generateMateri('indo_xii');
-    }
+    // public function indo_xii()
+    // {
+    //     $this->generateMateri('indo_xii');
+    // }
 
-    public function inggris_x()
-    {
-        $this->generateMateri('inggris_x');
-    }
+    // public function inggris_x()
+    // {
+    //     $this->generateMateri('inggris_x');
+    // }
     
-    public function inggris_xi()
-    {
-        $this->generateMateri('inggris_xi');
-    }
+    // public function inggris_xi()
+    // {
+    //     $this->generateMateri('inggris_xi');
+    // }
     
-    public function inggris_xii()
-    {
-        $this->generateMateri('inggris_xii');
-    }
+    // public function inggris_xii()
+    // {
+    //     $this->generateMateri('inggris_xii');
+    // }
     
-    public function agama_x()
-    {
-        $this->generateMateri('agama_x');
-    }
+    // public function agama_x()
+    // {
+    //     $this->generateMateri('agama_x');
+    // }
     
-    public function agama_xi()
-    {
-        $this->generateMateri('agama_xi');
-    }
+    // public function agama_xi()
+    // {
+    //     $this->generateMateri('agama_xi');
+    // }
     
-    public function agama_xii()
-    {
-        $this->generateMateri('agama_xii');
-    }
+    // public function agama_xii()
+    // {
+    //     $this->generateMateri('agama_xii');
+    // }
 
 }

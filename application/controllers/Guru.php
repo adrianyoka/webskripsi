@@ -15,10 +15,11 @@ class Guru extends CI_Controller
 
     public function index()
     {
-        $data['user'] = $this->db->get_where('guru', ['email' =>
-            $this->session->userdata('email')])->row_array();
-
-        $this->load->view('guru/index');
+        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->get_where('guru', ['id_user' =>
+            $this->session->userdata('id')])->row_array();
+        
+        $this->load->view('admin/template/side_bar',$data);
+        $this->load->view('admin/index',$data['user']);
     }
 
     public function add_materi()

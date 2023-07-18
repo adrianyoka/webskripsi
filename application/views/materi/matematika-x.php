@@ -1,16 +1,3 @@
-<!--
-@Project: Learnify
-@Programmer: Syauqi Zaidan Khairan Khalaf
-@Website: https://linktr.ee/syauqi
-@Email : syaokay@gmail.com
-
-@About-Learnify :
-Web Edukasi Open Source yang dibuat oleh Syauqi Zaidan Khairan Khalaf.
-Learnify adalah Web edukasi yang dilengkapi video, materi dan sistem ujian
-yang tersedia secara gratis. Learnify dibuat ditujukan agar para siswa dan
-guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
--->
-
 <!doctype html>
 <html lang="en">
 
@@ -62,9 +49,7 @@ guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item "><a class="nav-link" href="javascript:void(0)">Hai, <?php
-                                                                                                        $data['user'] = $this->db->get_where('siswa', ['email' =>
-                                                                                                        $this->session->userdata('email')])->row_array();
-                                                                                                        echo $data['user']['nama'];
+                                                                                                        echo $user['nama'];
                                                                                                         ?></a>
                             </li>
                             <li class="nav-item active"><a class="nav-link" href="<?= base_url('user') ?>">Beranda</a>
@@ -89,9 +74,7 @@ guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
                         kamu pelajari !
                     </h1>
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
-                                                                        $data['user'] = $this->db->get_where('siswa', ['email' =>
-                                                                        $this->session->userdata('email')])->row_array();
-                                                                        echo $data['user']['nama'];
+                                                                        echo $user['nama'];
                                                                         ?> - Learnify Students</h4>
                     <p>Matematika - Kelas X</p>
                     <hr width="80%">

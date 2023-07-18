@@ -5,7 +5,7 @@ class M_guru extends CI_Model
     public function tampil_data()
     {
         return $this->db->get('guru');
-    }-+
+    }
 
     public function detail_guru($nip = null)
     {

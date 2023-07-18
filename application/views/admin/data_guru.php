@@ -1,16 +1,3 @@
-<!--
-@Project: Learnify
-@Programmer: Syauqi Zaidan Khairan Khalaf
-@Website: https://linktr.ee/syauqi
-@Email : syaokay@gmail.com
-
-@About-Learnify :
-Web Edukasi Open Source yang dibuat oleh Syauqi Zaidan Khairan Khalaf.
-Learnify adalah Web edukasi yang dilengkapi video, materi dan sistem ujian
-yang tersedia secara gratis. Learnify dibuat ditujukan agar para siswa dan
-guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,9 +38,7 @@ guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img alt="image" style="margin-bottom:3px !important;" src="../assets/stisla-assets/img/avatar/avatar-2.png" class="rounded-circle mr-1 my-auto">
                             <div class="d-sm-none d-lg-inline-block" style="font-size:15px;">Hello, <?php
-                                                                                                    $data['user'] = $this->db->get_where('admin', ['email' =>
-                                                                                                    $this->session->userdata('email')])->row_array();
-                                                                                                    echo $data['user']['username'];
+                                                                                                    echo $admin['username'];
                                                                                                     ?></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">

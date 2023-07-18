@@ -19,6 +19,7 @@
                     <h6 class="footer_title">Masuk - Sign in</h6>
                     <ul class="list">
                         <li><a href="#" data-toggle="modal" data-target="#exampleModalCenter">Untuk Siswa</a></li>
+                        <li><a href="<?= base_url('welcome/admin') ?>">Untuk Admin</a></li>
                         <li><a href="<?= base_url('welcome/guru') ?>">Untuk Guru</a></li>
                     </ul>
                 </div>
@@ -52,12 +53,6 @@
         </div>
         <div class="row footer-bottom d-flex justify-content-between align-items-center">
             <p class="col-lg-8 col-md-8 footer-text m-0">
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>
-                    document.write(new Date().getFullYear());
-                </script> All rights reserved | This template is made with <span class="text-danger"> &#10084;</span> by
-                <a href="https://colorlib.com" target="_blank">Colorlib</a> <br> Learnify is made with <span class="text-danger"> &#10084;</span> by <a href="https://github.com/syauqi">Syauqi Zaidan Khairan Khalaf </a> with MIT License
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
             <div class="col-lg-4 col-md-4 footer-social">
                 <a href="https://www.facebook.com/syaaauqi"><i class="fa fa-facebook"></i></a>

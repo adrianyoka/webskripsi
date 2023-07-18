@@ -1,16 +1,3 @@
-<!--
-@Project: Learnify
-@Programmer: Syauqi Zaidan Khairan Khalaf
-@Website: https://linktr.ee/syauqi
-@Email : syaokay@gmail.com
-
-@About-Learnify :
-Web Edukasi Open Source yang dibuat oleh Syauqi Zaidan Khairan Khalaf.
-Learnify adalah Web edukasi yang dilengkapi video, materi dan sistem ujian
-yang tersedia secara gratis. Learnify dibuat ditujukan agar para siswa dan
-guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
--->
-
 <!doctype html>
 <html lang="en">
 
@@ -21,9 +8,7 @@ guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
     <title>Selamat Belajar - <?php
-                                $data['user'] = $this->db->get_where('siswa', ['email' =>
-                                $this->session->userdata('email')])->row_array();
-                                echo $data['user']['nama'];
+                                echo $user['nama'];
                                 ?></title>
     <!-- Bootstrap CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -66,9 +51,7 @@ guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item "><a class="nav-link" href="javascript:void(0)">Hai, <?php
-                                                                                                        $data['user'] = $this->db->get_where('siswa', ['email' =>
-                                                                                                        $this->session->userdata('email')])->row_array();
-                                                                                                        echo $data['user']['nama'];
+                                                                                                        echo $user['nama'];
                                                                                                         ?></a>
                             </li>
                             <li class="nav-item active"><a class="nav-link" href="<?= base_url('user') ?>">Beranda</a>
@@ -92,16 +75,13 @@ guru dapat terus belajar dan mengajar dimana saja dan kapan saja.
                     <h1 class="display-4" style="color: black; font-family:'poppins';" data-aos="fade-down" data-aos-duration="1400">Selamat Belajar !
                     </h1>
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
-                                                                        $data['user'] = $this->db->get_where('siswa', ['email' =>
-                                                                        $this->session->userdata('email')])->row_array();
-                                                                        echo $data['user']['nama'];
+                                                                        echo $user['nama'];
                                                                         ?> - Learnify Students</h3>
                         <p><?= $detail->nama_mapel ?> - Kelas <?= $detail->kelas ?></p>
                         <hr align="left" width="600;">
                         <p style="line-height: 3px;">Kita akan mempelajari tentang</p>
                         <p class="font-weight-bold mt--5">
                             <?= substr($detail->deskripsi, 0, 120); ?>
-
                         </p>
                 </div>
             </div>

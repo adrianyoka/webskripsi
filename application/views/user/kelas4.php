@@ -76,15 +76,12 @@
                 <div class="col-md-12 mt-1">
                     <h1 class="display-4" style="color: black; font-family:'poppins';" data-aos="fade-down" data-aos-duration="1400">Silahkan pilih mata pelajaran !
                     </h1>
-                    <p>Hello Students! , Ini merupakan halaman mapel learnify ! Silahkan pilih mapel yang akan kamu
-                        akses
-                        dan taddaa video dan materi siap disaksikan! Selamat belajar ya students!</p>
                     <hr>
 
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
                                                                         echo $nama;
                                                                         ?> - Learnify Students</h3>
-                        <h5>Mata Pelajaran Kelas X</h5>
+                    <h5>Mata Pelajaran Kelas 4</h5>
                 </div>
             </div>
         </div>

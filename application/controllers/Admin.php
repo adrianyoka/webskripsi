@@ -15,10 +15,11 @@ class Admin extends CI_Controller
 
     public function index()
     {
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
-
-        $this->load->view('admin/index');
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+            
+        $this->load->view('admin/template/side_bar',$data);
+        $this->load->view('admin/index',$data);
     }
 
     public function about_developer()
@@ -43,8 +44,8 @@ class Admin extends CI_Controller
     {
         $this->load->model('m_siswa');
 
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
 
         $data['user'] = $this->m_siswa->tampil_data()->result();
         $this->load->view('admin/data_siswa', $data);

@@ -147,61 +147,6 @@ class Welcome extends CI_Controller
         }
     }
 
-    public function tentang()
-    {
-        $this->load->view('template/nav');
-        $this->load->view('tentang');
-        $this->load->view('template/footer');
-    }
-
-    public function pelajaran()
-    {
-        $this->load->view('template/nav');
-        $this->load->view('pelajaran');
-        $this->load->view('template/footer');
-    }
-
-    public function kontak()
-    {
-        $this->load->view('template/nav');
-        $this->load->view('kontak');
-        $this->load->view('template/footer');
-    }
-
-    public function verify()
-    {
-        $email = $this->input->get('email');
-        $token = $this->input->get('token');
-
-        $user = $this->db->get_where('siswa', ['email' => $email])->row_array();
-        if ($user) {
-            $user_token = $this->db->get_where('token', ['token => $token'])->row_array();
-            if ($user_token) {
-                if (time() - $user_token['date_created'] < (600 * 600 * 24)) {
-                    $this->db->set('is_active', 1);
-                    $this->db->where('email', $email);
-                    $this->db->update('siswa');
-
-                    $this->db->delete('token', ['email' => $email]);
-                    $this->session->set_flashdata('success-verify', 'Bserhasil!');
-                    redirect(base_url('welcome'));
-                } else {
-                    $this->db->delete('siswa', ['email' => $email]);
-                    $this->db->delete('token', ['email' => $email]);
-
-                    $this->session->set_flashdata('fail-token-expired', 'gagal');
-                    redirect(base_url('welcome'));
-                }
-            } else {
-                $this->session->set_flashdata('fail-token', 'gagal');
-                redirect(base_url('welcome'));
-            }
-        } else {
-            $this->session->set_flashdata('fail-verify', 'gagal');
-            redirect(base_url('welcome'));
-        }
-    }
-
     // Guru
     public function guru()
     {
@@ -250,9 +195,63 @@ class Welcome extends CI_Controller
         }
     }
 
+    public function verify()
+    {
+        $email = $this->input->get('email');
+        $token = $this->input->get('token');
+
+        $user = $this->db->get_where('siswa', ['email' => $email])->row_array();
+        if ($user) {
+            $user_token = $this->db->get_where('token', ['token => $token'])->row_array();
+            if ($user_token) {
+                if (time() - $user_token['date_created'] < (600 * 600 * 24)) {
+                    $this->db->set('is_active', 1);
+                    $this->db->where('email', $email);
+                    $this->db->update('siswa');
+
+                    $this->db->delete('token', ['email' => $email]);
+                    $this->session->set_flashdata('success-verify', 'Bserhasil!');
+                    redirect(base_url('welcome'));
+                } else {
+                    $this->db->delete('siswa', ['email' => $email]);
+                    $this->db->delete('token', ['email' => $email]);
+
+                    $this->session->set_flashdata('fail-token-expired', 'gagal');
+                    redirect(base_url('welcome'));
+                }
+            } else {
+                $this->session->set_flashdata('fail-token', 'gagal');
+                redirect(base_url('welcome'));
+            }
+        } else {
+            $this->session->set_flashdata('fail-verify', 'gagal');
+            redirect(base_url('welcome'));
+        }
+    }
+
     public function email()
     {
         $this->load->view('template/email-template');
     }
 
+    public function tentang()
+    {
+        $this->load->view('template/nav');
+        $this->load->view('tentang');
+        $this->load->view('template/footer');
+    }
+
+    public function pelajaran()
+    {
+        $this->load->view('template/nav');
+        $this->load->view('pelajaran');
+        $this->load->view('template/footer');
+    }
+
+    public function kontak()
+    {
+        $this->load->view('template/nav');
+        $this->load->view('kontak');
+        $this->load->view('template/footer');
+    }
 }
