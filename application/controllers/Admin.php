@@ -47,7 +47,8 @@ class Admin extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
 
-        $data['user'] = $this->m_siswa->tampil_data()->result();
+        $data['siswa'] = $this->m_siswa->tampil_data()->result();
+        $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/data_siswa', $data);
     }
 
@@ -122,10 +123,11 @@ class Admin extends CI_Controller
     public function data_guru()
     {
         $this->load->model('m_guru');
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
 
-        $data['user'] = $this->m_guru->tampil_data()->result();
+        $data['guru'] = $this->m_guru->tampil_data()->result();
+        $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/data_guru', $data);
     }
 
@@ -213,6 +215,11 @@ class Admin extends CI_Controller
 
     public function add_guru()
     {
+        $this->load->model('m_guru');
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+
+        $data['guru'] = $this->m_guru->tampil_data()->result();
         $this->form_validation->set_rules('nip', 'Nip', 'required|trim|min_length[4]', [
             'required' => 'Harap isi kolom NIP.',
             'min_length' => 'NIP terlalu pendek.',
@@ -239,6 +246,7 @@ class Admin extends CI_Controller
         ]);
 
         if ($this->form_validation->run() == false) {
+            $this->load->view('admin/template/side_bar',$data);
             $this->load->view('guru/registration');
         } else {
             $data = [
@@ -260,12 +268,14 @@ class Admin extends CI_Controller
 
     public function data_materi()
     {
+        
         $this->load->model('m_materi');
 
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
 
-        $data['user'] = $this->m_materi->tampil_data()->result();
+        $data['materi'] = $this->m_materi->tampil_data()->result();
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_materi', $data);
     }
 
@@ -280,11 +290,16 @@ class Admin extends CI_Controller
 
     public function tambah_materi()
     {
+        $this->load->model('m_materi');
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+
         $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|trim|min_length[1]', [
             'required' => 'Harap isi kolom deskripsi.',
             'min_length' => 'deskripsi terlalu pendek.',
         ]);
         if ($this->form_validation->run() == false) {
+            $this->load->view('admin/template/side_bar',$data);
             $this->load->view('admin/add_materi');
         } else {
             $upload_video = $_FILES['video'];

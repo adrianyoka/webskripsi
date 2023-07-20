@@ -4,7 +4,11 @@ class M_guru extends CI_Model
 {
     public function tampil_data()
     {
-        return $this->db->get('guru');
+        $this->db->select('*');
+        $this->db->from('guru');
+        $this->db->join('user', 'user.id = guru.id_user');
+        $query = $this->db->get();
+        return $query;
     }
 
     public function detail_guru($nip = null)
