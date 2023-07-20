@@ -4,12 +4,18 @@ class M_guru extends CI_Model
 {
     public function tampil_data()
     {
-        return $this->db->get('guru');
+        $this->db->select('*');
+        $this->db->from('guru');
+        $this->db->join('user', 'user.id = guru.id_user');
+        $query = $this->db->get();
+        return $query;
     }
 
-    public function detail_guru($nip = null)
+    public function detail_guru($id = null)
     {
-        $query = $this->db->get_where('guru', array('nip' => $nip))->row();
+        $this->db->select('*');
+        $this->db->join('user', 'user.id = guru.id_user');
+        $query = $this->db->get_where('guru', array('id_user' => $id))->row();
         return $query;
     }
 
@@ -21,6 +27,8 @@ class M_guru extends CI_Model
 
     public function update_guru($where, $table)
     {
+        $this->db->select('*');
+        $this->db->join('user', 'user.id = guru.id_user');
         return $this->db->get_where($table, $where);
     }
 

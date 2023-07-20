@@ -13,7 +13,9 @@ class M_siswa extends CI_Model
 
     public function detail_siswa($id = null)
     {
-        $query = $this->db->get_where('siswa', array('id' => $id))->row();
+        $this->db->select('*');
+        $this->db->join('user', 'user.id = siswa.id_user');
+        $query = $this->db->get_where('siswa', array('id_user' => $id))->row();
         return $query;
     }
 
@@ -25,6 +27,8 @@ class M_siswa extends CI_Model
 
     public function update_siswa($where, $table)
     {
+        $this->db->select('*');
+        $this->db->join('user', 'user.id = siswa.id_user');
         return $this->db->get_where($table, $where);
     }
 

@@ -76,7 +76,9 @@
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
                                                                         echo $user['nama'];
                                                                         ?> - Learnify Students</h4>
-                    <p>Matematika - Kelas X</p>
+                    <p>Matematika - Kelas <?php
+                                            echo $user['kelas'];
+                                            ?></p>
                     <hr width="80%">
                     <p data-aos="fade-down" class="font-weight-bold" data-aos-duration="1800">Silahkan pilih materi yang
                         akan kamu akses
@@ -99,10 +101,9 @@
                         <div class="card-body p-5">
                             <h1 class="card-title"><?= $u->nama_guru; ?></h1>
                             <p class=" card-text">
-                                <?= substr($u->deskripsi, 0, 100); ?>&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.
+                                <?= substr($u->deskripsi, 0, 75); ?>&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.
                             </p>
-                            <a href="<?php echo site_url('materi/belajar/' . $u->id); ?>" class="btn btn-white">Pelajari
-                                Sekarang !</a>
+                            <a href="<?php echo site_url('materi/belajar/' . $u->id); ?>" class="btn btn-white">Pelajari Sekarang !</a>
                         </div>
                     </div>
                 </div>

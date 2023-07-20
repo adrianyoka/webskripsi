@@ -45,7 +45,8 @@
                                         <h4>Materi</h4>
                                     </div>
                                     <div class="card-body">
-                                        <?php echo $this->db->count_all('materi'); ?>
+                                        <?php 
+                                        echo $this->db->count_all('materi'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +61,8 @@
                                         <h4>Kelas</h4>
                                     </div>
                                     <div class="card-body">
-                                        3
+                                        <?php 
+                                        echo count($kelas)?>
                                     </div>
                                 </div>
                             </div>
