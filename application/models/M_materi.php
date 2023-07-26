@@ -2,6 +2,14 @@
 
 class M_materi extends CI_Model
 {
+    public function kelas()
+    {
+        $this->db->select('*');
+        $this->db->from('materi');
+        $this->db->group_by('kelas');
+        $query = $this->db->get();
+        return $query;
+    }
     public function tampil_data()
     {
         return $this->db->get('materi');
@@ -39,7 +47,7 @@ class M_materi extends CI_Model
     public function matematika_x()
     {
         $mapel = 'Matematika';
-        $kelas = 'X';
+        $kelas = '4';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -48,7 +56,7 @@ class M_materi extends CI_Model
     public function matematika_xi()
     {
         $mapel = 'Matematika';
-        $kelas = 'XI';
+        $kelas = '5';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -57,7 +65,7 @@ class M_materi extends CI_Model
     public function matematika_xii()
     {
         $mapel = 'Matematika';
-        $kelas = 'XII';
+        $kelas = '6';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -66,7 +74,7 @@ class M_materi extends CI_Model
     public function ipa_x()
     {
         $mapel = 'IPA';
-        $kelas = 'X';
+        $kelas = '4';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -75,7 +83,7 @@ class M_materi extends CI_Model
     public function ipa_xi()
     {
         $mapel = 'IPA';
-        $kelas = 'XI';
+        $kelas = '5';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -84,7 +92,7 @@ class M_materi extends CI_Model
     public function ipa_xii()
     {
         $mapel = 'IPA';
-        $kelas = 'XII';
+        $kelas = '6';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -93,7 +101,7 @@ class M_materi extends CI_Model
     public function indo_x()
     {
         $mapel = 'Bahasa Indonesia';
-        $kelas = 'X';
+        $kelas = '4';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -102,7 +110,7 @@ class M_materi extends CI_Model
     public function indo_xi()
     {
         $mapel = 'Bahasa Indonesia';
-        $kelas = 'XI';
+        $kelas = '5';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -111,7 +119,7 @@ class M_materi extends CI_Model
     public function indo_xii()
     {
         $mapel = 'Bahasa Indonesia';
-        $kelas = 'XII';
+        $kelas = '6';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -120,7 +128,7 @@ class M_materi extends CI_Model
     public function inggris_x()
     {
         $mapel = 'Bahasa Inggris';
-        $kelas = 'X';
+        $kelas = '4';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -129,7 +137,7 @@ class M_materi extends CI_Model
     public function inggris_xi()
     {
         $mapel = 'Bahasa Inggris';
-        $kelas = 'XI';
+        $kelas = '5';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -138,7 +146,7 @@ class M_materi extends CI_Model
     public function inggris_xii()
     {
         $mapel = 'Bahasa Inggris';
-        $kelas = 'XII';
+        $kelas = '6';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -147,7 +155,7 @@ class M_materi extends CI_Model
     public function agama_x()
     {
         $mapel = 'Pendidikan Agama Islam';
-        $kelas = 'X';
+        $kelas = '4';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -156,7 +164,7 @@ class M_materi extends CI_Model
     public function agama_xi()
     {
         $mapel = 'Pendidikan Agama Islam';
-        $kelas = 'XI';
+        $kelas = '5';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');
@@ -165,7 +173,7 @@ class M_materi extends CI_Model
     public function agama_xii()
     {
         $mapel = 'Pendidikan Agama Islam';
-        $kelas = 'XII';
+        $kelas = '6';
         $this->db->where('kelas', $kelas);
         $this->db->where('nama_mapel', $mapel);
         return $this->db->get('materi');

@@ -81,7 +81,9 @@
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
                                                                         echo $nama;
                                                                         ?> - Learnify Students</h3>
-                    <h5>Mata Pelajaran Kelas 4</h5>
+                    <h5>Mata Pelajaran Kelas <?php
+                                             echo $kelas;
+                                             ?></h5>
                 </div>
             </div>
         </div>

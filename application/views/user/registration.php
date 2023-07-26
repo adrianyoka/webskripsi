@@ -8,9 +8,9 @@
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
     <title>Learnify - Belajar Dimana Saja & Kapan Saja!</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/linericon/style.css">
-    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/owl-carousel/owl.carousel.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/lightbox/simpleLightbox.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/nice-select/css/nice-select.css">
@@ -33,28 +33,11 @@
 <body style="background-color: #edf2f7">
     <!-- Header Menu Area -->
     <header class="header_area" style="background-color: white !important;">
-        <div class="top_menu row m0">
-            <div class="container">
-                <div class="float-left">
-                    <ul class="list header_social">
-                        <li><a href="https://www.facebook.com/syaaauqi"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://twitter.com/syaaauqi"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://dribbble.com/syaufy"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a href="https://www.behance.net/syaufy"><i class="fa fa-behance"></i></a></li>
-                        <li><a href="https://www.github.com/syauqi"><i class="fa fa-github"></i></a></li>
-                        <li><a href="https://www.instagram.com/syaufy"><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-                <div class="float-right">
-                    <a class="dn_btn" href="mailto:apps.learnify@gmail.com">apps.learnify@gmail.com</a>
-                </div>
-            </div>
-        </div>
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="<?= base_url('welcome') ?>"><img src="<?= base_url('assets/') ?>img/logo.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="<?= base_url('admin') ?>"><img src="<?= base_url('assets/') ?>img/logo.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -62,16 +45,19 @@
                     </button>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item" id="nav"><a class="nav-link" href="<?= base_url('welcome') ?>">Beranda</a></li>
-                            <li class="nav-item" id="navtentang"><a class="nav-link" href="<?= base_url('welcome/tentang') ?>">Tentang</a>
+                        <ul class="nav navbar-nav manu_nav ml-auto navbar-right">
+                            <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                                    <div class="d-sm-none d-lg-inline-block" style="font-size:15px;">Hello, <?php
+                                                                                                            echo $user['username']
+                                                                                                            ?></div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-title">Admin - Learnify</div>
+                                    <a href="<?= base_url('welcome/logout') ?>" class="dropdown-item has-icon text-danger">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a>
+                                </div>
                             </li>
-                            <li class="nav-item submenu dropdown" id="navpelajaran">
-                                <a href="<?= base_url('welcome/pelajaran') ?>" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Pelajaran</a>
-                            </li>
-                            <li class="nav-item" id="navkontak"><a class="nav-link" href="<?= base_url('welcome/kontak') ?>">Kontak</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">Masuk</a></li>
                         </ul>
                     </div>
                 </div>
@@ -117,6 +103,16 @@
                         <label for="nama_lengkap" class="label-font-register">Nama lengkap</label>
                         <input type="text" autocomplete="off" class="form-control effect-9" name="nama" id="nama_lengkap" value="<?= set_value('nama'); ?>">
                         <?= form_error('nama', '<small class="text-danger">', '</small>'); ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="kelas" class="label-font-register">Kelas</label>
+                        <select class="form-control effect-9 w-100 mb-3" name="kelas" id="kelas">
+                            <option <?=set_value('kelas','0') == 0?'selected':'' ?> >Pilih kelas...</option>
+                            <option <?=set_value('kelas') == 4?'selected':'' ?> value="4">Kelas 4</option>
+                            <option <?=set_value('kelas') == 5?'selected':'' ?> value="5">Kelas 5</option>
+                            <option <?=set_value('kelas') == 6?'selected':'' ?> value="6">Kelas 6</option>
+                        </select>
+                        <?= form_error('kelas', '<small class="text-danger">', '</small>'); ?>
                     </div>
                     <div class="form-group">
                         <label for="email" class="label-font-register">Email</label>

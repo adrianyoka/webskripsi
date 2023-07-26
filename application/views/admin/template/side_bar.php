@@ -10,9 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:500,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" <!-- Template CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    
+    <!-- Template CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>stisla-assets/css/style.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>stisla-assets/css/components.css">
+    <script src="<?= base_url('assets/') ?>js/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -30,7 +33,7 @@
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" style="margin-bottom:4px !important;" src="./assets/stisla-assets/img/avatar/avatar-2.png" class="rounded-circle mr-1 my-auto border-white">
+                            <img alt="image" style="margin-bottom:4px !important;" src="<?= base_url('assets/') ?>stisla-assets/img/avatar/avatar-2.png" class="rounded-circle mr-1 my-auto border-white">
                             <div class="d-sm-none d-lg-inline-block" style="font-size:15px;">Hello, <?php
                                                                                                     echo $user['username']
                                                                                                     ?></div>
@@ -58,12 +61,12 @@
                     <ul class="sidebar-menu">
                         <?php
                             if($user['role'] == 0) : ?>
-                        <li class="menu-header ">Dashboard</li>
-                        <li class="nav-item dropdown active">
+                        <li class="menu-header">Dashboard</li>
+                        <li class="nav-item dropdown <?= $page == 'dashboard'?'active':''?> ">
                             <a href="<?= base_url('admin') ?>" class="nav-link"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
                         </li>
                         <li class="menu-header">Management Siswa</li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown <?= $page == 'siswa'?'active':''?>">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i>
                                 <span>Siswa</span></a>
                             <ul class="dropdown-menu">
@@ -71,7 +74,7 @@
                             </ul>
                         </li>
                         <li class="menu-header">Management Guru</li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown <?= $page == 'guru'?'active':''?>">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-chalkboard-teacher"></i>
                                 <span>Guru</span></a>
                             <ul class="dropdown-menu">
@@ -83,7 +86,7 @@
                         </li>
                         <?php endif?>
                         <li class="menu-header">Management Materi</li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown <?= $page == 'materi'?'active':''?>">
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-book"></i>
                                 <span>Materi</span></a>
                             <ul class="dropdown-menu">

@@ -15,27 +15,13 @@ class Admin extends CI_Controller
 
     public function index()
     {
+        $this->load->model('m_materi');
+        $data['kelas'] = $this->m_materi->kelas()->result();
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
-            
+        $data['page'] = 'dashboard';
         $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/index',$data);
-    }
-
-    public function about_developer()
-    {
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
-
-        $this->load->view('admin/about_developer');
-    }
-
-    public function about_learnify()
-    {
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
-
-        $this->load->view('admin/about_learnify');
     }
 
     // Management Siswa
@@ -43,28 +29,35 @@ class Admin extends CI_Controller
     public function data_siswa()
     {
         $this->load->model('m_siswa');
-
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
-
-        $data['user'] = $this->m_siswa->tampil_data()->result();
+        $data['page'] = 'siswa';
+        $data['siswa'] = $this->m_siswa->tampil_data()->result();
+        $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/data_siswa', $data);
     }
 
     public function detail_siswa($id)
     {
         $this->load->model('m_siswa');
-        $where = array('id' => $id);
-        $detail = $this->m_siswa->detail_siswa($id);
-        $data['detail'] = $detail;
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'siswa';
+        $data['detail'] = $this->m_siswa->detail_siswa($id);
+        //  = $detail;
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/detail_siswa', $data);
     }
 
     public function update_siswa($id)
     {
         $this->load->model('m_siswa');
-        $where = array('id' => $id);
-        $data['user'] = $this->m_siswa->update_siswa($where, 'siswa')->result();
+        $where = array('id_user' => $id);
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'siswa';
+        $data['update'] = $this->m_siswa->update_siswa($where, 'siswa')->result();
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/update_siswa', $data);
     }
 
@@ -74,12 +67,10 @@ class Admin extends CI_Controller
 
         $id = $this->input->post('id');
         $nama = $this->input->post('nama');
-        $email = $this->input->post('email');
         $gambar = $_FILES['image']['name'];
 
         $data = array(
             'nama' => $nama,
-            'email' => $email,
         );
 
         $config['allowed_types'] = 'jpg|png|gif|jfif';
@@ -100,7 +91,7 @@ class Admin extends CI_Controller
         }
 
         $where = array(
-            'id' => $id,
+            'id_user' => $id,
         );
 
         $this->m_siswa->update_data($where, $data, 'siswa');
@@ -111,7 +102,7 @@ class Admin extends CI_Controller
     public function delete_siswa($id)
     {
         $this->load->model('m_siswa');
-        $where = array('id' => $id);
+        $where = array('id_user' => $id);
         $this->m_siswa->delete_siswa($where, 'siswa');
         $this->session->set_flashdata('user-delete', 'berhasil');
         redirect('admin/data_siswa');
@@ -122,46 +113,49 @@ class Admin extends CI_Controller
     public function data_guru()
     {
         $this->load->model('m_guru');
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
-
-        $data['user'] = $this->m_guru->tampil_data()->result();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'guru';
+        $data['guru'] = $this->m_guru->tampil_data()->result();
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_guru', $data);
     }
 
-    public function detail_guru($nip)
+    public function detail_guru($id)
     {
         $this->load->model('m_guru');
-        $where = array('nip' => $nip);
-        $detail = $this->m_guru->detail_guru($nip);
-        $data['detail'] = $detail;
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'guru';
+        $data['detail'] = $this->m_guru->detail_guru($id);
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/detail_guru', $data);
     }
 
-    public function update_guru($nip)
+    public function update_guru($id)
     {
         $this->load->model('m_guru');
-        $where = array('nip' => $nip);
-        $data['user'] = $this->m_guru->update_guru($where, 'guru')->result();
+        $where = array('id_user' => $id);
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'guru';
+        $data['update'] = $this->m_guru->update_guru($where, 'guru')->result();
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/update_guru', $data);
     }
 
     public function guru_edit()
     {
         $this->load->model('m_guru');
-        $nip = $this->input->post('nip');
+        $id = $this->input->post('id');
         $nama = $this->input->post('nama');
-        $email = $this->input->post('email');
 
         $data = array(
-            'nip' => $nip,
             'nama_guru' => $nama,
-            'email' => $email,
-
         );
 
         $where = array(
-            'nip' => $nip,
+            'id_user' => $id,
         );
 
         $this->m_guru->update_data($where, $data, 'guru');
@@ -169,43 +163,10 @@ class Admin extends CI_Controller
         redirect('admin/data_guru');
     }
 
-    public function update_materi($id)
-    {
-        $this->load->model('m_materi');
-        $where = array('id' => $id);
-        $data['user'] = $this->m_materi->update_materi($where, 'materi')->result();
-        $this->load->view('admin/update_materi', $data);
-    }
-
-    public function materi_edit()
-    {
-        $this->load->model('m_materi');
-
-        $id = $this->input->post('id');
-        $nama_guru = $this->input->post('nama_guru');
-        $nama_mapel = $this->input->post('nama_mapel');
-        $deskripsi = $this->input->post('deskripsi');
-
-        $data = array(
-            'nama_guru' => $nama_guru,
-            'nama_mapel' => $nama_mapel,
-            'deskripsi' => $deskripsi,
-
-        );
-
-        $where = array(
-            'id' => $id,
-        );
-
-        $this->m_materi->update_data($where, $data, 'materi');
-        $this->session->set_flashdata('success-edit', 'berhasil');
-        redirect('admin/data_materi');
-    }
-
-    public function delete_guru($nip)
+    public function delete_guru($id)
     {
         $this->load->model('m_guru');
-        $where = array('nip' => $nip);
+        $where = array('id_user' => $id);
         $this->m_guru->delete_guru($where, 'guru');
         $this->session->set_flashdata('user-delete', 'berhasil');
         redirect('admin/data_guru');
@@ -239,17 +200,28 @@ class Admin extends CI_Controller
         ]);
 
         if ($this->form_validation->run() == false) {
-            $this->load->view('guru/registration');
+            $data['user'] = $this->db->get_where('user', ['id' =>
+                $this->session->userdata('id')])->row_array();
+            $this->load->view('guru/registration',$data);
         } else {
-            $data = [
-                'nip' => htmlspecialchars($this->input->post('nip', true)),
-                'email' => htmlspecialchars($this->input->post('email', true)),
-                'nama_guru' => htmlspecialchars($this->input->post('nama', true)),
+            $email = $this->input->post('email', true);
+            $user = [
+                'username'=>htmlspecialchars(ltrim($this->input->post('nama', true)," ")),
+                'email' => htmlspecialchars($email),
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'nama_mapel' => htmlspecialchars($this->input->post('mapel', true)),
+                'role' => '1'
             ];
 
-            $this->db->insert('guru', $data);
+            $this->db->insert('user', $user);
+            $id_user = $this->db->insert_id();
+
+            $guru = [
+                'nip' => htmlspecialchars($this->input->post('nip', true)),
+                'nama_guru' => htmlspecialchars($this->input->post('nama', true)),
+                'nama_mapel' => htmlspecialchars($this->input->post('mapel', true)),
+                'id_user' => $id_user
+            ];
+            $this->db->insert('guru', $guru);
 
             $this->session->set_flashdata('success-reg', 'Berhasil!');
             redirect(base_url('admin/data_guru'));
@@ -262,10 +234,11 @@ class Admin extends CI_Controller
     {
         $this->load->model('m_materi');
 
-        $data['user'] = $this->db->get_where('admin', ['email' =>
-            $this->session->userdata('email')])->row_array();
-
-        $data['user'] = $this->m_materi->tampil_data()->result();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'materi';
+        $data['materi'] = $this->m_materi->tampil_data()->result();
+        $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_materi', $data);
     }
 
@@ -314,5 +287,38 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('success-reg', 'Berhasil!');
             redirect(base_url('admin/data_materi'));
         }
+    }
+
+    public function update_materi($id)
+    {
+        $this->load->model('m_materi');
+        $where = array('id' => $id);
+        $data['user'] = $this->m_materi->update_materi($where, 'materi')->result();
+        $this->load->view('admin/update_materi', $data);
+    }
+
+    public function materi_edit()
+    {
+        $this->load->model('m_materi');
+
+        $id = $this->input->post('id');
+        $nama_guru = $this->input->post('nama_guru');
+        $nama_mapel = $this->input->post('nama_mapel');
+        $deskripsi = $this->input->post('deskripsi');
+
+        $data = array(
+            'nama_guru' => $nama_guru,
+            'nama_mapel' => $nama_mapel,
+            'deskripsi' => $deskripsi,
+
+        );
+
+        $where = array(
+            'id' => $id,
+        );
+
+        $this->m_materi->update_data($where, $data, 'materi');
+        $this->session->set_flashdata('success-edit', 'berhasil');
+        redirect('admin/data_materi');
     }
 }

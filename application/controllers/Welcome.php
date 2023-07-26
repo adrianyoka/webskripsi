@@ -83,8 +83,13 @@ class Welcome extends CI_Controller
                         ];
     
                         $this->session->set_userdata($data);
-
-                        redirect(base_url('user'));
+                        if ($siswa['kelas'] == 4){
+                            redirect(base_url('user/kelas4'));
+                        } else if ($siswa['kelas'] == 5){
+                            redirect(base_url('user/kelas5'));
+                        } else if ($siswa['kelas'] == 6){
+                            redirect(base_url('user/kelas6'));
+                        }
                     }
                 } else {
                 $this->session->set_flashdata('fail-pass', 'Gagal!');

@@ -52,17 +52,21 @@ class User extends CI_Controller
 
     public function registration()
     {
-        $this->load->view('user/registration');
-        $this->load->view('template/footer');
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $this->load->view('user/registration',$data);
     }
 
     public function registration_act()
     {
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|min_length[4]', [
+        $this->form_validation->set_rules('nama', 'Nama', 'required|min_length[4]', [
             'required' => 'Harap isi kolom username.',
             'min_length' => 'Nama terlalu pendek.',
         ]);
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[siswa.email]', [
+        $this->form_validation->set_rules('kelas', 'Kelas', 'required|trim', [
+            'required' => 'Harap isi kolom kelas.',
+        ]);
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
             'is_unique' => 'Email ini telah digunakan!',
             'required' => 'Harap isi kolom email.',
             'valid_email' => 'Masukan email yang valid.',
@@ -82,15 +86,25 @@ class User extends CI_Controller
             $this->load->view('template/footer');
         } else {
             $email = $this->input->post('email', true);
-            $data = [
-                'nama' => htmlspecialchars($this->input->post('nama', true)),
+
+            $user = [
+                'username'=>htmlspecialchars(ltrim($this->input->post('nama', true)," ")),
                 'email' => htmlspecialchars($email),
-                'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'is_active' => 1,
-                'date_created' => time(),
+                'role' => '2'
             ];
 
+            $this->db->insert('user', $user);
+            $id_user = $this->db->insert_id();
+
+            $siswa = [
+                'nama' => htmlspecialchars($this->input->post('nama', true)),
+                'image' => 'default.jpg',
+                'kelas' => htmlspecialchars($this->input->post('kelas', true)),
+                'is_active' => 1,
+                'date_created' => time(),
+                'id_user' => $id_user
+            ];
             //siapkan token
 
             // $token = base64_encode(random_bytes(32));
@@ -100,7 +114,7 @@ class User extends CI_Controller
             //     'date_created' => time(),
             // ];
 
-            $this->db->insert('siswa', $data);
+            $this->db->insert('siswa', $siswa);
             // $this->db->insert('token', $user_token);
 
             // $this->_sendEmail($token, 'verify');
