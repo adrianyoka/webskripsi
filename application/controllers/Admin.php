@@ -114,6 +114,9 @@ class Admin extends CI_Controller
         $this->load->model('m_siswa');
         $where = array('id' => $id);
         $this->m_siswa->delete_siswa($where, 'siswa');
+        $this->load->model('m_siswa');
+        $where = array('id' => $id);
+        $this->m_siswa->delete_siswa($where, 'user');
         $this->session->set_flashdata('user-delete', 'berhasil');
         redirect('admin/data_siswa');
     }
@@ -171,6 +174,135 @@ class Admin extends CI_Controller
         redirect('admin/data_guru');
     }
 
+<<<<<<< Updated upstream
+=======
+    public function delete_guru($id)
+    {
+        $this->load->model('m_guru');
+        $where = array('id_user' => $id);
+        $this->m_guru->delete_guru($where, 'guru');
+        $this->session->set_flashdata('user-delete', 'berhasil');
+        redirect('admin/data_guru');
+    }
+
+    public function add_guru()
+    {
+        $this->form_validation->set_rules('nip', 'Nip', 'required|trim|min_length[4]', [
+            'required' => 'Harap isi kolom NIP.',
+            'min_length' => 'NIP terlalu pendek.',
+        ]);
+
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
+            'is_unique' => 'Email ini telah digunakan!',
+            'required' => 'Harap isi kolom email.',
+            'valid_email' => 'Masukan email yang valid.',
+        ]);
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|min_length[4]', [
+            'required' => 'Harap isi kolom nAMA.',
+            'min_length' => 'Nama terlalu pendek.',
+        ]);
+
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]|matches[password2]', [
+            'required' => 'Harap isi kolom Password.',
+            'matches' => 'Password tidak sama!',
+            'min_length' => 'Password terlalu pendek',
+        ]);
+        $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password]', [
+            'matches' => 'Password tidak sama!',
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $data['user'] = $this->db->get_where('user', ['id' =>
+                $this->session->userdata('id')])->row_array();
+            $this->load->view('guru/registration',$data);
+        } else {
+            $email = $this->input->post('email', true);
+            $user = [
+                'username'=>htmlspecialchars(ltrim($this->input->post('nama', true)," ")),
+                'email' => htmlspecialchars($email),
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'role' => '1'
+            ];
+
+            $this->db->insert('user', $user);
+            $id_user = $this->db->insert_id();
+
+            $guru = [
+                'nip' => htmlspecialchars($this->input->post('nip', true)),
+                'nama_guru' => htmlspecialchars($this->input->post('nama', true)),
+                'nama_mapel' => htmlspecialchars($this->input->post('mapel', true)),
+                'id_user' => $id_user
+            ];
+            $this->db->insert('guru', $guru);
+
+            $this->session->set_flashdata('success-reg', 'Berhasil!');
+            redirect(base_url('admin/data_guru'));
+        }
+    }
+
+    //manajemen materi
+
+    public function data_materi()
+    {
+        $this->load->model('m_materi');
+
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'materi';
+        $data['materi'] = $this->m_materi->tampil_data()->result();
+        $this->load->view('admin/template/side_bar', $data);
+        $this->load->view('admin/data_materi', $data);
+    }
+
+    public function delete_materi($id)
+    {
+        $this->load->model('m_materi');
+        $where = array('id' => $id);
+        $this->m_materi->delete_materi($where, 'materi');
+        $this->session->set_flashdata('user-delete', 'berhasil');
+        redirect('admin/data_materi');
+    }
+
+    public function tambah_materi()
+    {
+        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|trim|min_length[1]', [
+            'required' => 'Harap isi kolom deskripsi.',
+            'min_length' => 'deskripsi terlalu pendek.',
+        ]);
+        if ($this->form_validation->run() == false) {
+            $this->load->view('admin/add_materi');
+        } else {
+            $upload_video = $_FILES['video'];
+
+            if ($upload_video) {
+                $config['allowed_types'] = 'mp4|mkv|mov';
+                $config['max_size'] = '15000';
+                $config['upload_path'] = './assets/materi_video';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('video')) {
+                    $video = $this->upload->data('file_name');
+                } else {
+                    $this->upload->display_errors();
+                }
+            }
+            $data = [
+                'nama_guru' => htmlspecialchars($this->input->post('nama_guru', true)),
+                'nama_mapel' => htmlspecialchars($this->input->post('nama_mapel', true)),
+                'video' => $video,
+                'deskripsi' => htmlspecialchars($this->input->post('deskripsi', true)),
+                'kelas' => htmlspecialchars($this->input->post('kelas', true)),
+            ];
+
+            $this->db->insert('materi', $data);
+            $this->session->set_flashdata('success-reg', 'Berhasil!');
+            redirect(base_url('admin/data_materi'));
+        }
+    }
+
+>>>>>>> Stashed changes
     public function update_materi($id)
     {
         $this->load->model('m_materi');
