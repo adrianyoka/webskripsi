@@ -76,7 +76,7 @@
                     </h1>
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
                                                                         echo $user['nama'];
-                                                                        ?> - Learnify Students</h3>
+                                                                        ?> - SmartLearn Students</h3>
                         <p><?= $detail->nama_mapel ?> - Kelas <?= $detail->kelas ?></p>
                         <hr align="left" width="600;">
                         <p style="line-height: 3px;">Kita akan mempelajari tentang</p>

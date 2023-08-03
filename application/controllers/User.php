@@ -19,44 +19,9 @@ class User extends CI_Controller
         $this->session->userdata('id')])->row_array();
         $this->load->model('m_materi');
         $data['user']['mata_pelajaran'] = $this->m_materi->mapel($data['user']['kelas'])->result();
-        $this->load->view('user/berandaKelas',$data['user']);
+        $this->load->view('user/index',$data['user']);
         $this->load->view('template/footer');
-        // if ($data['user']['kelas'] == 4){
-        //     redirect(base_url('user/kelas4'));
-        // } else if ($data['user']['kelas'] == 5){
-        //     redirect(base_url('user/kelas5'));
-        // } else if ($data['user']['kelas'] == 6){
-        //     redirect(base_url('user/kelas6'));
-        // }
     }
-
-    // public function kelas4()
-    // {
-    //     // var_dump($_SESSION);exit();
-    //     $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-    //         $this->session->userdata('id')])->row_array();
-
-    //     $this->load->view('user/kelas4',$data['user']);
-    //     $this->load->view('template/footer');
-    // }
-
-    // public function kelas5()
-    // {
-    //     $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-    //         $this->session->userdata('id')])->row_array();
-
-    //     $this->load->view('user/kelas5',$data['user']);
-    //     $this->load->view('template/footer');
-    // }
-
-    // public function kelas6()
-    // {
-    //     $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-    //         $this->session->userdata('id')])->row_array();
-
-    //     $this->load->view('user/kelas6',$data['user']);
-    //     $this->load->view('template/footer');
-    // }
 
     public function registration()
     {
@@ -170,5 +135,4 @@ class User extends CI_Controller
             die();
         }
     }
-
 }
