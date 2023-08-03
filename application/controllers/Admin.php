@@ -104,6 +104,9 @@ class Admin extends CI_Controller
         $this->load->model('m_siswa');
         $where = array('id_user' => $id);
         $this->m_siswa->delete_siswa($where, 'siswa');
+        $this->load->model('m_siswa');
+        $where = array('id' => $id);
+        $this->m_siswa->delete_siswa($where, 'user');
         $this->session->set_flashdata('user-delete', 'berhasil');
         redirect('admin/data_siswa');
     }
@@ -179,7 +182,7 @@ class Admin extends CI_Controller
             'min_length' => 'NIP terlalu pendek.',
         ]);
 
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[guru.email]', [
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
             'is_unique' => 'Email ini telah digunakan!',
             'required' => 'Harap isi kolom email.',
             'valid_email' => 'Masukan email yang valid.',
@@ -264,7 +267,7 @@ class Admin extends CI_Controller
 
             if ($upload_video) {
                 $config['allowed_types'] = 'mp4|mkv|mov';
-                $config['max_size'] = '0';
+                $config['max_size'] = '15000';
                 $config['upload_path'] = './assets/materi_video';
 
                 $this->load->library('upload', $config);

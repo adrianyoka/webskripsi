@@ -97,19 +97,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-header">About Developer</li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-address-card"></i>
-                                <span>Developer</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="<?= base_url('admin/about_developer') ?>">Tentang
-                                        Pembuat</a>
-                                </li>
-                                <li><a class="nav-link" href="<?= base_url('admin/about_learnify') ?>">Tentang
-                                        Learnify</a>
-                                </li>
-                            </ul>
-                        </li>
                 </aside>
             </div>
 

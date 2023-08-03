@@ -17,7 +17,7 @@
                                     <table id="example" class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr class="text-center">
-                                                <th scope="col">ID</th>
+                                                <th scope="col">NO</th>
                                                 <th scope="col">Nama Siswa</th>
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Gambar</th>
@@ -29,13 +29,13 @@
 
                                         <tbody>
                                             <?php
-
+                                            $nomor = 1;    
                                             foreach ($siswa as $u) {
                                             ?>
                                                 <tr class="text-center">
 
                                                     <th scope="row">
-                                                        <?php echo $u->id ?>
+                                                        <?php echo $nomor++ ?>
                                                     </th>
 
                                                     <td>

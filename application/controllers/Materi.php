@@ -14,29 +14,31 @@ class Materi extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('disqus');
         $this->load->model('m_materi');
-        $this->list_materi['matematika_x'] = $this->m_materi->matematika_x()->result();
-        $this->list_materi['matematika_xi'] = $this->m_materi->matematika_xi()->result();
-        $this->list_materi['matematika_xii'] = $this->m_materi->matematika_xii()->result();
-        $this->list_materi['ipa_x'] = $this->m_materi->ipa_x()->result();
-        $this->list_materi['ipa_xi'] = $this->m_materi->ipa_xi()->result();
-        $this->list_materi['ipa_xii'] = $this->m_materi->ipa_xii()->result();
-        $this->list_materi['indo_x'] = $this->m_materi->indo_x()->result();
-        $this->list_materi['indo_xi'] = $this->m_materi->indo_xi()->result();
-        $this->list_materi['indo_xii'] = $this->m_materi->indo_xii()->result();
-        $this->list_materi['inggris_x'] = $this->m_materi->inggris_x()->result();
-        $this->list_materi['inggris_xi'] = $this->m_materi->inggris_xi()->result();
-        $this->list_materi['inggris_xii'] = $this->m_materi->inggris_xii()->result();
-        $this->list_materi['agama_x'] = $this->m_materi->agama_x()->result();
-        $this->list_materi['agama_xi'] = $this->m_materi->agama_xi()->result();
-        $this->list_materi['agama_xii'] = $this->m_materi->agama_xii()->result();
+        // $this->list_materi['matematika_x'] = $this->m_materi->matematika_x()->result();
+        // $this->list_materi['matematika_xi'] = $this->m_materi->matematika_xi()->result();
+        // $this->list_materi['matematika_xii'] = $this->m_materi->matematika_xii()->result();
+        // $this->list_materi['ipa_x'] = $this->m_materi->ipa_x()->result();
+        // $this->list_materi['ipa_xi'] = $this->m_materi->ipa_xi()->result();
+        // $this->list_materi['ipa_xii'] = $this->m_materi->ipa_xii()->result();
+        // $this->list_materi['indo_x'] = $this->m_materi->indo_x()->result();
+        // $this->list_materi['indo_xi'] = $this->m_materi->indo_xi()->result();
+        // $this->list_materi['indo_xii'] = $this->m_materi->indo_xii()->result();
+        // $this->list_materi['inggris_x'] = $this->m_materi->inggris_x()->result();
+        // $this->list_materi['inggris_xi'] = $this->m_materi->inggris_xi()->result();
+        // $this->list_materi['inggris_xii'] = $this->m_materi->inggris_xii()->result();
+        // $this->list_materi['agama_x'] = $this->m_materi->agama_x()->result();
+        // $this->list_materi['agama_xi'] = $this->m_materi->agama_xi()->result();
+        // $this->list_materi['agama_xii'] = $this->m_materi->agama_xii()->result();
     }
 
-    function generateMateri($materi)
-    {
-        $data['materi'] = $this->list_materi[$materi];
+    function index($kelas,$mapel){
+
         $data['user'] = $this->db->get_where('siswa', ['id_user' =>
             $this->session->userdata('id')])->row_array();
-        $this->load->view('materi/'.str_replace('_', '-', $materi), $data);
+        $mapel = str_replace("_"," ",$mapel);
+        $data['materi'] = $this->m_materi->materi($kelas,$mapel)->result();
+        // var_dump($data);exit();
+        $this->load->view('materi/materi', $data);
         $this->load->view('template/footer');
     }
 
@@ -56,15 +58,15 @@ class Materi extends CI_Controller
         $this->generateMateri('matematika_x');
     }
     
-    public function matematika_xi()
-    {
-        $this->generateMateri('matematika_xi');
-    }
+    // public function matematika_xi()
+    // {
+    //     $this->generateMateri('matematika_xi');
+    // }
 
-    public function matematika_xii()
-    {
-        $this->generateMateri('matematika_xii');
-    }
+    // public function matematika_xii()
+    // {
+    //     $this->generateMateri('matematika_xii');
+    // }
 
     // public function ipa_x()
     // {

@@ -26,7 +26,7 @@
                         <?php foreach ($update as $u) { ?>
                             <div class="card-body">
                                 <form method="POST" action="<?= base_url('admin/guru_edit') ?>">
-
+                                    <input type="hidden" name="id" value="<?= $u->id ?>">
                                     <div class="form-group">
                                         <label for="nip">Nomor Induk Pegawai</label>
                                         <input readonly id="nip" type="text" class="form-control" value="<?= $u->nip ?>" name="nip">
