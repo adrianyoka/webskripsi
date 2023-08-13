@@ -15,10 +15,11 @@ class User extends CI_Controller
 
     public function index()
     {
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-        $this->session->userdata('id')])->row_array();
+        $this->load->model('m_siswa');
+        $data['user'] = $this->m_siswa->get_siswa($this->session->userdata('id'))->row_array();
         $this->load->model('m_materi');
-        $data['user']['mata_pelajaran'] = $this->m_materi->mapel($data['user']['kelas'])->result();
+        $data['user']['mata_pelajaran'] = $this->m_materi->mapel()->result();
+        // var_dump($data['user']);exit();
         $this->load->view('user/index',$data['user']);
         $this->load->view('template/footer');
     }

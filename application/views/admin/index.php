@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="card-body">
                                         <?php 
-                                        echo count($kelas)?>
+                                        echo count($kelas)?> 
                                     </div>
                                 </div>
                             </div>

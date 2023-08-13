@@ -17,7 +17,7 @@ class Guru extends CI_Controller
     {
         $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->get_where('guru', ['id_user' =>
             $this->session->userdata('id')])->row_array();
-        
+        $data['page'] = 'dashboard';
         $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/index',$data['user']);
     }

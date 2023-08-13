@@ -5,18 +5,15 @@ class M_materi extends CI_Model
     public function kelas()
     {
         $this->db->select('*');
-        $this->db->from('materi');
-        $this->db->group_by('kelas');
+        $this->db->from('kelas');
         $query = $this->db->get();
         return $query;
     }
 
-    public function mapel($kelas)
+    public function mapel()
     {
         $this->db->select('*');
-        $this->db->from('materi');
-        $this->db->where(array('kelas' => $kelas));
-        $this->db->group_by('nama_mapel');
+        $this->db->from('mapel');
         $query = $this->db->get();
         return $query;
     }
@@ -49,16 +46,29 @@ class M_materi extends CI_Model
         $this->db->delete($table);
     }
 
-    public function materi($kelas,$mapel)
+    public function materi($bab)
     {
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
+        $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel');
+        $this->db->where('materi.bab_id', $bab);
+        $this->db->join('bab', 'bab.id = materi.bab_id');
+        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
+        // $this->db->group_by('bab.judul');
+        return $this->db->get_where('materi', array('is_tampil' => '1'));
     }
     
     public function belajar($id = null)
     {
-        $query = $this->db->get_where('materi', array('id' => $id))->row();
+        $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel,guru.nama_guru');
+        $this->db->join('bab', 'bab.id = materi.bab_id');
+        $this->db->join('guru', 'guru.nip = materi.guru_id');
+        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
+        $query = $this->db->get_where('materi', array('materi.id' => $id))->row();
+        return $query;
+    }
+
+    public function bab($kelas,$mapel)
+    {
+        $query = $this->db->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
         return $query;
     }
 }

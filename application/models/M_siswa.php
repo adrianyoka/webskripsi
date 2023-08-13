@@ -7,7 +7,17 @@ class M_siswa extends CI_Model
         $this->db->select('*');
         $this->db->from('siswa');
         $this->db->join('user', 'user.id = siswa.id_user');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id');
         $query = $this->db->get();
+        return $query;
+    }
+    
+    public function get_siswa($id)
+    {
+        $this->db->select('*');
+        $this->db->join('user', 'user.id = siswa.id_user');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id');
+        $query = $this->db->get_where('siswa', array('id_user' => $id));
         return $query;
     }
 

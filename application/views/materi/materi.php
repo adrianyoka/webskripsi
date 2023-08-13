@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
-    <title><?=$materi[0]->nama_mapel?> | Kelas <?=$user['kelas']?>  - SmartLearn</title>
+    <title><?=$topik[0]->materi[0]->nama_mapel?> | Kelas <?=$user['tingkat'].$user['rombel']?>  - SmartLearn</title>
     <!-- Bootstrap CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
@@ -27,6 +27,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.4/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
 </head>
 
@@ -70,20 +72,15 @@
         <div class="bg-white mx-auto p-4 buat-text" data-aos="fade-down" data-aos-duration="1400" style="width: 100%; border-radius:10px;">
             <div class="row" style="color: black; font-family: 'poppins';">
                 <div class="col-md-12 mt-1 text-center">
-                    <h1 class="display-4" data-aos="fade-down" data-aos-duration="1400">Silahkan pilih materi yang akan
+                    <h1 class="display-6" data-aos="fade-down" data-aos-duration="1400">Silahkan pilih materi yang akan
                         kamu pelajari !
                     </h1>
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
                                                                         echo $user['nama'];
                                                                         ?> - SmartLearn Students</h4>
-                    <p><?=$materi[0]->nama_mapel?> - Kelas <?php
-                                            echo $user['kelas'];
-                                            ?></p>
                     <hr width="80%">
-                    <p data-aos="fade-down" class="font-weight-bold" data-aos-duration="1800">Silahkan pilih materi yang
-                        akan kamu akses
-                        dibawah
-                        ini!
+                    <p data-aos="fade-down" class="font-weight-bold" data-aos-duration="1800">
+                        <?=$topik[0]->materi[0]->nama_mapel?> - Kelas <?php echo $user['tingkat'].$user['rombel']?>
                     </p>
                 </div>
             </div>
@@ -93,23 +90,55 @@
 
 
     <!-- Start Lesson Cards -->
+
     <div class="container">
-        <div class="row mt-4">
-            <?php foreach ($materi as $u) { ?>
-                <div class="col-md-6 mb-4" data-aos="fade-right" data-aos-duration="1200">
-                    <div class="card materi w-150 border-0">
-                        <div class="card-body p-5">
-                            <h1 class="card-title"><?= $u->nama_guru; ?></h1>
-                            <p class=" card-text">
-                                <?= substr($u->deskripsi, 0, 75); ?>&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.
-                            </p>
-                            <a href="<?php echo site_url('materi/belajar/' . $u->id); ?>" class="btn btn-white">Pelajari Sekarang !</a>
+        <div class="accordion mt-4" id="BabAccordion" data-aos="fade-down" data-aos-duration="1200">
+            <?php foreach ($topik as $bab) { ?>
+                <div class="card w-100">
+                    <div class="card-header" id="<?='heading-topik-'.$bab->id?>">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#topik-<?=$bab->id?>" aria-expanded="true" aria-controls="topik-<?=$bab->id?>">
+                            <?=$bab->judul_bab?>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="topik-<?=$bab->id?>" class="collapse" aria-labelledby="<?='heading-topik-'.$bab->id?>" data-parent="#BabAccordion">
+                        <div class="card-body">
+                            <ul class="list-group ml-5">
+                                <?php foreach($bab->materi as $materi) : 
+                                    // var_dump($materi->attachment);
+                                    $extensi = $materi->attachment != "" ? explode(".",$materi->attachment): ['kosong','kosong'];
+                                    $ext = $extensi[1] ?>
+                                    <li class="list-group-item">
+                                        <a href="<?= base_url('materi/belajar/').$materi->id ?>" class="card-link"> <i class=" text-dark fa fa-file-<?=$ext=='mp4'?'video':($ext=='doc'?'word':($ext=='ppt'?'powerpoint':($ext=='pdf'?'pdf':'text')))?>-o mr-2"> </i> <?=$materi->judul?> </a>
+                                    </li>
+                                <?php endforeach;?>
+                            </ul>
                         </div>
                     </div>
                 </div>
             <?php } ?>
         </div>
     </div>
+    
+
+    <!-- <div class="container">
+        <div class="mt-4 w-100">
+                <div class="col-md-12 mb-4" data-aos="fade-down" data-aos-duration="1200">
+                    <div class="topik">
+                        <div class="card-header">
+                            <h3><?= $bab->judul_bab ?></h3>
+                        </div>
+                        <div class="card-body p-3">
+                            <p class="ml-3 card-text">
+                                <?= substr($bab->deskripsi, 0, 75); ?>&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+        </div>
+    </div> -->
     <!-- End Lesson Cards -->
 
 

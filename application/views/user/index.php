@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
     <!-- Title -->
-    <title>Kelas <?php echo $kelas;?> | Student Page</title>
+    <title>Kelas <?php echo $tingkat;echo " ";echo $rombel?> | Student Page</title>
     <!-- Bootstrap CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
@@ -80,7 +80,9 @@
                                                                         echo $nama;
                                                                         ?> - SmartLearn Students</h3>
                     <h5>Mata Pelajaran Kelas <?php
-                                             echo $kelas;
+                                             echo $tingkat;
+                                             echo " - ";
+                                             echo $rombel;
                                              ?></h5>
                 </div>
             </div>
@@ -94,7 +96,7 @@
         <div class="row mt-4 mb-5">
             <?php foreach ($mata_pelajaran as $mapel) : ?>
             <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-right">
-                <a href="<?= base_url('materi/index/').$kelas.'/'.str_replace(" ","_",$mapel->nama_mapel)?>">
+                <a href="<?= base_url('materi/index/').$kelas_id.'/'.$mapel->id?>">
                     <div class="card-kelas">
                         <img src="<?= base_url('assets/') ?>img/<?= $mapel->nama_mapel ?>.png" class="card-img-top" alt="...">
                     </div>
@@ -103,32 +105,7 @@
             <?php endforeach?>
         </div>
     </div>
-    
-    <!-- Lesson Card 2 -->
-    <!-- <div class="container">
-        <div class="row mt-4 mb-5">
-            <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-right">
-                <a href="<?= base_url('materi/inggris_x') ?>">
-                    <div class="card-kelas">
-                        <img src="<?= base_url('assets/') ?>img/Bahasa Inggris.png" class="card-img-top" alt="...">
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-down">
-                <a href="<?= base_url('materi/agama_x') ?>">
-                    <div class="card-kelas">
-                        <img src="<?= base_url('assets/') ?>img/agama.png" class="card-img-top" alt="...">
-                    </div>
-                </a>
-            </div>
-            
-        </div>
-    </div> -->
-    <!-- End Lesson Card -->
-
-
     <br>
-
 
     <!-- Start Animate On Scroll -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

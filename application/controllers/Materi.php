@@ -14,21 +14,21 @@ class Materi extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('disqus');
         $this->load->model('m_materi');
+        $this->load->model('m_siswa');
     }
 
     function index($kelas,$mapel){
 
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-        $mapel = str_replace("_"," ",$mapel);
-        $data['materi'] = $this->m_materi->materi($kelas,$mapel)->result();
+        $data['user'] = $this->m_siswa->get_siswa($this->session->userdata('id'))->row_array();
+        $data['topik']=$this->m_materi->bab($kelas,$mapel);
+        foreach($data['topik'] as $bab){
+            $data['topik'][array_search($bab,$data['topik'])]->materi = $this->m_materi->materi($bab->id)->result();
+            if(count($data['topik'][array_search($bab,$data['topik'])]->materi) == 0){
+                unset($data['topik'][array_search($bab,$data['topik'])]);
+            }
+        }
         $this->load->view('materi/materi', $data);
         $this->load->view('template/footer');
-    }
-
-    public function matematika_x()
-    {
-        $this->generateMateri('matematika_x');
     }
 
     public function belajar($id)
@@ -37,8 +37,7 @@ class Materi extends CI_Controller
         $detail = $this->m_materi->belajar($id);
         $data['detail'] = $detail;
         $data['disqus'] = $this->disqus->get_html();
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
+        $data['user'] = $this->m_siswa->get_siswa($this->session->userdata('id'))->row_array();
         $this->load->view('materi/belajar', $data);
     }
 
