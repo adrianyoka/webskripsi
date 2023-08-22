@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
     <!-- Title -->
-    <title>Kelas <?php echo $tingkat;echo " ";echo $rombel?> | Student Page</title>
+    <title>Kelas <?php echo $kelas;?> | Student Page</title>
     <!-- Bootstrap CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
-    <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/linericon/style.css">    
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/linericon/style.css">
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/owl-carousel/owl.carousel.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/lightbox/simpleLightbox.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/nice-select/css/nice-select.css">
@@ -28,9 +28,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.4/dist/sweetalert2.all.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
 
@@ -53,7 +50,7 @@
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item "><a class="nav-link" href="javascript:void(0)">Hai, <?php
-                                                                                                        echo $nama_guru;
+                                                                                                        echo $nama;
                                                                                                         ?></a>
                             </li>
                             <li class="nav-item active"><a class="nav-link" href="<?= base_url('user') ?>">Beranda</a>
@@ -80,14 +77,11 @@
                     <hr>
 
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
-                                                                        echo $nama_guru;
-                                                                        ?> - Teacher</h3>
-                    <h5>Wali Kelas <?php
-                                             echo $tingkat;
-                                             echo " - ";
-                                             echo $rombel;
+                                                                        echo $nama;
+                                                                        ?> - SmartLearn Students</h3>
+                    <h5>Mata Pelajaran Kelas <?php
+                                             echo $kelas;
                                              ?></h5>
-                    <Button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Absensi Hari Ini <i class="ml-2 fas fa-bars"></i></Button>
                 </div>
             </div>
         </div>
@@ -100,7 +94,7 @@
         <div class="row mt-4 mb-5">
             <?php foreach ($mata_pelajaran as $mapel) : ?>
             <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-right">
-                <a href="<?= base_url('materi/index/').$kelas_id.'/'.$mapel->id?>">
+                <a href="<?= base_url('materi/index/').$kelas.'/'.str_replace(" ","_",$mapel->nama_mapel)?>">
                     <div class="card-kelas">
                         <img src="<?= base_url('assets/') ?>img/<?= $mapel->nama_mapel ?>.png" class="card-img-top" alt="...">
                     </div>
@@ -109,28 +103,33 @@
             <?php endforeach?>
         </div>
     </div>
+    
+    <!-- Lesson Card 2 -->
+    <!-- <div class="container">
+        <div class="row mt-4 mb-5">
+            <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-right">
+                <a href="<?= base_url('materi/inggris_x') ?>">
+                    <div class="card-kelas">
+                        <img src="<?= base_url('assets/') ?>img/Bahasa Inggris.png" class="card-img-top" alt="...">
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-down">
+                <a href="<?= base_url('materi/agama_x') ?>">
+                    <div class="card-kelas">
+                        <img src="<?= base_url('assets/') ?>img/agama.png" class="card-img-top" alt="...">
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+    </div> -->
+    <!-- End Lesson Card -->
+
+
     <br>
 
-    <!-- Absensi Pop up -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Absensi Siswa  <?=date("d/m/Y")?></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            jadi nama nama siswa akan tampil disini
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-        </div>
-    </div>
-    </div>
+
     <!-- Start Animate On Scroll -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

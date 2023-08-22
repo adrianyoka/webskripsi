@@ -13,14 +13,25 @@ class Guru extends CI_Controller
         }
     }
 
-    public function index()
-    {
-        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->get_where('guru', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-        $data['page'] = 'dashboard';
-        $this->load->view('admin/template/side_bar',$data);
-        $this->load->view('admin/index',$data['user']);
+    function index(){
+        $this->load->model('m_materi');
+        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
+                        $this->session->userdata('id')])->row_array();
+        $data['user']['mata_pelajaran']=$this->m_materi->mapel()->result();
+        // var_dump($data['topik']);exit();
+        $this->load->view('guru/index', $data['user']);
+        $this->load->view('template/footer');
     }
+    // public function index()
+    // {
+    //     $this->load->model('m_materi');
+    //     $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->get_where('guru', ['id_user' =>
+    //         $this->session->userdata('id')])->row_array();
+    //     $data['user']['kelas']= $this->m_materi->kelas()->row_array();
+    //     $data['page'] = 'dashboard';
+    //     $this->load->view('admin/template/side_bar',$data);
+    //     $this->load->view('admin/index',$data['user']);
+    // }
 
     public function add_materi()
     {

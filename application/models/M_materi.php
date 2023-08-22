@@ -71,4 +71,10 @@ class M_materi extends CI_Model
         $query = $this->db->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
         return $query;
     }
+
+    public function bab_guru($mapel)
+    {
+        $query = $this->db->get_where('bab', array('mapel_id' => $mapel))->result();
+        return $query;
+    }
 }
