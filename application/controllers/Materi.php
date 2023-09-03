@@ -27,6 +27,11 @@ class Materi extends CI_Controller
                 unset($data['topik'][array_search($bab,$data['topik'])]);
             }
         }
+        if(count($data['topik'] == 0)){
+            $object = new stdClass();
+            $object->materi = $this->m_materi->mapel_detail($mapel)->result();
+            array_push($data['topik'],$object);
+        }
         $this->load->view('materi/materi', $data);
         $this->load->view('template/footer');
     }

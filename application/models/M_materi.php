@@ -18,6 +18,13 @@ class M_materi extends CI_Model
         return $query;
     }
 
+    public function mapel_detail($id)
+    {
+        $this->db->select('*');
+        $query = $this->db->get_where('mapel', array('id' => $id));
+        return $query;
+    }
+
     public function tampil_data()
     {
         return $this->db->get('materi');

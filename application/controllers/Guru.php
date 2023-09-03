@@ -6,6 +6,9 @@ class Guru extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('date');
+        $this->load->model('m_materi');
+        $this->load->model('m_siswa');
         $this->load->helper('url');
         if (!$this->session->userdata('id')) {
             $this->session->set_flashdata('not-login', 'Harap Login Terlebih Dahulu !');
@@ -14,13 +17,57 @@ class Guru extends CI_Controller
     }
 
     function index(){
-        $this->load->model('m_materi');
+        $absensi = $this->db->get_where('absensi_master',array('tanggal' => mdate('%Y,%m,%d',now())))->row_array();
         $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
                         $this->session->userdata('id')])->row_array();
-        $data['user']['mata_pelajaran']=$this->m_materi->mapel()->result();
-        // var_dump($data['topik']);exit();
+        $data['user']['mata_pelajaran']= $this->m_materi->mapel()->result();
+        $data['user']['absen']= null !== $absensi ? 
+                                $this->db->select('*,absensi_data.id as absensi_id')
+                                ->join('siswa', 'siswa.id = absensi_data.siswa_id')
+                                ->get_where('absensi_data',array('master_id' => $absensi['id']))->result() : 
+                                $this->m_siswa->get_siswa_kelas($data['user']['kelas_id'])->result();
+        $data['user']['rekap_absensi'] = $this->db->get('absensi_master')->result_array();
+        for($i=0;$i<count($data['user']['rekap_absensi']);$i++){
+            $data['user']['rekap_absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.id = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
+                                                            ->get_where('absensi_data',array('master_id' => $data['user']['rekap_absensi'][$i]['id']))->result_array();
+        }
+        // var_dump($data['user']['rekap_absensi']);exit();
+
         $this->load->view('guru/index', $data['user']);
         $this->load->view('template/footer');
+    }
+
+    public function inputAbsensi()
+    {   
+
+        $master = [
+            'tanggal' => htmlspecialchars($this->input->post('tanggal', true)),
+            'kelas_id' => htmlspecialchars($this->input->post('kelas_id', true)),
+        ];
+        
+        if($this->input->post('exist') == 1){
+            $master = $this->db->select('id')->get_where('absensi_master',array('tanggal' => $master['tanggal']))->row_array();
+            $master_id = $master['id'];
+            // var_dump($master_id);exit();
+        }else{
+            $this->db->insert('absensi_master', $master);
+            $master_id = $this->db->insert_id();
+
+        }
+        $data_absensi = $this->input->post('Data');
+        foreach($data_absensi as $absensi){
+            $data['siswa_id'] = $absensi['siswa_id'];
+            $data['keterangan'] = $absensi['keterangan'];
+            $data['master_id'] = $master_id;
+            
+            if(isset($absensi['absensi_id'])){
+                $this->db->where('id', $absensi['absensi_id']);
+                $this->db->update('absensi_data', $data);
+            }else{
+                $this->db->insert('absensi_data', $data);
+            }
+        }
+        return redirect('guru');
     }
     // public function index()
     // {
@@ -71,6 +118,27 @@ class Guru extends CI_Controller
         }
     }
 
+    function materiDashboard($kelas,$mapel){
+        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
+                        $this->session->userdata('id')])->row_array();
+        $data['topik']=$this->m_materi->bab($kelas,$mapel);
+        foreach($data['topik'] as $bab){
+            $data['topik'][array_search($bab,$data['topik'])]->materi = $this->m_materi->materi($bab->id)->result();
+            if(count($data['topik'][array_search($bab,$data['topik'])]->materi) == 0){
+                unset($data['topik'][array_search($bab,$data['topik'])]);
+            }
+            
+        }
+
+        if($data['topik'] == null){
+            $object = new stdClass();
+            $object->materi = $this->m_materi->mapel_detail($mapel)->result();
+            array_push($data['topik'],$object);
+        }
+        $this->load->view('guru/materi', $data);
+        $this->load->view('template/footer');
+    }
+    
     private function _uploadImage()
     {
         $config['upload_path'] = './assets/materi_video';

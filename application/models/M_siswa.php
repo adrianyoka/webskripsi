@@ -12,6 +12,14 @@ class M_siswa extends CI_Model
         return $query;
     }
     
+    public function get_siswa_kelas($kelas)
+    {
+        $this->db->select('*, siswa.id as siswa_id');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id');
+        $query = $this->db->get_where('siswa', array('kelas_id' => $kelas));;
+        return $query;
+    }
+
     public function get_siswa($id)
     {
         $this->db->select('*');
