@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Learnify - Admin Login</title>
+    <title>Pedagogi - Smart Learn</title>
     <link rel="icon" href="<?=base_url('assets/')?>img/favicon.png" type="image/png">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -33,7 +33,7 @@
                         <a href="<?=base_url('welcome')?>"> <img src="<?=base_url('assets/')?>/img/logo.png" alt="logo"
                                 width="150" class=" mb-5 mt-2"></a>
                         <h4 class="text-dark font-weight-normal">Selamat datang di <span
-                                class="font-weight-bold">Learnify</span>
+                                class="font-weight-bold">Pedagogi</span>
                         </h4>
                         <form method="post" action="<?=base_url('welcome/validateLogin')?>" class="needs-validation"
                             novalidate="">

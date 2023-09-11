@@ -63,7 +63,6 @@ class M_materi extends CI_Model
         $this->db->where('materi.bab_id', $bab);
         $this->db->join('bab', 'bab.id = materi.bab_id');
         $this->db->join('mapel', 'mapel.id = bab.mapel_id');
-        // $this->db->group_by('bab.judul');
         return $this->db->get_where('materi', array('is_tampil' => '1'));
     }
     
@@ -79,7 +78,7 @@ class M_materi extends CI_Model
 
     public function bab($kelas,$mapel)
     {
-        $query = $this->db->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
+        $query = $this->db->select('*,bab.id as bab_id')->join('mapel','bab.mapel_id = mapel.id')->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
         return $query;
     }
 

@@ -75,7 +75,6 @@ class Welcome extends CI_Controller
             } else if ($user['role'] == 2) {
                 //cek password
                 $siswa = $this->db->get_where('siswa', ['id_user' => $user['id']])->row_array();
-                //var_dump($siswa); exit();
                 if ($siswa['is_active'] == 1) {
                     if (password_verify($password, $user['password'])) {
                         $data = [
@@ -84,14 +83,14 @@ class Welcome extends CI_Controller
     
                         $this->session->set_userdata($data);
                         redirect(base_url('user'));
+                    } else {
+                        $this->session->set_flashdata('fail-pass', 'Gagal!');
+                        redirect(base_url('welcome'));
                     }
                 } else {
                     $this->session->set_flashdata('fail-pass', 'Gagal!');
                     redirect(base_url('welcome'));
                 }
-            } else {
-                $this->session->set_flashdata('fail-email', 'Gagal!');
-                redirect(base_url('welcome'));
             }
         } else {
             $this->session->set_flashdata('fail-login', 'Gagal!');

@@ -93,14 +93,16 @@
 
     <!-- Start Lesson Card -->
     <div class="container">
-        <div class="row mt-4 mb-5">
+        <div class="row row-cols-md-3 my-3" data-aos-duration="1900" data-aos="fade-right">
             <?php foreach ($mata_pelajaran as $mapel) : ?>
-            <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-right">
-                <a href="<?= base_url('materi/index/').$kelas_id.'/'.$mapel->id?>">
-                    <div class="card-kelas">
-                        <img src="<?= base_url('assets/') ?>img/<?= $mapel->nama_mapel ?>.png" class="card-img-top" alt="...">
-                    </div>
-                </a>
+            <div class="col-md-4 p-3">
+                <div class="card-kelas w-100">
+                    <a href="<?= base_url('materi/index/').$kelas_id.'/'.$mapel->id?>">
+                        <div>
+                            <img src="<?= base_url('assets/') ?>img/<?= $mapel->nama_mapel ?>.png" class="card-img-top" alt="...">
+                        </div>
+                    </a>
+                </div>
             </div>
             <?php endforeach?>
         </div>

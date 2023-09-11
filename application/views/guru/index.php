@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
     <!-- Title -->
-    <title>Kelas <?php echo $tingkat;echo " ";echo $rombel?> | Student Page</title>
+    <title>Kelas <?php echo $tingkat;echo " ";echo $rombel?> | Teacher Page</title>
     <!-- Bootstrap CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">    
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/linericon/style.css">    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/owl-carousel/owl.carousel.min.css">
@@ -43,7 +43,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="<?= base_url('guru') ?>"><img src="<?= base_url('assets/') ?>img/logoaja.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="<?= base_url('user') ?>"><img src="<?= base_url('assets/') ?>img/logo.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -52,11 +52,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item "><a class="nav-link text-dark" href="javascript:void(0)">Hai, <?php
+                            <li class="nav-item "><a class="nav-link" href="javascript:void(0)">Hai, <?php
                                                                                                         echo $nama_guru;
                                                                                                         ?></a>
                             </li>
-                            <li class="nav-item active"><a class="nav-link" href="<?= base_url('guru') ?>">Beranda</a>
+                            <li class="nav-item active"><a class="nav-link" href="<?= base_url('user') ?>">Beranda</a>
                             </li>
                             <li class="nav-item "><a class="nav-link text-danger" href="<?= base_url('welcome/logout') ?>">Log
                                     Out</a>
@@ -72,10 +72,10 @@
 
     <!-- Start Greeting Cards -->
     <div class="container">
-        <div class="bg-white mx-auto p-4 buat-text" data-aos="fade-down" data-aos-duration="1500" style="width: 100%; border-radius:10px;">
+        <div class="bg-white mx-auto p-4 buat-text" data-aos="fade-down" data-aos-duration="1400" style="width: 100%; border-radius:10px;">
             <div class="row" style="color: black; font-family: 'poppins';">
                 <div class="col-md-12 mt-1">
-                    <h1 class="display-4" style="color: black; font-family:'poppins';" data-aos="fade-down" data-aos-duration="1500">SELAMAT DATANG
+                    <h1 class="display-4" style="color: black; font-family:'poppins';" data-aos="fade-down" data-aos-duration="1400">SELAMAT DATANG
                     </h1>
                     <hr>
 
@@ -87,8 +87,8 @@
                                              echo " - ";
                                              echo $rombel;
                                              ?></h5>
-                    <Button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Absensi Hari Ini <i class="ml-2 fas fa-bars"></i></Button>
-                    <Button class="btn btn-secondary" data-toggle="modal" data-target="#RekapModal">Rekap Absensi <i class="ml-2 fas fa -bars"></i></Button>
+                    <Button class="btn btn-success m-1" data-toggle="modal" data-target="#AbsenModal">Absensi Hari Ini <i class="ml-2 fas fa-bars"></i></Button>
+                    <Button class="btn btn-secondary m-1" data-toggle="modal" data-target="#RekapModal">Rekap Absensi <i class="ml-2 fas fa-bars"></i></Button>
                 </div>
             </div>
         </div>
@@ -98,14 +98,16 @@
 
     <!-- Start Lesson Card -->
     <div class="container">
-        <div class="row mt-4 mb-5">
+        <div class="row row-cols-md-3 my-3" data-aos-duration="1900" data-aos="fade-right">
             <?php foreach ($mata_pelajaran as $mapel) : ?>
-            <div class="col-md-4 mb-2 d-flex justify-content-center" data-aos-duration="1900" data-aos="fade-right">
-                <a href="<?= base_url('guru/materiDashboard/').$kelas_id.'/'.$mapel->id?>">
-                    <div class="card-kelas">
-                        <img src="<?= base_url('assets/') ?>img/<?= $mapel->nama_mapel ?>.png" class="card-img-top" alt="...">
-                    </div>
-                </a>
+            <div class="col-md-4 p-3">
+                <div class="card-kelas w-100">
+                    <a href="<?= base_url('guru/materiDashboard/').$kelas_id.'/'.$mapel->id?>">
+                        <div>
+                            <img src="<?= base_url('assets/') ?>img/<?= $mapel->nama_mapel ?>.png" class="card-img-top" alt="...">
+                        </div>
+                    </a>
+                </div>
             </div>
             <?php endforeach?>
         </div>
@@ -113,7 +115,7 @@
     <br>
 
     <!-- Absensi Pop up -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="AbsenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">

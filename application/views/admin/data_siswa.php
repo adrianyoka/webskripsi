@@ -63,7 +63,6 @@
 
                                     <td class="text-center">
                                         <a href="<?php echo site_url('admin/update_siswa/' . $u->id_siswa); ?>" class="btn btn-info">Update ⭢</a>
-
                                         <a href="<?php echo site_url('admin/delete_siswa/' . $u->id_user); ?>" class="btn btn-danger remove">Delete ✖</a>
                                     </td>
 
