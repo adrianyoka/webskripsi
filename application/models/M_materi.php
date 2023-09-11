@@ -27,6 +27,10 @@ class M_materi extends CI_Model
 
     public function tampil_data()
     {
+        $this->db->select('*');
+        $this->db->join('guru', 'guru.nip = materi.guru_id');
+        $this->db->join('mapel', 'mapel.id = materi.mapel_id');
+        $this->db->join('kelas', 'kelas.id = materi.kelas_id');
         return $this->db->get('materi');
     }
 

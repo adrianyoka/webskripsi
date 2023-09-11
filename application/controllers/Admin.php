@@ -7,6 +7,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('url');
+        $this->load->helper('date');
         if (!$this->session->userdata('id')) {
             $this->session->set_flashdata('not-login', 'Harap Login Terlebih Dahulu !');
             redirect('welcome');
@@ -52,7 +53,7 @@ class Admin extends CI_Controller
     public function update_siswa($id)
     {
         $this->load->model('m_siswa');
-        $where = array('id_user' => $id);
+        $where = array('siswa.nisn' => $id);
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
         $data['page'] = 'siswa';
@@ -102,7 +103,7 @@ class Admin extends CI_Controller
     public function delete_siswa($id)
     {
         $this->load->model('m_siswa');
-        $where = array('id_user' => $id);
+        $where = array('siswa.id_user' => $id);
         $this->m_siswa->delete_siswa($where, 'siswa');
         $this->load->model('m_siswa');
         $where = array('id' => $id);
@@ -110,7 +111,35 @@ class Admin extends CI_Controller
         $this->session->set_flashdata('user-delete', 'berhasil');
         redirect('admin/data_siswa');
     }
+    
+    // manajemen absensi
 
+    public function data_absensi()
+    {
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'absensi';
+        $data['absensi'] = $this->db->select('*,absensi_master.id as master_id')->join('kelas','kelas.id = absensi_master.kelas_id')->get('absensi_master')->result_array();
+        for($i=0;$i<count($data['absensi']);$i++){
+            $data['absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.nisn = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
+            ->get_where('absensi_data',array('master_id' => $data['absensi'][$i]['master_id']))->result_array();
+            $data['absensi'][$i]['total'] = count($data['absensi'][$i]['data']);
+        }
+        $this->load->view('admin/template/side_bar',$data);
+        $this->load->view('admin/data_absensi', $data);
+    }
+
+    public function detail_absensi($id)
+    {
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'absensi';
+        $data['absensi'] = $this->db->select('*,kelas.id as kelas_id')->join('siswa','siswa.nisn = absensi_data.siswa_id')->join('kelas','kelas.id = siswa.kelas_id')->get_where('absensi_data',array('absensi_data.master_id' => $id))->result_array();
+        // var_dump($data['absensi']);exit();
+        $this->load->view('admin/template/side_bar',$data);
+        $this->load->view('admin/detail_absensi', $data);
+    }
+    
     // manajemen guru
 
     public function data_guru()
@@ -169,8 +198,7 @@ class Admin extends CI_Controller
     public function delete_guru($id)
     {
         $this->load->model('m_guru');
-        $where = array('id_user' => $id);
-        $this->m_guru->delete_guru($where, 'guru');
+        $this->m_guru->delete_guru($id);
         $this->session->set_flashdata('user-delete', 'berhasil');
         redirect('admin/data_guru');
     }
@@ -203,8 +231,12 @@ class Admin extends CI_Controller
         ]);
 
         if ($this->form_validation->run() == false) {
+            $data['page'] = 'guru';
             $data['user'] = $this->db->get_where('user', ['id' =>
-                $this->session->userdata('id')])->row_array();
+            $this->session->userdata('id')])->row_array();
+            $this->load->model('m_materi');
+            $data['kelas'] = $this->m_materi->kelas()->result();
+            $this->load->view('admin/template/side_bar',$data);
             $this->load->view('guru/registration',$data);
         } else {
             $email = $this->input->post('email', true);
@@ -221,7 +253,7 @@ class Admin extends CI_Controller
             $guru = [
                 'nip' => htmlspecialchars($this->input->post('nip', true)),
                 'nama_guru' => htmlspecialchars($this->input->post('nama', true)),
-                'nama_mapel' => htmlspecialchars($this->input->post('mapel', true)),
+                'kelas_id' => htmlspecialchars($this->input->post('kelas', true)),
                 'id_user' => $id_user
             ];
             $this->db->insert('guru', $guru);
@@ -231,12 +263,55 @@ class Admin extends CI_Controller
         }
     }
 
-    //manajemen materi
+    // manajemen kelas
+    
+    public function data_kelas()
+    {
+
+    }
+
+    public function tambah_kelas()
+    {
+
+    }
+
+    public function delete_kelas()
+    {
+
+    }
+
+    // manajemen mata pelajaran
+
+    public function data_mapel()
+    {
+
+    }
+
+    public function tambah_mapel()
+    {
+
+    }
+
+    public function delete_mapel()
+    {
+
+    }
+
+    public function detail_mapel()
+    {
+
+    }
+
+    public function mapel_edit()
+    {
+
+    }
+
+    // manajemen materi
 
     public function data_materi()
     {
         $this->load->model('m_materi');
-
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
         $data['page'] = 'materi';
@@ -261,7 +336,11 @@ class Admin extends CI_Controller
             'min_length' => 'deskripsi terlalu pendek.',
         ]);
         if ($this->form_validation->run() == false) {
-            $this->load->view('admin/add_materi');
+            $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+            $data['page'] = 'materi';
+            $this->load->view('admin/template/side_bar',$data);
+            $this->load->view('admin/add_materi',$data);
         } else {
             $upload_video = $_FILES['video'];
 

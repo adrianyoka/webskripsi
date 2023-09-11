@@ -23,15 +23,14 @@ class Guru extends CI_Controller
         $data['user']['mata_pelajaran']= $this->m_materi->mapel()->result();
         $data['user']['absen']= null !== $absensi ? 
                                 $this->db->select('*,absensi_data.id as absensi_id')
-                                ->join('siswa', 'siswa.id = absensi_data.siswa_id')
+                                ->join('siswa', 'siswa.nisn = absensi_data.siswa_id')
                                 ->get_where('absensi_data',array('master_id' => $absensi['id']))->result() : 
                                 $this->m_siswa->get_siswa_kelas($data['user']['kelas_id'])->result();
         $data['user']['rekap_absensi'] = $this->db->get('absensi_master')->result_array();
         for($i=0;$i<count($data['user']['rekap_absensi']);$i++){
-            $data['user']['rekap_absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.id = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
+            $data['user']['rekap_absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.nisn = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
                                                             ->get_where('absensi_data',array('master_id' => $data['user']['rekap_absensi'][$i]['id']))->result_array();
         }
-        // var_dump($data['user']['rekap_absensi']);exit();
 
         $this->load->view('guru/index', $data['user']);
         $this->load->view('template/footer');
