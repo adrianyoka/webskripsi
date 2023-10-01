@@ -5,8 +5,6 @@
             <div class="card" style="width:100%;">
                 <div class="card-body">
                     <h2 class="card-title" style="color: black;">Tambah Data Siswa</h2>
-                    <hr>
-                    <a href="<?= base_url('admin/data_siswa') ?>" class="btn btn-success">Data Siswa ⭢ </a>
                 </div>
             </div>
         </div>

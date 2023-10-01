@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Pedagogi - Smart Learn</title>
+    <title>Learnify - Admin Login</title>
     <link rel="icon" href="<?=base_url('assets/')?>img/favicon.png" type="image/png">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -33,16 +33,16 @@
                         <a href="<?=base_url('welcome')?>"> <img src="<?=base_url('assets/')?>/img/logo.png" alt="logo"
                                 width="150" class=" mb-5 mt-2"></a>
                         <h4 class="text-dark font-weight-normal">Selamat datang di <span
-                                class="font-weight-bold">Pedagogi</span>
+                                class="font-weight-bold">Learnify</span>
                         </h4>
                         <form method="post" action="<?=base_url('welcome/validateLogin')?>" class="needs-validation"
                             novalidate="">
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="email">username</label>
                                 <input id="email" type="email" class="form-control" name="email" tabindex="1" required
                                     autofocus>
                                 <div class="invalid-feedback">
-                                    Harap isi bidang email
+                                    Harap isi bidang userna
                                 </div>
                             </div>
                             <div class="form-group">

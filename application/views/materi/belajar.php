@@ -41,7 +41,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="<?= base_url('user') ?>"><img src="<?= base_url('assets/') ?>img/logo.png" alt=""></a>
+                    <a class="navbar-brand logo_h" href="<?= base_url('welcome') ?>"><img src="<?= base_url('assets/') ?>img/logo.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -94,15 +94,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 mx-auto mt-4">
-                <?php if ($detail->tipe == 'video') {?>
-                    <video class="afterglow" autoplay id="myvideo" width="1140" height="640">
-                        <source type="video/mp4" autoplay src="<?= base_url() . 'assets/materi_attachment/' . $detail->attachment; ?>" />
-                    </video>
-                <?php } else { ?>
-                    <iframe class="afterglow" width="1140" height="640" src="<?= $detail->attachment ?>">
-                        <!-- <source type="video/mp4" autoplay  /> -->
-                    </iframe>
-                <?php } ?>
+                <iframe class="afterglow" autoplay id="myvideo" width="1140" height="640" src="<?=$detail->attachment?>">
+                    <!-- <source type="video/mp4" autoplay  /> -->
+                </iframe>
             </div>
         </div>
     </div>

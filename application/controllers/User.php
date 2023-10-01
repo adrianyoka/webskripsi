@@ -19,6 +19,7 @@ class User extends CI_Controller
     {
         $data['user'] = $this->m_siswa->get_siswa($this->session->userdata('id'))->row_array();
         $data['user']['mata_pelajaran'] = $this->m_materi->mapel()->result();
+        // var_dump($data['user']);exit();
         $this->load->view('user/index',$data['user']);
         $this->load->view('template/footer');
     }
@@ -59,6 +60,7 @@ class User extends CI_Controller
         ]);
         $this->form_validation->set_rules('password2', 'Konfirmasi Password', 'required|trim|matches[password]', [
             'matches' => 'Password tidak sama!',
+            'required' => 'Harap isi kolom Konfirmasi Password.',
         ]);
 
         if ($this->form_validation->run() == false) {

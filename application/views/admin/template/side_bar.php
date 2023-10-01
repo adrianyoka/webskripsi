@@ -14,9 +14,12 @@
     
     <!-- Template CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>stisla-assets/css/style.css">
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/selectric.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>stisla-assets/css/components.css">
     <script src="<?= base_url('assets/') ?>js/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.4/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/selectric@1.13.0/public/selectric.min.css"> -->
 </head>
 
 <body>
@@ -98,9 +101,9 @@
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-building"></i>
                                 <span>Kelas</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Data Kelas</a>
+                                <li><a class="nav-link" href="<?= base_url('admin/data_kelas') ?>">Data Kelas</a>
                                 </li>
-                                <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Tambah Data Kelas</a>
+                                <li><a class="nav-link" href="<?= base_url('admin/tambah_kelas') ?>">Tambah Data Kelas</a>
                                 </li>
                             </ul>
                         </li>
@@ -108,9 +111,9 @@
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-book"></i>
                                 <span>Mata Pelajaran</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Data Mata Pelajaran</a>
+                                <li><a class="nav-link" href="<?= base_url('admin/data_mapel') ?>">Data Mata Pelajaran</a>
                                 </li>
-                                <li><a class="nav-link" href="<?= base_url('user/registration') ?>">Tambah Mata Pelajaran</a>
+                                <li><a class="nav-link" href="<?= base_url('admin/tambah_mapel') ?>">Tambah Mata Pelajaran</a>
                                 </li>
                             </ul>
                         </li>
@@ -118,10 +121,9 @@
                             <a href="#" class="nav-link has-dropdown"><i class="fas fa-tasks"></i>
                                 <span>Materi</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="<?= base_url('admin/data_materi') ?>">Data Materi</a>
+                                <li><a class="nav-link" href="<?= base_url('admin/data_bab') ?>">Data BAB</a>
                                 </li>
-                                <li><a class="nav-link" href="<?= base_url('admin/tambah_materi') ?>">Tambah Materi</a>
-                                </li>
+                                
                             </ul>
                         </li>
                 </aside>

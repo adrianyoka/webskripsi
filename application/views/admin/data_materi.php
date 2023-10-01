@@ -13,14 +13,17 @@
                         <div class="col-md-12">
                             <div class="bg-white p-4" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px">
                                 <div class="table-responsive">
-                                    <table id="example" class="table align-items-center table-flush">
+                                    <table id="example" class="table align-items-center table-flush table-hover table-striped">
                                         <thead class="thead-light">
-                                            <tr class="text-center">
+                                            <tr class="text-center text-wrap">
                                                 <th scope="col">No.</th>
-                                                <th scope="col">Nama Guru</th>
-                                                <th scope="col">Nama Mapel</th>
-                                                <th scope="col">Deskripsi</th>
+                                                <th scope="col">Judul</th>
+                                                <th scope="col">Deskripsi Materi</th>
+                                                <th scope="col">Mata Pelajaran</th>
+                                                <th scope="col">Guru</th>
+                                                <th scope="col">Bab</th>
                                                 <th scope="col">Kelas</th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col">Option</th>
                                             </tr>
                                         </thead>
@@ -30,22 +33,31 @@
                                             $nomor = 1; 
                                             foreach ($materi as $u) {
                                             ?>
-                                                <tr class="text-center">
-
+                                                <tr class="text-center text-wrap">
                                                     <th scope="row">
                                                         <?php echo $nomor++ ?>
                                                     </th>
+
+                                                    <td>
+                                                        <?php echo substr($u->judul,0,30);?>
+                                                        <?=strlen($u->judul) > 30?'.&nbsp;.&nbsp;.&nbsp;':''?>
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <?= substr($u->deskripsi, 0, 30); ?>
+                                                        <?=strlen($u->deskripsi) > 30?'.&nbsp;.&nbsp;.&nbsp;':''?>
+                                                    </td>
+
+                                                    <td>
+                                                        <?php echo $u->nama_mapel ?>
+                                                    </td>
 
                                                     <td>
                                                         <?php echo $u->nama_guru ?>
                                                     </td>
 
                                                     <td>
-                                                        <?php echo $u->nama_mapel ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= substr($u->deskripsi, 0, 30); ?>
-                                                        .&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.&nbsp;.
+                                                        <?php echo $u->judul_bab ?>
                                                     </td>
 
                                                     <td>
@@ -53,10 +65,14 @@
                                                               echo $u->rombel; ?>
                                                     </td>
 
-                                                    <td class="text-center">
-                                                        <a href="<?php echo site_url('admin/update_materi/' . $u->id); ?>" class="btn btn-info">Update ⭢</a>
+                                                    <td>
+                                                        <?= $u->is_tampil == 1?'Ditampilkan':'Disembunyikan'?>
+                                                    </td>
 
-                                                        <a href="<?php echo site_url('admin/delete_materi/' . $u->id); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                                    <td class="text-center">
+                                                        <a href="<?php echo site_url('admin/update_materi/' . $u->id_materi); ?>" class="btn btn-info">Update ⭢</a>
+
+                                                        <a href="<?php echo site_url('admin/delete_materi/' . $u->id_materi); ?>" class="btn btn-danger remove">Delete ✖</a>
                                                     </td>
 
                                                 </tr>
@@ -66,8 +82,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <p class="small font-weight-bold">Sebelum mengupload file, harus terlebih dahulu
-                                    melakukan config max_upload di php.ini</p>
+                                <p class="small font-weight-bold">Max upload file 2 MB.</p>
                             </div>
                         </div>
                     </div>
