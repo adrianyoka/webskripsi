@@ -76,6 +76,10 @@
                                         ?>!</h1>
                     <p class="lead"></p>
                     <div class="mt-4">
+                        <a href="<?= base_url('admin/index') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fas fa-desktop"></i>dashboard</a>
+                        <a href="<?= base_url('admin/data_siswa') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>siswa</a>
+                        <a href="<?= base_url('admin/data_guru') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fas fa-chalkboard-teacher"></i>guru</a>
+                        <a href="<?= base_url('admin/data_materi') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fas fa-book"></i>materi</a>
                     </div>
                 </div>
             </div>

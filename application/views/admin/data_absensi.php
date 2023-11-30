@@ -5,7 +5,7 @@
             <div class="card-body">
                 <h2 class="card-title" style="color: black;">Management absensi</h2>
                 <hr>
-                <p class="card-text">Halaman ini menampilkan data rekapan absensi</p>
+                <p class="card-text"> </p>
             </div>
         </div>
         <div class="row">
@@ -19,7 +19,7 @@
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Kelas</th>
                                 <th scope="col">Total Kehadiran</th>
-                                <th scope="col">Detail</th>
+                                <th scope="col">Option</th>
                             </tr>
                         </thead>
 

@@ -5,7 +5,8 @@
             <div class="card-body">
                 <h2 class="card-title" style="color: black;">Management Data Guru</h2>
                 <hr>
-                <p class="card-text">Halaman ini menampilkan data guru</p>
+                <a href="<?= base_url('admin/add_guru') ?>" class="btn btn-success">Tambah
+                    Data Guru ⭢</a>
             </div>
         </div>
         <div class="row">
@@ -59,7 +60,6 @@
                                             <a href="<?php echo site_url('admin/update_guru/' . $u->id_user); ?>" class="btn btn-info">Update ⭢</a>
 
                                             <a href="<?php echo site_url('admin/delete_guru/' . $u->id_user); ?>" class="btn btn-danger remove">Delete ✖</a>
-                                            <a href="<?php echo site_url('admin/reset_password/' . $u->id_user); ?>" class="btn btn-success">Reset Password <span><i class=" fas fa-sync"></i></span></a>
                                         </td>
 
                                     </tr>
@@ -98,18 +98,6 @@
                 icon: 'success',
                 title: 'Data Guru Telah Dihapus!',
                 text: 'Selamat data telah Dihapus!',
-                showConfirmButton: false,
-                timer: 2500
-            })
-        </script>
-    <?php endif; ?>
-
-    <?php if ($this->session->flashdata('success-reset')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Password Guru Telah Direset!',
-                text: 'Selamat Password telah Direset!',
                 showConfirmButton: false,
                 timer: 2500
             })

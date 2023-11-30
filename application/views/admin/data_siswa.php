@@ -5,7 +5,8 @@
         <div class="card-body">
             <h2 class="card-title" style="color: black;">Management Data Siswa</h2>
             <hr>
-            <p class="card-text">Halaman ini menampilkan data siswa</p>
+            <a href="<?= base_url('user/registration') ?>" class="btn btn-success">Tambah
+                Data Siswa ⭢ </a>
         </div>
     </div>
     <div class="row">
@@ -62,10 +63,7 @@
 
                                     <td class="text-center">
                                         <a href="<?php echo site_url('admin/update_siswa/' . $u->id_siswa); ?>" class="btn btn-info">Update ⭢</a>
-
                                         <a href="<?php echo site_url('admin/delete_siswa/' . $u->id_user); ?>" class="btn btn-danger remove">Delete ✖</a>
-
-                                        <a href="<?php echo site_url('admin/reset_password/' . $u->id_user); ?>" class="btn btn-success">Reset Password <span><i class=" fas fa-sync"></i></span></a>
                                     </td>
 
                                 </tr>
@@ -123,17 +121,6 @@
     </script>
 <?php unset($_SESSION['user-delete']);endif; ?>
 
-<?php if ($this->session->flashdata('success-reset')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Password Siswa Telah Direset!',
-                text: 'Selamat Password Siswa telah Direset!',
-                showConfirmButton: false,
-                timer: 2500
-            })
-        </script>
-    <?php unset($_SESSION['success-reset']); endif; ?>
 <!-- End Sweetalert -->
 
 <!-- Start Footer -->

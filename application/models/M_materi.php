@@ -27,10 +27,9 @@ class M_materi extends CI_Model
 
     public function tampil_data()
     {
-        $this->db->select('*,materi.id as id_materi');
+        $this->db->select('*');
         $this->db->join('guru', 'guru.nip = materi.guru_id');
         $this->db->join('mapel', 'mapel.id = materi.mapel_id');
-        $this->db->join('bab', 'bab.id = materi.bab_id');
         $this->db->join('kelas', 'kelas.id = materi.kelas_id');
         return $this->db->get('materi');
     }
@@ -58,20 +57,22 @@ class M_materi extends CI_Model
         $this->db->delete($table);
     }
 
-    public function delete_bab($where, $table)
-    {
-        $this->db->where($where);
-        $this->db->delete($table);
-    }
-
     public function materi($bab)
     {
         $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel');
         $this->db->where('materi.bab_id', $bab);
         $this->db->join('bab', 'bab.id = materi.bab_id');
         $this->db->join('mapel', 'mapel.id = bab.mapel_id');
-        // $this->db->group_by('bab.judul');
         return $this->db->get_where('materi', array('is_tampil' => '1'));
+    }
+
+    public function materi_guru($bab)
+    {
+        $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel');
+        $this->db->where('materi.bab_id', $bab);
+        $this->db->join('bab', 'bab.id = materi.bab_id');
+        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
+        return $this->db->get('materi');
     }
     
     public function belajar($id = null)
@@ -86,7 +87,7 @@ class M_materi extends CI_Model
 
     public function bab($kelas,$mapel)
     {
-        $query = $this->db->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
+        $query = $this->db->select('*,bab.id as bab_id')->join('mapel','bab.mapel_id = mapel.id')->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
         return $query;
     }
 
@@ -94,20 +95,5 @@ class M_materi extends CI_Model
     {
         $query = $this->db->get_where('bab', array('mapel_id' => $mapel))->result();
         return $query;
-    }
-    public function get_all_bab()
-    {
-        $this->db->select('*,bab.id as id_bab');
-        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
-        $this->db->join('kelas', 'kelas.id = bab.kelas_id');
-        return $this->db->get('bab');
-    }
-    public function get_detail_bab($id)
-    {
-        $this->db->select('*,bab.id as id_bab');
-        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
-        $this->db->join('kelas', 'kelas.id = bab.kelas_id');
-        $this->db->join('guru', 'guru.kelas_id = kelas.id');
-        return $this->db->get_where('bab', array('bab.id' => $id));
     }
 }
