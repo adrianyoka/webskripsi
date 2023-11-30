@@ -5,13 +5,6 @@
                         <div class="card" style="width:100%;">
                             <div class="card-body">
                                 <h2 class="card-title" style="color: black;">Update Data Guru</h2>
-                                <hr>
-                                <p class="card-text"> Update data siswa meliputi Email dan Nama Lengkap.
-                                    Kita tidak bisa mengubah password guru, Hanya guru yang dapat mengubah passwordnya
-                                    sendiri.
-                                </p>
-                                <a href="#detail" class="btn btn-success">Saya paham dan
-                                    ingin melanjutkan ⭢</a>
                             </div>
                         </div>
                     </div>
@@ -26,7 +19,7 @@
                         <?php foreach ($update as $u) { ?>
                             <div class="card-body">
                                 <form method="POST" action="<?= base_url('admin/guru_edit') ?>">
-
+                                    <input type="hidden" name="id" value="<?= $u->id ?>">
                                     <div class="form-group">
                                         <label for="nip">Nomor Induk Pegawai</label>
                                         <input readonly id="nip" type="text" class="form-control" value="<?= $u->nip ?>" name="nip">
@@ -69,9 +62,8 @@
 
     <!-- Start Footer -->
     <footer class="main-footer">
-        <div class="text-center">
-            Copyright &copy; 2020 <div class="bullet"></div> <a href="https://github.com/syauqi">Syauqi Zaidan Khairan Khalaf</a>
-        </div>
+    <div class="text-center">Copyright &copy; 2023 <div class="bullet"></div><a href="">Ilmu Komputer Universitas Lampung</a>
+    </div>
     </footer>
     <!-- End Footer -->
 

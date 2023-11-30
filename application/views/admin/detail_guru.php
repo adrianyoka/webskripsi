@@ -4,11 +4,7 @@
                     <div class="card" style="width:100%;">
                         <div class="card-body">
                             <h2 class="card-title" style="color: black;">Detail Guru | <?= $detail->nama_guru ?> </h2>
-                            <hr>
-                            <p class="card-text">After I ran into Helen at a restaurant, I realized she was just office pretty drop-dead date put in in a deck for our standup today. Who's responsible for the ask for this request? who's responsible for the ask for this request? but moving the goalposts gain traction.
-                            </p>
-                            <a href="#detail" class="btn btn-success">Saya paham dan
-                                ingin melanjutkan ⭢</a>
+                            <a href="<?= base_url('admin/data_guru') ?>" class="btn btn-success">Data Guru ⭢</a></a>
                         </div>
                     </div>
                     <div id="detail" class="col-md-12 bg-white p-3" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px;">
@@ -36,8 +32,8 @@
                                     <td>Terenkripsi</td>
                                 </tr>
                                 <tr style="border-bottom: 0.5px solid #6c757d;">
-                                    <td><span class="font-weight-bold">Mata Pelajaran :</span></td>
-                                    <td><?= $detail->nama_mapel ?></td>
+                                    <td><span class="font-weight-bold">Kelas :</span></td>
+                                    <td><?= $detail->tingkat ?> <?= $detail->rombel ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -53,9 +49,8 @@
 
     <!-- Start Footer -->
     <footer class="main-footer">
-        <div class="text-center">
-            Copyright &copy; 2020 <div class="bullet"></div><a href="https://github.com/syauqi">Syauqi Zaidan Khairan Khalaf</a>
-        </div>
+    <div class="text-center">Copyright &copy; 2023 <div class="bullet"></div><a href="">Ilmu Komputer Universitas Lampung</a>
+    </div>
     </footer>
     <!-- End Footer -->
 

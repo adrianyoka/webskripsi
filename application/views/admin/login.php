@@ -5,8 +5,8 @@
 
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Learnify - Admin Login</title>
-    <link rel="icon" href="<?=base_url('assets/')?>img/favicon.png" type="image/png">
+    <title>PEDAGOGI - Admin Login</title>
+    <link rel="icon" href="<?=base_url('assets/')?>img/logoku.png" type="image/png">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -33,7 +33,7 @@
                         <a href="<?=base_url('welcome')?>"> <img src="<?=base_url('assets/')?>/img/logo.png" alt="logo"
                                 width="150" class=" mb-5 mt-2"></a>
                         <h4 class="text-dark font-weight-normal">Selamat datang di <span
-                                class="font-weight-bold">Learnify</span>
+                                class="font-weight-bold">Pedagogi</span>
                         </h4>
                         <p class="text-muted">Sebelum masuk ke halaman admin, anda harus login terlebih dahulu sebagai
                             admin. silahkan isi data dibawah untuk melanjutkan.</p>
@@ -78,7 +78,7 @@
                                     halaman admin.</h5>
                             </div>
                             Made with <span class="text-danger"> &#10084;</span> by <a class="text-light bb"
-                                target="_blank" href="https://syauqizaidan.github.io/">Syaauqi Zaaidan</a> - Image by <a
+                                target="_blank" href="">Ilmu Komputer Universitas Lampung</a> - Image by <a
                                 class="text-light bb" target="_blank" href="https://unsplash.com">Unsplash</a>
                         </div>
                     </div>

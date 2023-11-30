@@ -1,15 +1,14 @@
 <!-- Main Content -->
 <div class="main-content">
-<section class="section">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title" style="color: black;">Management Data Siswa</h2>
-            <hr>
-            <a href="<?= base_url('user/registration') ?>" class="btn btn-success">Tambah
-                Data Siswa ⭢ </a>
+    <section class="section">
+        <div class="card" style="width:100%;">
+            <div class="card-body">
+                <h2 class="card-title" style="color: black;">Management absensi</h2>
+                <hr>
+                <p class="card-text"> </p>
+            </div>
         </div>
-    </div>
-    <div class="row">
+        <div class="row">
         <div class="col-md-12">
             <div class="bg-white p-4" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px;">
                 <div class="table-responsive">
@@ -17,12 +16,9 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th scope="col">NO</th>
-                                <th scope="col">NISN</th>
-                                <th scope="col">Nama Siswa</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Gambar</th>
+                                <th scope="col">Tanggal</th>
                                 <th scope="col">Kelas</th>
-                                <th scope="col">Detail</th>
+                                <th scope="col">Total Kehadiran</th>
                                 <th scope="col">Option</th>
                             </tr>
                         </thead>
@@ -30,42 +26,25 @@
                         <tbody>
                             <?php
                             $nomor = 1;    
-                            foreach ($siswa as $u) {
-                            ?>
+                            foreach ($absensi as $u) {
+                                ?>
                                 <tr class="text-center">
 
                                     <th scope="row">
                                         <?php echo $nomor++ ?>
                                     </th>
-
                                     <td>
-                                        <?php echo $u->nisn ?>
+                                        <?=nice_date($u['tanggal'],'d/m/Y')?>
                                     </td>
                                     <td>
-                                        <?php echo $u->nama ?>
+                                        <?php echo $u['tingkat'] ?><?php echo $u['rombel'] ?>
                                     </td>
-
                                     <td>
-                                        <?php echo $u->email ?>
+                                        <?php echo $u['total'] ?>
                                     </td>
-
-                                    <td>
-                                        <img height="20px" src="<?= base_url() . 'assets/profile_picture/' . $u->image; ?>">
-                                    </td>
-
-                                    <td>
-                                        <?php echo $u->tingkat ?> <?php echo $u->rombel ?>  
-                                    </td>
-
                                     <td class="text-center">
-                                        <a href="<?php echo site_url('admin/detail_siswa/' . $u->id_siswa); ?>" class="btn btn-success">Detail ⭢</a>
+                                        <a href="<?php echo site_url('admin/detail_absensi/' . $u['master_id']); ?>" class="btn btn-success">Detail ⭢</a>
                                     </td>
-
-                                    <td class="text-center">
-                                        <a href="<?php echo site_url('admin/update_siswa/' . $u->id_siswa); ?>" class="btn btn-info">Update ⭢</a>
-                                        <a href="<?php echo site_url('admin/delete_siswa/' . $u->id_user); ?>" class="btn btn-danger remove">Delete ✖</a>
-                                    </td>
-
                                 </tr>
                             <?php
                             }
@@ -82,46 +61,6 @@
 </div>
 </div>
 <!-- End Main Content -->
-
-<!-- Start Sweetalert -->
-
-<?php if ($this->session->flashdata('success-edit')) : ?>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '<?=$this->session->flashdata('success-edit')?>',
-            text: 'Data Siswa Telah Dirubah!',
-            showConfirmButton: false,
-            timer: 2500
-        })
-    </script>
-<?php unset($_SESSION['success-edit']);endif; ?>
-
-<?php if ($this->session->flashdata('success-reg')) : ?>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '<?=$this->session->flashdata('success-reg')?>',
-            text: 'Data Siswa Telah Ditambahkan!',
-            showConfirmButton: false,
-            timer: 2500
-        })
-    </script>
-<?php unset($_SESSION['success-reg']);endif; ?>
-
-<?php if ($this->session->flashdata('user-delete')) : ?>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '<?=$this->session->flashdata('user-delete')?>',
-            text: 'Data Siswa Telah Dihapus!',
-            showConfirmButton: false,
-            timer: 2500
-        })
-    </script>
-<?php unset($_SESSION['user-delete']);endif; ?>
-
-<!-- End Sweetalert -->
 
 <!-- Start Footer -->
     <footer class="main-footer">

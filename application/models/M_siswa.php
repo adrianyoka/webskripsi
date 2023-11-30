@@ -4,18 +4,36 @@ class M_siswa extends CI_Model
 {
     public function tampil_data()
     {
-        $this->db->select('*');
+        $this->db->select('*, siswa.nisn as id_siswa');
         $this->db->from('siswa');
         $this->db->join('user', 'user.id = siswa.id_user');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id');
         $query = $this->db->get();
+        return $query;
+    }
+    
+    public function get_siswa_kelas($kelas)
+    {
+        $this->db->select('*, siswa.nisn as siswa_id');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id');
+        $query = $this->db->get_where('siswa', array('kelas_id' => $kelas));;
+        return $query;
+    }
+
+    public function get_siswa($id)
+    {
+        $this->db->select('*');
+        $this->db->join('user', 'user.id = siswa.id_user');
+        $this->db->join('kelas', 'kelas.id = siswa.kelas_id');
+        $query = $this->db->get_where('siswa', array('id_user' => $id));
         return $query;
     }
 
     public function detail_siswa($id = null)
     {
-        $this->db->select('*');
+        $this->db->select('*, siswa.nisn as siswa_id');
         $this->db->join('user', 'user.id = siswa.id_user');
-        $query = $this->db->get_where('siswa', array('id_user' => $id))->row();
+        $query = $this->db->get_where('siswa', array('siswa.nisn' => $id))->row();
         return $query;
     }
 
@@ -27,7 +45,7 @@ class M_siswa extends CI_Model
 
     public function update_siswa($where, $table)
     {
-        $this->db->select('*');
+        $this->db->select('*, siswa.nisn as siswa_id');
         $this->db->join('user', 'user.id = siswa.id_user');
         return $this->db->get_where($table, $where);
     }

@@ -5,20 +5,44 @@ class M_materi extends CI_Model
     public function kelas()
     {
         $this->db->select('*');
-        $this->db->from('materi');
-        $this->db->group_by('kelas');
+        $this->db->from('kelas');
         $query = $this->db->get();
         return $query;
     }
+
+    public function mapel()
+    {
+        $this->db->select('*');
+        $this->db->from('mapel');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function mapel_detail($id)
+    {
+        $this->db->select('*');
+        $query = $this->db->get_where('mapel', array('id' => $id));
+        return $query;
+    }
+
     public function tampil_data()
     {
+        $this->db->select('*');
+        $this->db->join('guru', 'guru.nip = materi.guru_id');
+        $this->db->join('mapel', 'mapel.id = materi.mapel_id');
+        $this->db->join('kelas', 'kelas.id = materi.kelas_id');
         return $this->db->get('materi');
     }
 
-    public function belajar($id = null)
+    public function update_data($where, $data, $table)
     {
-        $query = $this->db->get_where('materi', array('id' => $id))->row();
-        return $query;
+        $this->db->where($where);
+        $this->db->update($table, $data);
+    }
+
+    public function update_materi($where, $table)
+    {
+        return $this->db->get_where($table, $where);
     }
 
     public function detail_materi($id = null)
@@ -33,149 +57,43 @@ class M_materi extends CI_Model
         $this->db->delete($table);
     }
 
-    public function update_materi($where, $table)
+    public function materi($bab)
     {
-        return $this->db->get_where($table, $where);
+        $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel');
+        $this->db->where('materi.bab_id', $bab);
+        $this->db->join('bab', 'bab.id = materi.bab_id');
+        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
+        return $this->db->get_where('materi', array('is_tampil' => '1'));
     }
 
-    public function update_data($where, $data, $table)
+    public function materi_guru($bab)
     {
-        $this->db->where($where);
-        $this->db->update($table, $data);
-    }
-
-    public function matematika_x()
-    {
-        $mapel = 'Matematika';
-        $kelas = '4';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
+        $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel');
+        $this->db->where('materi.bab_id', $bab);
+        $this->db->join('bab', 'bab.id = materi.bab_id');
+        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
         return $this->db->get('materi');
     }
-
-    public function matematika_xi()
+    
+    public function belajar($id = null)
     {
-        $mapel = 'Matematika';
-        $kelas = '5';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
+        $this->db->select('materi.*,bab.judul_bab,bab.deskripsi,mapel.nama_mapel,guru.nama_guru');
+        $this->db->join('bab', 'bab.id = materi.bab_id');
+        $this->db->join('guru', 'guru.nip = materi.guru_id');
+        $this->db->join('mapel', 'mapel.id = bab.mapel_id');
+        $query = $this->db->get_where('materi', array('materi.id' => $id))->row();
+        return $query;
     }
 
-    public function matematika_xii()
+    public function bab($kelas,$mapel)
     {
-        $mapel = 'Matematika';
-        $kelas = '6';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
+        $query = $this->db->select('*,bab.id as bab_id')->join('mapel','bab.mapel_id = mapel.id')->get_where('bab', array('mapel_id' => $mapel,'kelas_id' => $kelas))->result();
+        return $query;
     }
 
-    public function ipa_x()
+    public function bab_guru($mapel)
     {
-        $mapel = 'IPA';
-        $kelas = '4';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function ipa_xi()
-    {
-        $mapel = 'IPA';
-        $kelas = '5';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function ipa_xii()
-    {
-        $mapel = 'IPA';
-        $kelas = '6';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function indo_x()
-    {
-        $mapel = 'Bahasa Indonesia';
-        $kelas = '4';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function indo_xi()
-    {
-        $mapel = 'Bahasa Indonesia';
-        $kelas = '5';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function indo_xii()
-    {
-        $mapel = 'Bahasa Indonesia';
-        $kelas = '6';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function inggris_x()
-    {
-        $mapel = 'Bahasa Inggris';
-        $kelas = '4';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function inggris_xi()
-    {
-        $mapel = 'Bahasa Inggris';
-        $kelas = '5';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function inggris_xii()
-    {
-        $mapel = 'Bahasa Inggris';
-        $kelas = '6';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function agama_x()
-    {
-        $mapel = 'Pendidikan Agama Islam';
-        $kelas = '4';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function agama_xi()
-    {
-        $mapel = 'Pendidikan Agama Islam';
-        $kelas = '5';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
-    }
-
-    public function agama_xii()
-    {
-        $mapel = 'Pendidikan Agama Islam';
-        $kelas = '6';
-        $this->db->where('kelas', $kelas);
-        $this->db->where('nama_mapel', $mapel);
-        return $this->db->get('materi');
+        $query = $this->db->get_where('bab', array('mapel_id' => $mapel))->result();
+        return $query;
     }
 }

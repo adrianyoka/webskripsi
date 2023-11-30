@@ -3,9 +3,8 @@
                 <section class="section">
                     <div class="card" style="width:100%;">
                         <div class="card-body">
-                            <h2 class="card-title" style="color: black;">Management Data Materi Learnify</h2>
+                            <h2 class="card-title" style="color: black;">Management Data Materi pedagogi</h2>
                             <hr>
-                            <p class="card-text"> After I ran into Helen at a restaurant, I realized she was just office pretty drop-dead date put in in a deck for our standup today. Who's responsible for the ask for this request? who's responsible for the ask for this request? but moving the goalposts gain traction.</p>
                             <a href="<?= base_url('admin/tambah_materi') ?>" class="btn btn-success">Tambah
                                 Data Materi ⭢</a>
                         </div>
@@ -17,7 +16,7 @@
                                     <table id="example" class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr class="text-center">
-                                                <th scope="col">ID</th>
+                                                <th scope="col">No.</th>
                                                 <th scope="col">Nama Guru</th>
                                                 <th scope="col">Nama Mapel</th>
                                                 <th scope="col">Deskripsi</th>
@@ -28,13 +27,13 @@
 
                                         <tbody>
                                             <?php
-
+                                            $nomor = 1; 
                                             foreach ($materi as $u) {
                                             ?>
                                                 <tr class="text-center">
 
                                                     <th scope="row">
-                                                        <?php echo $u->id ?>
+                                                        <?php echo $nomor++ ?>
                                                     </th>
 
                                                     <td>
@@ -50,7 +49,8 @@
                                                     </td>
 
                                                     <td>
-                                                        <?php echo $u->kelas ?>
+                                                        <?php echo $u->tingkat;
+                                                              echo $u->rombel; ?>
                                                     </td>
 
                                                     <td class="text-center">
@@ -120,8 +120,7 @@
 
     <!-- Start Footer -->
     <footer class="main-footer">
-        <div class="text-center">
-            Copyright &copy; 2020 <div class="bullet"></div> <a href="https://github.com/syauqi">Syauqi Zaidan Khairan Khalaf</a>
+    <div class="text-center">Copyright &copy; 2023 <div class="bullet"></div><a href="">Ilmu Komputer Universitas Lampung</a>
         </div>
     </footer>
     <!-- End Footer -->
