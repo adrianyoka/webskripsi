@@ -16,6 +16,19 @@
                 <p style="line-height:-30px;margin-top:-20px;">Silahkan isi data data yang diperlukan
                     dibawah </p>
                 <hr>
+                <div class="mx-3 mb-2 d-flex justify-content-end">
+                                <div class="">
+                                    <div class="input-group text-left">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-success" type="button" id="inputGroupFileAddon03">Unduh Template</button>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                            <label class="custom-file-label" for="inputGroupFile03">Import Data siswa</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
             </div>
             <div class="card-body">
                 <form method="POST" action="<?= base_url('user/registration_act') ?>">

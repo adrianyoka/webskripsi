@@ -11,7 +11,7 @@
 
                     <div id="detail" class="card card-success">
                         <div class="col-md-12 text-center">
-                            <p class="registration-title font-weight-bold display-4 mt-4" style="color:black; font-size: 50px;">
+                            <p class="registration-title font-weight-bold display-4 mt-4" style="color:black; font-size: 45px;">
                                 Penambahan Kelas</p>
                             <p style="line-height:-30px;margin-top:-20px;">Silahkan isi data data dibawah <br> untuk rombel kelas baru diketikan secara manual</p>
                             <hr>

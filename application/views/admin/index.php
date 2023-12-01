@@ -5,10 +5,10 @@
             <h1 style="font-size: 27px; letter-spacing:-0.5px; color:black;">Dashboard</h1>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-primary">
-                        <i class="far fa-user"></i>
+                        <i class="fas fa-user"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-danger">
                         <i class="fas fa-chalkboard-teacher"></i>
@@ -35,10 +35,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-warning">
-                        <i class="fas fa-book"></i>
+                        <i class="fas fa-tasks"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="card card-statistic-1">
                     <div class="card-icon bg-success">
                         <i class="fas fa-users"></i>
@@ -67,7 +67,38 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-primary">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Mapel</h4>
+                        </div>
+                        <div class="card-body">
+                            <?php echo $this->db->count_all('mapel'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-primary">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Absensi</h4>
+                        </div>
+                        <div class="card-body">
+                            <?php echo $this->db->count_all('absensi_master'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
         <div class="">
             <div class="hero text-white hero-bg-image" data-background="<?= base_url('assets/') ?>stisla-assets/img/unsplash/eberhard-grossgasteiger-1207565-unsplash.jpg">
                 <div class=" hero-inner">
@@ -76,10 +107,6 @@
                                         ?>!</h1>
                     <p class="lead"></p>
                     <div class="mt-4">
-                        <a href="<?= base_url('admin/index') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fas fa-desktop"></i>dashboard</a>
-                        <a href="<?= base_url('admin/data_siswa') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="far fa-user"></i>siswa</a>
-                        <a href="<?= base_url('admin/data_guru') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fas fa-chalkboard-teacher"></i>guru</a>
-                        <a href="<?= base_url('admin/data_materi') ?>" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fas fa-book"></i>materi</a>
                     </div>
                 </div>
             </div>

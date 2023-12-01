@@ -3,10 +3,10 @@
 <section class="section">
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title" style="color: black;">Management Data BAB</h2>
+            <h2 class="card-title" style="color: black;">Management Data Materi</h2>
             <hr>
-            <p class="card-text">Halaman ini menampilkan data BAB dan Materi 
-            <br><span class ="small font-weight-bold">*  Pemberlakuan pembatasan hak akses oleh admin dalam BAB dan Materi ditujukan untuk keamanan dalam pembelajaran</span></p>
+            <p class="card-text">Halaman ini menampilkan data Materi 
+            <br><span class ="small font-weight-bold">*  Pemberlakuan pembatasan hak akses oleh admin dalam Materi ditujukan untuk keamanan dalam pembelajaran</span></p>
         </div>
     </div>
     <div class="row">
