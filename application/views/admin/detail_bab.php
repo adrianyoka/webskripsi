@@ -21,6 +21,8 @@
                                 <th scope="col">Deskripsi Materi</th>
                                 <th scope="col">Tipe Materi</th>
                                 <th scope="col">Attachment</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Option</th>
                             </tr>
                         </thead>
 
@@ -46,6 +48,13 @@
                                     <td>
                                         <?php echo $materi->attachment ?>
                                     </td>
+                                    <td>
+                                        <?= $materi->is_tampil == 1?'Ditampilkan':'Disembunyikan'?>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="<?php echo site_url('admin/update_materi/' . $materi->id); ?>" class="btn btn-info">update ⭢</a>
+                                        <a href="<?php echo site_url('admin/delete_materi/' . $materi->id); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                    </td>
                                 </tr>
                             <?php
                             }
@@ -62,6 +71,33 @@
 </div>
 </div>
 <!-- End Main Content -->
+
+<!-- Start Sweetalert -->
+
+<?php if ($this->session->flashdata('success-edit')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Data Materi Telah Dirubah!',
+                text: 'Selamat data berubah!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        </script>
+    <?php endif; ?>
+
+<?php if ($this->session->flashdata('user-delete')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Data Materi Telah Dihapus!',
+                text: 'Selamat data telah Dihapus!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        </script>
+    <?php endif; ?>
+<!-- End Sweetalert -->
 
 <!-- Start Footer -->
     <footer class="main-footer">

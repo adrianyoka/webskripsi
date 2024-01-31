@@ -30,6 +30,17 @@ class Admin extends CI_Controller
         $this->load->view('admin/index',$data);
     }
 
+    public function monitoring()
+    {
+        $this->load->model('m_materi');
+        $data['kelas'] = $this->m_materi->kelas()->result();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'monitoring';
+        $this->load->view('admin/template/side_bar',$data);
+        $this->load->view('admin/monitoring',$data);
+    }
+
     public function reset_password($id_user){
         $id = $id_user;
         $password= password_hash('123456', PASSWORD_DEFAULT);
@@ -134,6 +145,8 @@ class Admin extends CI_Controller
 
     public function data_absensi()
     {
+        $this->load->model('M_kelas');
+        $data['cetak'] = $this->m_kelas->tampil_data()->result_array();
         $data['kelas'] = $this->db->select('*,kelas.id as kelas_id')->join('absensi_master','kelas.id = absensi_master.kelas_id')->get('kelas')->result_array();
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
@@ -158,8 +171,21 @@ class Admin extends CI_Controller
         $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/detail_absensi', $data);
     }
-    public function cetak_absensi(){
-        $this->load->view('admin/cetak_absensi');
+
+    public function cetak_absensi($id){
+        $data['siswa'] = $this->m_siswa->get_siswa_kelas($id)->result_array();
+        $data['kelas'] = $this->m_kelas->tampil_data_kelas($id)->row();
+        foreach($data['siswa'] as $siswa){
+            $data['absensi'][$siswa['nisn']] = [
+                'nama' => $siswa['nama'],
+                'hadir' => $this->db->select('*')->get_where('absensi_data', array('siswa_id' => $siswa['nisn'],'keterangan' => 'Hadir'))->num_rows(),
+                'izin' => $this->db->select('*')->get_where('absensi_data', array('siswa_id' => $siswa['nisn'],'keterangan' => 'Izin'))->num_rows(),
+                'sakit' => $this->db->select('*')->get_where('absensi_data', array('siswa_id' => $siswa['nisn'],'keterangan' => 'Sakit'))->num_rows(),
+                'tKeterangan' => $this->db->select('*')->get_where('absensi_data', array('siswa_id' => $siswa['nisn'],'keterangan' => '-'))->num_rows()
+            ];
+        }
+        // var_dump($data['absensi']);exit();
+        $this->load->view('admin/cetak_absensi',$data);
     }
     
     // manajemen guru
@@ -410,16 +436,6 @@ class Admin extends CI_Controller
         redirect('admin/data_mapel');
     }
 
-    // public function detail_mapel($id)
-    // {
-    //     $data['user'] = $this->db->get_where('user', ['id' =>
-    //         $this->session->userdata('id')])->row_array();
-    //     $data['page'] = 'mapel';
-    //     $data['mapel'] = $this->m_mapel->detail_mapel($id)->result_array();
-    //     $this->load->view('admin/template/side_bar',$data);
-    //     $this->load->view('admin/detail_absensi', $data);
-    // }
-
     public function update_mapel($id)
     {
         $this->form_validation->set_rules('nama_mapel', 'Nama Mata Pelajaran', 'required', [
@@ -493,7 +509,6 @@ class Admin extends CI_Controller
             $materi = $this->m_materi->materi($bab->id_bab)->result();
             $bab->materi = $materi;
         }
-        // var_dump($data['bab']);exit();
 
         $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_bab', $data);
@@ -507,7 +522,7 @@ class Admin extends CI_Controller
         $data['bab'] = $this->m_materi->get_detail_bab($id)->row();
         $materi = $this->m_materi->materi($data['bab']->id_bab)->result();
         $data['bab']->materi = $materi;
-        // var_dump($data['bab']);exit();
+        
 
         $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/detail_bab', $data);
@@ -587,39 +602,59 @@ class Admin extends CI_Controller
             'min_length' => 'deskripsi terlalu pendek.',
         ]);
         if ($this->form_validation->run() == true) {
-            // var_dump($_FILES);exit();
-            $upload = $_FILES['attachment'];
-            if ($upload) {
-                $config['allowed_types'] = 'pdf|mp4|mkv';
-                $config['max_size'] = '102400000';
-                $config['upload_path'] = './assets/materi_attachment';
-                $config['overwrite'] = true;
-
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('attachment')) {
-                    $attachment = $this->upload->data('file_name');
-                            
-                    $data = [
-                        'judul' => htmlspecialchars($this->input->post('judul_materi', true)),
-                        'deskripsi' => htmlspecialchars($this->input->post('deskripsi_materi', true)),
-                        'tipe' => htmlspecialchars($this->input->post('tipe', true)),
-                        'attachment' => $attachment,
-                        'kelas_id' => htmlspecialchars($this->input->post('kelas_id', true)),
-                        'mapel_id'=> htmlspecialchars($this->input->post('mapel_id', true)),
-                        'bab_id'=> htmlspecialchars($this->input->post('bab_id', true)),
-                        'is_tampil' => htmlspecialchars($this->input->post('is_tampil', true)),
-                    ];
-
-                    var_dump($data);exit();
-                    $this->db->insert('materi', $data);
-                    $this->session->set_flashdata('success-reg', 'Berhasil!');
-                } else {
-                    var_dump($this->upload->display_errors());exit();
+            $this->load->model('m_guru');
+            $nip = $this->m_guru->get_nip($this->input->post('kelas_id', true))->nip;
+            $tipe = true;
+            if ($this->input->post('tipe', true)=="pdf"){
+                $upload = $_FILES['attachment'];
+                if ($upload) {
+                    $config['allowed_types'] = 'pdf';
+                    $config['max_size'] = '102400000';
+                    $config['upload_path'] = './assets/materi_attachment';
+                    $config['overwrite'] = true;
+    
+                    $this->load->library('upload', $config);
+                    if ($this->upload->do_upload('attachment')){
+                        $attachment = $this->upload->data('file_name');
+                        $tipe = true;
+                    }
+                    else{
+                        $tipe = false;
+                    }
                 }
             }
-        } else {
+            else if ($this->input->post('tipe', true)=="youtube"){
+                $attachment = $this->input->post('attachment', true);
+            }
+
+            if ($tipe) { 
+                $data = [
+                    'judul' => htmlspecialchars($this->input->post('judul_materi', true)),
+                    'deskripsi' => htmlspecialchars($this->input->post('deskripsi_materi', true)),
+                    'tipe' => htmlspecialchars($this->input->post('tipe', true)),
+                    'attachment' => $attachment,
+                    'guru_id' => $nip,
+                    'kelas_id' => htmlspecialchars($this->input->post('kelas_id', true)),
+                    'mapel_id'=> htmlspecialchars($this->input->post('mapel_id', true)),
+                    'bab_id'=> htmlspecialchars($this->input->post('bab_id', true)),
+                    'is_tampil' => '1',
+                ];
+                $this->db->insert('materi', $data);
+                $this->session->set_flashdata('success-reg', 'Berhasil!');
+                redirect('admin/data_materi');
+            } else {
+                var_dump($this->upload->display_errors());exit();
+            }
+        }
+         else {
             $this->session->set_flashdata('form-error', 'Gagal');
+            $this->load->model('m_materi');
+            $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+            $data['page'] = 'materi';
+            $data['materi'] = $this->m_materi->tampil_data()->result();
+            $this->load->view('admin/template/side_bar',$data);
+            $this->load->view('admin/tambah_materi',$data);
         }
     }
 
@@ -627,7 +662,12 @@ class Admin extends CI_Controller
     {
         $this->load->model('m_materi');
         $where = array('id' => $id);
-        $data['user'] = $this->m_materi->update_materi($where, 'materi')->result();
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'materi';
+        $data['materi'] = $this->m_materi->update_materi($where, 'materi')->row();
+        // var_dump($data['materi']);exit();
+        $this->load->view('admin/template/side_bar',$data);
         $this->load->view('admin/update_materi', $data);
     }
 
@@ -659,21 +699,91 @@ class Admin extends CI_Controller
     #ajax
 
     public function get_mapel(){
-        $data= $this->m_mapel->tampil_data()->result();
-        
-        echo "<option disabled selected>Pilih Mata Pelajaran : </option>";
-        
-        foreach($data as $row){
-            echo "<option value='".$row->id."'>".$row->nama_mapel."</option>";
+        $id = isset($_GET['id'])?$_GET['id']:0;
+        if($id == 0){
+            $data= $this->m_mapel->tampil_data()->result();
+            
+            echo "<option disabled selected>Pilih Mata Pelajaran : </option>";
+            
+            foreach($data as $row){
+                echo "<option value='".$row->id."'>".$row->nama_mapel."</option>";
+            }
+        }else{
+            $data= $this->m_mapel->tampil_data()->result();
+            $thisMapel= $this->m_materi->detail_materi($id);
+            
+            echo "<option disabled >Pilih Mata Pelajaran : </option>";
+            
+            foreach($data as $row){
+                $selected = $thisMapel->kelas_id == $row->id?'selected':'';
+                echo "<option value='".$row->id."' ".$selected." >".$row->nama_mapel."</option>";
+            }
         }
     }
     public function get_kelas(){
-        $data=$this->m_materi->kelas()->result();
+        $id = isset($_GET['id'])?$_GET['id']:0;
+        if($id==0){
+            $multiple = $_GET['multiple'];
+            $data=$this->m_materi->kelas()->result();
+            if($multiple == 1){
+                echo "<option disabled selected>Pilih Kelas : (bisa lebih dari satu) </option>";
+            }else{
+                echo "<option disabled selected>Pilih Kelas : </option>";
+            }
+            
+            foreach($data as $row){
+                echo "<option value='".$row->id."'>".$row->tingkat.$row->rombel."</option>";
+            }
+        }else{
+            $multiple = $_GET['multiple'];
+            $data=$this->m_materi->kelas()->result();
+            $thisKelas= $this->m_materi->detail_materi($id);
+            
+            if($multiple == 1){
+                echo "<option disabled >Pilih Kelas : (bisa lebih dari satu) </option>";
+            }else{
+                echo "<option disabled >Pilih Kelas : </option>";
+            }
+            
+            foreach($data as $row){
+                $selected = $thisKelas->kelas_id == $row->id?'selected':'';
+                echo "<option value='".$row->id."' ".$selected." >".$row->tingkat.$row->rombel."</option>";
+            }
+        }
+    }
 
-        echo "<option disabled>Pilih Kelas : (bisa lebih dari satu) </option>";
-        
-        foreach($data as $row){
-            echo "<option value='".$row->id."'>".$row->tingkat.$row->rombel."</option>";
+    public function get_bab(){
+        $id = isset($_GET['id'])?$_GET['id']:0;
+        if($id == 0){
+            $kelas = $_GET['kelas'];
+            $mapel = $_GET['mapel'];
+            $data=$this->m_materi->bab($kelas,$mapel);
+
+            if(count($data) == 0 && $mapel != 0 ){
+                echo "<option selected value = '0' >Belum Ada Bab  </option>";
+            }else{
+                echo "<option disabled selected>Pilih Bab :  </option>";
+            }
+    
+            foreach($data as $row){
+                echo "<option value='".$row->id."'>".$row->judul_bab."</option>";
+            }
+        }else{
+            $kelas = $_GET['kelas'];
+            $mapel = $_GET['mapel'];
+            $data=  $this->m_materi->bab($kelas,$mapel);
+            $thisBAB = $this->m_materi->detail_materi($id);
+            
+            if(count($data) == 0 && $mapel != 0 ){
+                echo "<option selected value = '0' >Belum Ada Bab  </option>";
+            }else{
+                echo "<option disabled >Pilih Bab :  </option>";
+            }
+    
+            foreach($data as $row){
+                $selected = $thisKelas->kelas_id == $row->id?'selected':'';
+                echo "<option value='".$row->id."' ".$selected." >".$row->judul_bab."</option>";
+            }
         }
     }
 

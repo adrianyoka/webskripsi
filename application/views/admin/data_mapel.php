@@ -17,7 +17,6 @@
                             <tr class="text-center">
                                 <th scope="col">NO</th>
                                 <th scope="col">Nama Mata Pelajaran</th>
-                                <th scope="col">Detail</th>
                                 <th scope="col">Option</th>
                             </tr>
                         </thead>
@@ -36,10 +35,6 @@
                                     <td>
                                         <?php echo $u->nama_mapel ?>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="<?php echo site_url('admin/detail_mapel/' . $u->id); ?>" class="btn btn-success">Detail ⭢</a>
-                                    </td>
-
                                     <td class="text-center">
                                         <a href="<?php echo site_url('admin/update_mapel/' . $u->id); ?>" class="btn btn-info">Update ⭢</a>
 

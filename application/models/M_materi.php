@@ -27,9 +27,9 @@ class M_materi extends CI_Model
 
     public function tampil_data()
     {
-        $this->db->select('*,materi.id as id_materi');
-        $this->db->join('guru', 'guru.nip = materi.guru_id');
+        $this->db->select('*,materi.id as id_materi');  
         $this->db->join('mapel', 'mapel.id = materi.mapel_id');
+        $this->db->join('guru', 'guru.nip = materi.guru_id');
         $this->db->join('bab', 'bab.id = materi.bab_id');
         $this->db->join('kelas', 'kelas.id = materi.kelas_id');
         return $this->db->get('materi');
@@ -70,7 +70,7 @@ class M_materi extends CI_Model
         $this->db->where('materi.bab_id', $bab);
         $this->db->join('bab', 'bab.id = materi.bab_id');
         $this->db->join('mapel', 'mapel.id = bab.mapel_id');
-        // $this->db->group_by('bab.judul');
+        //$this->db->group_by('bab.judul');
         return $this->db->get_where('materi', array('is_tampil' => '1'));
     }
     

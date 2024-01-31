@@ -6,7 +6,7 @@
             <h2 class="card-title" style="color: black;">Management Data Materi</h2>
             <hr>
             <p class="card-text">Halaman ini menampilkan data Materi 
-            <br><span class ="small font-weight-bold">*  Pemberlakuan pembatasan hak akses oleh admin dalam Materi ditujukan untuk keamanan dalam pembelajaran</span></p>
+            <!-- <br><span class ="small font-weight-bold">*  Pemberlakuan pembatasan hak akses oleh admin dalam Materi ditujukan untuk keamanan dalam pembelajaran</span></p> -->
         </div>
     </div>
     <div class="row">

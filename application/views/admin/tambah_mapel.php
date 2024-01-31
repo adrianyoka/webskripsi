@@ -22,19 +22,11 @@
                 <form method="POST" action="<?= base_url('admin/tambah_mapel') ?>" enctype="multipart/form-data" >
                     <div class="form-group">
                         <label for="nama_mapel">Nama Mata Pelajaran</label>
-                        <input id="nama_mapel" type="text" class="form-control" name="nama_mapel">
+                        <input id="nama_mapel" type="text" class="form-control" name="nama_mapel" placeholder="Masukkan Nama Mata Pelajaran">
                         <?= form_error('nama_mapel', '<small class="text-danger">', '</small>'); ?>
                     </div>
                     <div class="form-group">
                         <label for="nama_mapel">Upload Gambar Mata Pelajaran</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input required type="file" name="gambar" required class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                <label class="small text custom-file-label" for="inputGroupFile01">maksimal ukuran gambar 2mb. </label>
-                            </div>
-                        </div>
-                    <div class="form-group">
-                        <label for="nama_mapel">Upload background Mata Pelajaran</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input required type="file" name="gambar" required class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
@@ -47,6 +39,10 @@
                             <?php endforeach?>
                         <?php endif?>
                     </div>
+                    <!-- <div class="form-group">
+                        <label for="tp">Tujuan Pembelajaran</label>
+                        <textarea id="tp" class="form-control" name="tujuan_pembelajaran" placeholder="Masukkan Tujuan Pembelajaran"></textarea>
+                    </div> -->
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-lg btn-block">
                             Tambah ⭢

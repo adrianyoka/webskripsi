@@ -4,9 +4,9 @@
                     <div class="">
                         <div class="card" style="width:100%;">
                             <div class="card-body">
-                                <h2 class="card-title" style="color: black;">Tambah Data Bab</h2>
+                                <h2 class="card-title" style="color: black;">Tambah Data bab</h2>
                                 <hr>
-                                <a href="<?= base_url('admin/data_bab') ?>" class="btn btn-success">Data Bab ⭢</a>
+                                <a href="<?= base_url('admin/data_bab') ?>" class="btn btn-success">Data semua materi ⭢</a>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="deskripsi">Deskripsi Bab</label>
+                                    <label for="deskripsi">Deskripsi Tujuan Pembelajaran Bab</label>
                                     <textarea id="deskripsi" class="form-control" name="deskripsi"></textarea>
                                     <?= form_error('deskripsi', '<small class="text-danger">', '</small>'); ?>
                                 </div>
@@ -96,7 +96,9 @@
             $.get("<?=base_url('admin/get_mapel')?>",function(data){
                 $('#mapel').append(data).selectric();
             });
-            $.get("<?=base_url('admin/get_kelas')?>",function(data){
+            $.get("<?=base_url('admin/get_kelas')?>",{
+                multiple: 1
+            },function(data){
                 $('#kelas').append(data).selectric();
             });
 

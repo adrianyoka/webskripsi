@@ -67,34 +67,8 @@
                 <li class="nav-item dropdown <?= $page == 'dashboard'?'active':''?> ">
                     <a href="<?= base_url('admin') ?>" class="nav-link"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
                 </li>
-                <li class="menu-header">Management User</li>
-                <li class="nav-item dropdown <?= $page == 'guru'?'active':''?>">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-chalkboard-teacher"></i>
-                    <span>Guru</span></a>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="<?= base_url('admin/data_guru') ?>">Data Guru</a>
-                    </li>
-                    <li><a class="nav-link" href="<?= base_url('admin/add_guru') ?>">Tambah Data Guru</a>
-                    </li>
-                </ul>
-                </li>
-                <li class="nav-item dropdown <?= $page == 'siswa'?'active':''?>">
-                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i>
-                        <span>Siswa</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Data Siswa</a>
-                        </li>
-                        <li><a class="nav-link" href="<?= base_url('user/registration') ?>">Tambah Data Siswa</a>
-                        </li>
-                    </ul>
-                <li class="nav-item dropdown <?= $page == 'absensi'?'active':''?>">
-                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-clipboard-list"></i>
-                        <span>Absensi</span></a>
-                        <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="<?= base_url('admin/data_absensi') ?>">Data Absensi</a>
-                        </li>
-                    </ul>
-                </li>    
+                <li class="nav-item dropdown <?= $page == 'monitoring'?'active':''?> ">
+                    <a href="<?= base_url('admin/monitoring') ?>" class="nav-link"><i class="fas fa-chart-line"></i><span>Monitoring Siswa</span></a>
                 </li>
                 <li class="menu-header">Management Kelas</li>
                 <li class="nav-item dropdown <?= $page == 'kelas'?'active':''?>">
@@ -123,9 +97,40 @@
                     <ul class="dropdown-menu">
                         <li><a class="nav-link" href="<?= base_url('admin/data_bab') ?>">Data Materi</a>
                         </li>
+                        <li><a class="nav-link" href="<?= base_url('admin/tambah_bab') ?>">Tambah bab</a>
+                        </li>
                         <li><a class="nav-link" href="<?= base_url('admin/tambah_materi') ?>">Tambah materi</a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item dropdown <?= $page == 'absensi'?'active':''?>">
+                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-clipboard-list"></i>
+                        <span>Absensi</span></a>
+                        <ul class="dropdown-menu">
+                        <li><a class="nav-link" href="<?= base_url('admin/data_absensi') ?>">Data Absensi</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-header">Management User</li>
+                <li class="nav-item dropdown <?= $page == 'guru'?'active':''?>">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-chalkboard-teacher"></i>
+                    <span>Guru</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="<?= base_url('admin/data_guru') ?>">Data Guru</a>
+                    </li>
+                    <li><a class="nav-link" href="<?= base_url('admin/add_guru') ?>">Tambah Data Guru</a>
+                    </li>
+                </ul>
+                </li>
+                <li class="nav-item dropdown <?= $page == 'siswa'?'active':''?>">
+                    <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i>
+                        <span>Siswa</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Data Siswa</a>
+                        </li>
+                        <li><a class="nav-link" href="<?= base_url('user/registration') ?>">Tambah Data Siswa</a>
+                        </li>
+                    </ul>    
                 </li>
         </aside>
     </div>

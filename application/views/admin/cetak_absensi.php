@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekap Absensi Kelas xx</title>
+    <title>Rekap Absensi Kelas <?=$kelas->tingkat?><?=strtoupper($kelas->rombel)?></title>
     <link rel="icon" href="<?= base_url('assets/') ?>img/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
@@ -15,11 +15,22 @@
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/responsive.css">
     <link rel="stylesheet" href="<?= base_url('assets/') ?>stisla-assets/css/components.css">
 
+    <style>
+        @media print {
+        .cetak {
+            display: none;
+        }
+        }
+  </style>
 </head>
 
 <body class="text-dark">
     <div class="w-100 my-3">
         <div class="container w-75">
+            <div class="d-flex justify-content-between mx-3">
+                <a class="btn btn-success mb-3 cetak" href="<?= site_url('admin/data_absensi')?>"> <i class="fas fa-chevron-left"></i> Kembali</a>
+                <button class="btn btn-success mb-3 cetak" onclick='cetak()'>Cetak <i class="fas fa-download"></i></button>
+            </div>
             <div class="header container-fluid">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -30,7 +41,7 @@
                 <hr class="border-top border-bottom border-dark my-2" style="height:3px">
             </div>
             <div class="body container-fluid">
-                <p class="text-center m-0 fw-normal" style="font-size:24px">Kelas xx</p>
+                <p class="text-center m-0 fw-normal" style="font-size:24px">Kelas <?=$kelas->tingkat?><?=strtoupper($kelas->rombel)?></p>
                 <table class="table table-bordered mt-3">
                     <thead class="text-center">
                         <tr>
@@ -46,50 +57,29 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php 
+                            $nomor = 1;
+                            foreach ($absensi as $nisn => $data) { 
+                        ?>
                         <tr>
-                            <th scope="row">1.</th>
-                            <td>Jajad Suhendra</td>
-                            <td>153 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
+                            <th scope="row"><?=$nomor++?></th>
+                            <td><?=$data['nama']?></td>
+                            <td><?=$data['hadir']?></td>
+                            <td><?=$data['izin']?></td>
+                            <td><?=$data['sakit']?></td>
+                            <td><?=$data['tKeterangan']?></td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Rendy Fitra Adi Pratama</td>
-                            <td>153 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Muhammad Fadhil Hakim</td>
-                            <td>153 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Bonie Romero Falah</td>
-                            <td>153 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Adrian Septa Yoka</td>
-                            <td>153 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                            <td>0 Hari</td>
-                        </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+<script>
+    function cetak(){
+        window.print();
+    }
+</script>
 </body>
 </html>

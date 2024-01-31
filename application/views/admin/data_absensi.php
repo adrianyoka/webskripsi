@@ -6,9 +6,24 @@
                 <h2 class="card-title" style="color: black;">Management absensi</h2>
                 <hr>
                 <p class="card-text">Halaman ini menampilkan data rekapan absensi</p>
-                <button  class="btn btn-success" data-toggle="modal" data-target="#RekapModal">cetak absensi</button>
+                <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle " type="button" data-toggle="dropdown" aria-expanded="false">
+                    Cetak Absensi
+                </button>
+                <div class="dropdown-menu">
+                    <?php
+                        $tingkat = 0;
+                        $rombel = '';
+                        foreach ($cetak as $k) {
+                            if($k['tingkat'] != $tingkat || $k['rombel'] != $rombel){
+                    ?>
+                        <a class="dropdown-item" href="<?=base_url('admin/cetak_absensi/' . $k['id'])?>">Kelas <?=$k['tingkat']?><?=strtoupper($k['rombel'])?></a>
+                    <?php $tingkat = $k['tingkat'];$rombel= $k['rombel']; } else { continue; }} ?>
+                </div>
+                </div>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="bg-white p-4" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px;">
@@ -57,42 +72,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="RekapModal" tabindex="-1" role="dialog" aria-labelledby="RekapModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="RekapModalTitleLabel">Rekap Absensi <?=mdate(' Bulan %m Tahun %Y',now())?></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <?php if(count($absensi)>0) { ?>
-                            <ul class="list-group">
-                            <?php 
-                                $tmp_id = 0;
-                                foreach($kelas as $kls) : 
-                                    if($kls['id'] !== $tmp_id){?>
-                                    <li class="list-group-item list-group-item-action">
-                                        <button style="background: none;color: inherit;border: none;padding: 0;font: inherit;cursor: pointer;outline: inherit;" data-toggle="modal" data-target="#Rekap-<?=$kls['id']?>" data-dismiss="modal"> <i class="fas fa-chevron-right mr-3"></i> Absensi Kelas <?=$kls['tingkat']?><?=$kls['rombel']?></button>
-                                    </li>
-                            <?php 
-                                $tmp_id = $kls['id'];
-                                }
-                            endforeach; ?>
-                            </ul>
-                        <?php } else { ?>
-                            <ul class="list-group">
-                                    <li class="list-group-item text-center text-secondary font-weight-bold">Belum Ada Absensi</li>
-                            </ul>
-                        <?php } ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </section>
 </div>
 <!-- End Main Content -->
