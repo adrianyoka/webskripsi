@@ -3,10 +3,10 @@
                 <section class="section">
                     <div class="card" style="width:100%;">
                         <div class="card-body">
-                            <h2 class="card-title" style="color: black;">Management Data Materi pedagogi</h2>
+                            <h2 class="card-title" style="color: black;"><?=$bab->judul_bab?></h2>
                             <hr>
-                            <a href="<?= base_url('admin/tambah_materi') ?>" class="btn btn-success">Tambah
-                                Data Materi ⭢</a>
+                            <p class="card-text"><?=$bab->deskripsi_bab?> 
+                        <br><span class ="small font-weight-bold">Kelas : <?=$bab->tingkat?> <?=$bab->rombel?> <br> Nama Guru : <?=$bab->nama_guru?></span></p>
                         </div>
                     </div>
                     <div class="row">
@@ -72,7 +72,7 @@
                                                     <td class="text-center">
                                                         <a href="<?php echo site_url('admin/update_materi/' . $u->id_materi); ?>" class="btn btn-info">Update ⭢</a>
 
-                                                        <a href="<?php echo site_url('admin/delete_materi/' . $u->id_materi); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                                        <button data-url="<?php echo site_url('admin/delete_materi/'.$u->id_materi);?>" class="btn btn-danger remove" onclick="handleDelete(this)" >Delete ✖</button>
                                                     </td>
 
                                                 </tr>
@@ -94,7 +94,7 @@
 
     <!-- Start Sweetalert -->
 
-    <?php if ($this->session->flashdata('success-edit')) : ?>
+    <?php if ($this->session->flashdata('success-edit')) { ?>
         <script>
             Swal.fire({
                 icon: 'success',
@@ -103,10 +103,10 @@
                 showConfirmButton: false,
                 timer: 2500
             })
-        </script>
-    <?php endif; ?>
-
-    <?php if ($this->session->flashdata('user-delete')) : ?>
+            </script>
+    <?php unset($_SESSION['success-edit']);} ?>
+    
+    <?php if ($this->session->flashdata('user-delete')) { ?>
         <script>
             Swal.fire({
                 icon: 'success',
@@ -115,10 +115,10 @@
                 showConfirmButton: false,
                 timer: 2500
             })
-        </script>
-    <?php endif; ?>
-
-    <?php if ($this->session->flashdata('success-reg')) : ?>
+            </script>
+    <?php unset($_SESSION['user-delete']);} ?>
+    
+    <?php if ($this->session->flashdata('success-reg')) { ?>
         <script>
             Swal.fire({
                 icon: 'success',
@@ -127,11 +127,10 @@
                 showConfirmButton: false,
                 timer: 2500
             })
-        </script>
-    <?php endif; ?>
-
+            </script>
+    <?php unset($_SESSION['success-reg']);} ?>
     <!-- End Sweetalert -->
-
+    
 
     <!-- Start Footer -->
     <footer class="main-footer">

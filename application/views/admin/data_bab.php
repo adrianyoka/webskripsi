@@ -50,8 +50,15 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <span class="d-inline-block" <?= count($u->materi) > 0 ? 'data-toggle="popover" data-content="Bab Yang Masih Berisi Materi Tidak Dapat Dihapus / Diupdate" data-placement="bottom"' :'' ?> >
-                                            <a href="<?php echo site_url('admin/detail_bab/' . $u->id_bab); ?>" class="btn btn-success">Detail ⭢</a>
+                                        <span class="d-inline-block"  >
+                                            <a href="<?php echo site_url('admin/data_materi/' . $u->id_bab); ?>" class="btn btn-success">Detail ⭢</a>
+                                            <?php if (count($u->materi) > 0) { ?>
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-title="Bab Yang Masih Berisi Materi Tidak Dapat Dihapus" data-placement="left">
+                                                    <button data-url="<?php echo site_url('admin/delete_bab/'.$u->id_bab);?>" class="btn btn-danger remove" style="pointer-events: none;" onclick="handleDelete(this)" disabled >Delete ✖</button>
+                                                </span>
+                                            <?php } else { ?>
+                                                <button data-url="<?php echo site_url('admin/delete_bab/'.$u->id_bab);?>" class="btn btn-danger remove" onclick="handleDelete(this)" >Delete ✖</button>
+                                            <?php } ?>
                                         </span>
                                     </td>
                                 </tr>
@@ -132,6 +139,9 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     });
 </script>
 <!-- Template JS File -->

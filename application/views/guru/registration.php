@@ -4,7 +4,7 @@
                     <div class="">
                         <div class="card" style="width:100%;">
                             <div class="card-body">
-                                <h2 class="card-title" style="color: black;">Tambah Data Guru</h2>
+                                <h2 class="card-title" style="color: black;">Tambah Data Pendidik</h2>
                             </div>
 
 
@@ -14,11 +14,11 @@
                     <div id="detail" class="card card-success">
                         <div class="col-md-12 text-center">
                             <p class="registration-title font-weight-bold display-4 mt-4" style="color:black; font-size: 49px;">
-                                Pendaftaran Guru</p>
+                                Pendaftaran Pendidik</p>
                             <p style="line-height:-30px;margin-top:-20px;">Silahkan isi data data yang diperlukan
                                 dibawah </p>
                             <hr>
-                            <div class="mx-3 mb-2 d-flex justify-content-end">
+                            <!-- <div class="mx-3 mb-2 d-flex justify-content-end">
                                 <div class="">
                                     <div class="input-group text-left">
                                         <div class="input-group-prepend">
@@ -30,7 +30,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="card-body">

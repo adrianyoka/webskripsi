@@ -3,12 +3,12 @@
     <section class="section">
         <div class="card" style="width:100%;">
             <div class="card-body">
-                <h2 class="card-title" style="color: black;">Management absensi</h2>
+                <h2 class="card-title" style="color: black;">Management Presensi</h2>
                 <hr>
-                <p class="card-text">Halaman ini menampilkan data rekapan absensi</p>
+                <p class="card-text">Halaman ini menampilkan data rekapan presensi</p>
                 <div class="dropdown">
-                <button class="btn btn-success dropdown-toggle " type="button" data-toggle="dropdown" aria-expanded="false">
-                    Cetak Absensi
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                Cetak Presensi
                 </button>
                 <div class="dropdown-menu">
                     <?php
@@ -18,12 +18,12 @@
                             if($k['tingkat'] != $tingkat || $k['rombel'] != $rombel){
                     ?>
                         <a class="dropdown-item" href="<?=base_url('admin/cetak_absensi/' . $k['id'])?>">Kelas <?=$k['tingkat']?><?=strtoupper($k['rombel'])?></a>
-                    <?php $tingkat = $k['tingkat'];$rombel= $k['rombel']; } else { continue; }} ?>
+                        
+                        <?php $tingkat = $k['tingkat'];$rombel= $k['rombel']; } else { continue; }} ?>
                 </div>
                 </div>
             </div>
         </div>
-        
         <div class="row">
             <div class="col-md-12">
                 <div class="bg-white p-4" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px;">

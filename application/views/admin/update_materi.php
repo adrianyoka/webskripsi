@@ -19,7 +19,8 @@
                         <hr>
                     </div>
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" enctype="multipart/form-data" action="<?= base_url('admin/materi_edit')?>">
+                            <input type="hidden" name="id" value="<?=$materi->id?>">
                             <div class="form-group">
                                     <label>Kelas</label>
                                     <select id="kelas" class="form-control align-items-center w-100" name="kelas_id" required></select>
@@ -37,9 +38,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                        <label for="judul_materi">Judul Materi</label>
-                                        <input id="judul_materi" type="text" class="form-control" name="judul_materi" value="<?=$materi->judul?>">
-                                        <?= form_error('judul_materi', '<small class="text-danger">', '</small>'); ?>
+                                        <label for="judul">Judul Materi</label>
+                                        <input id="judul" type="text" class="form-control" name="judul" value="<?=$materi->judul?>">
+                                        <?= form_error('judul', '<small class="text-danger">', '</small>'); ?>
                                     </div>
                                 <div class="row">
                                     <div class="form-group col-12">
@@ -67,8 +68,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Deskripsi Materi</label>
-                                    <textarea class="form-control" required name="deskripsi_materi" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    <?= form_error('deskripsi_materi', '<small class="text-danger">', '</small>'); ?>
+                                    <textarea class="form-control" required name="deskripsi" id="exampleFormControlTextarea1" rows="3"><?=$materi->deskripsi?></textarea>
+                                    <?= form_error('deskripsi', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-success btn-lg btn-block">

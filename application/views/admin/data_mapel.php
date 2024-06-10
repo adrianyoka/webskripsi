@@ -38,7 +38,7 @@
                                     <td class="text-center">
                                         <a href="<?php echo site_url('admin/update_mapel/' . $u->id); ?>" class="btn btn-info">Update ⭢</a>
 
-                                        <a href="<?php echo site_url('admin/delete_mapel/' . $u->id); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                        <button data-url="<?php echo site_url('admin/delete_mapel/' . $u->id); ?>" onclick="handleDelete(this)" class="btn btn-danger remove">Delete ✖</button>
                                     </td>
 
                                 </tr>

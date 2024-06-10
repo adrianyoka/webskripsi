@@ -18,7 +18,7 @@
                                 <th scope="col">NO</th>
                                 <th scope="col">Tingkat</th>
                                 <th scope="col">Rombongan Belajar</th>
-                                <th scope="col">Option</th>
+                                <th scope="col">Option</th >
                             </tr>
                         </thead>
 
@@ -32,7 +32,6 @@
                                     <th scope="row">
                                         <?php echo $nomor++ ?>
                                     </th>
-
                                     <td>
                                         <?php echo $u->tingkat ?>
                                     </td>
@@ -40,7 +39,7 @@
                                         <?php echo $u->rombel ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?php echo site_url('admin/delete_kelas/' . $u->id); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                        <button data-url="<?php echo site_url('admin/delete_kelas/'.$u->id); ?>" class="btn btn-danger remove" onclick="handleDelete(this)">Delete ✖</button>
                                     </td>
 
                                 </tr>

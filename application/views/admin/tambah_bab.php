@@ -43,7 +43,7 @@
 
                                 <div class="form-group">
                                     <label>Kelas</label>
-                                    <select id="kelas" class="form-control align-items-center w-100" name="kelas_id[]" multiple required></select>
+                                    <select id="kelas" class="form-control align-items-center w-100" name="kelas_id[]" required></select>
                                 </div>
 
                                 <div class="form-group">

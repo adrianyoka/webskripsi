@@ -33,7 +33,15 @@ class Admin extends CI_Controller
     public function monitoring()
     {
         $this->load->model('m_materi');
-        $data['kelas'] = $this->m_materi->kelas()->result();
+        $data['nama_kelas'] = array();
+        $data['kelas'] = $this->m_kelas->tingkat_kelas(4)->result();
+        $data['tingkat'] = $this->m_materi->tingkat()->result();
+        // var_dump($data['tingkat']);exit();
+        foreach ($data['kelas'] as $kelas){
+            $nama_kelas = $kelas->tingkat.$kelas->rombel;
+            array_push($data['nama_kelas'],$nama_kelas);
+        }
+        $data['mapel'] = $this->m_materi->mapel()->result();
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
         $data['page'] = 'monitoring';
@@ -286,7 +294,7 @@ class Admin extends CI_Controller
             $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
             $this->load->model('m_materi');
-            $data['kelas'] = $this->m_materi->kelas()->result();
+            $data['kelas'] = $this->m_materi->tampil_seluruh_kelas()->result();
             $this->load->view('admin/template/side_bar',$data);
             $this->load->view('guru/registration',$data);
         } else {
@@ -322,7 +330,7 @@ class Admin extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
         $data['page'] = 'kelas';
-        $data['kelas'] = $this->m_materi->kelas()->result();
+        $data['kelas'] = $this->m_materi->tampil_seluruh_kelas()->result();
         $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_kelas', $data);
     }
@@ -359,8 +367,12 @@ class Admin extends CI_Controller
 
     public function delete_kelas($id)
     {
-        $this->m_kelas->delete_kelas($id);
-        $this->session->set_flashdata('kelas-delete', 'berhasil');
+        try{
+            $this->m_kelas->delete_kelas($id);
+            $this->session->set_flashdata('kelas-delete', 'berhasil');
+        }catch(error){
+            var_dump(error);exit();
+        }
         redirect('admin/data_kelas');
     }
 
@@ -509,21 +521,19 @@ class Admin extends CI_Controller
             $materi = $this->m_materi->materi($bab->id_bab)->result();
             $bab->materi = $materi;
         }
-
         $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_bab', $data);
     }
 
-    public function detail_bab($id)
+    public function detail_bab($bab_id)
     {
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
         $data['page'] = 'materi';
-        $data['bab'] = $this->m_materi->get_detail_bab($id)->row();
+        $data['bab'] = $this->m_materi->get_detail_bab($bab_id)->row();
         $materi = $this->m_materi->materi($data['bab']->id_bab)->result();
         $data['bab']->materi = $materi;
         
-
         $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/detail_bab', $data);
     }
@@ -566,29 +576,37 @@ class Admin extends CI_Controller
     public function delete_bab($id)
     {
         $where = array('id' => $id);
-        $this->m_materi->delete_bab($where, 'bab');
+        $delete = $this->m_materi->delete_bab($where, 'bab');
         $this->session->set_flashdata('bab-delete', 'berhasil');
         redirect('admin/data_bab');
     }
 
-    public function data_materi()
+    public function data_materi($bab_id)
     {
         $this->load->model('m_materi');
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
         $data['page'] = 'materi';
-        $data['materi'] = $this->m_materi->tampil_data()->result();
+        $data['bab'] = $this->m_materi->get_detail_bab($bab_id)->row();
+        $materi = $this->m_materi->materi($data['bab']->id_bab)->result();
+        $data['materi'] = $materi;
+        // var_dump($data['materi']);exit();
         $this->load->view('admin/template/side_bar', $data);
         $this->load->view('admin/data_materi', $data);
     }
 
     public function delete_materi($id)
     {
-        $this->load->model('m_materi');
-        $where = array('id' => $id);
-        $this->m_materi->delete_materi($where, 'materi');
-        $this->session->set_flashdata('user-delete', 'berhasil');
-        redirect('admin/data_materi');
+        try{
+            $this->load->model('m_materi');
+            $materi = $this->m_materi->update_materi($where, 'materi')->row();;
+            $where = array('id' => $id);
+            $this->m_materi->delete_materi($where, 'materi');
+            $this->session->set_flashdata('user-delete', 'berhasil');
+        }catch(error){
+            var_dump(error);exit();
+        }
+        redirect('admin/data_materi/'.$materi->bab_id);
     }
 
     public function tambah_materi() 
@@ -641,7 +659,7 @@ class Admin extends CI_Controller
                 ];
                 $this->db->insert('materi', $data);
                 $this->session->set_flashdata('success-reg', 'Berhasil!');
-                redirect('admin/data_materi');
+                redirect('admin/data_materi/'.$data['bab_id']);
             } else {
                 var_dump($this->upload->display_errors());exit();
             }
@@ -676,24 +694,15 @@ class Admin extends CI_Controller
         $this->load->model('m_materi');
 
         $id = $this->input->post('id');
-        $nama_guru = $this->input->post('nama_guru');
-        $nama_mapel = $this->input->post('nama_mapel');
-        $deskripsi = $this->input->post('deskripsi');
-
-        $data = array(
-            'nama_guru' => $nama_guru,
-            'nama_mapel' => $nama_mapel,
-            'deskripsi' => $deskripsi,
-
-        );
+        unset($_POST['id']);
 
         $where = array(
             'id' => $id,
         );
-
+        $data= $_POST;
         $this->m_materi->update_data($where, $data, 'materi');
         $this->session->set_flashdata('success-edit', 'berhasil');
-        redirect('admin/data_materi');
+        redirect('admin/data_materi/'.$data['bab_id']);
     }
 
     #ajax
@@ -726,7 +735,7 @@ class Admin extends CI_Controller
             $multiple = $_GET['multiple'];
             $data=$this->m_materi->kelas()->result();
             if($multiple == 1){
-                echo "<option disabled selected>Pilih Kelas : (bisa lebih dari satu) </option>";
+                echo "<option disabled selected>Pilih Kelas : </option>";
             }else{
                 echo "<option disabled selected>Pilih Kelas : </option>";
             }

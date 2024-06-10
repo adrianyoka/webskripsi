@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Siswa</h4>
+                            <h4>Peserta Didik</h4>
                         </div>
                         <div class="card-body">
                             <?php echo $this->db->count_all('siswa'); ?>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Guru</h4>
+                            <h4>Pendidik</h4>
                         </div>
                         <div class="card-body">
                             <?php echo $this->db->count_all('guru'); ?>

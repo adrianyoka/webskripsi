@@ -53,7 +53,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="<?php echo site_url('admin/update_materi/' . $materi->id); ?>" class="btn btn-info">update ⭢</a>
-                                        <a href="<?php echo site_url('admin/delete_materi/' . $materi->id); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                        <button data-url="<?php echo site_url('admin/delete_materi/' . $materi->id); ?>" class="btn btn-danger remove" onclick="handleDelete(this)">Delete ✖</button>
                                     </td>
                                 </tr>
                             <?php

@@ -24,6 +24,26 @@
 
 <body>
 
+<script>
+    const handleDelete = (e) => {
+        const url = $(e).attr('data-url');
+        Swal.fire({
+            title: "Apakah Anda Yakin?",
+            text: "Data yang dihapus tidak bisa dikembalikan !",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Hapus!",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Batalkan"
+        }).then((result) => {
+            if (result.dismiss) {
+                return false;
+            }
+            return window.location.href=url;
+        });
+    }
+</script>
 <!-- Start Sidebar -->
 <div id="app">
 <div class="main-wrapper">
@@ -68,7 +88,7 @@
                     <a href="<?= base_url('admin') ?>" class="nav-link"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
                 </li>
                 <li class="nav-item dropdown <?= $page == 'monitoring'?'active':''?> ">
-                    <a href="<?= base_url('admin/monitoring') ?>" class="nav-link"><i class="fas fa-chart-line"></i><span>Monitoring Siswa</span></a>
+                    <a href="<?= base_url('admin/monitoring') ?>" class="nav-link"><i class="fas fa-chart-line"></i><span>Monitoring</span></a>
                 </li>
                 <li class="menu-header">Management Kelas</li>
                 <li class="nav-item dropdown <?= $page == 'kelas'?'active':''?>">
@@ -105,30 +125,30 @@
                 </li>
                 <li class="nav-item dropdown <?= $page == 'absensi'?'active':''?>">
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-clipboard-list"></i>
-                        <span>Absensi</span></a>
+                        <span>Presensi</span></a>
                         <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="<?= base_url('admin/data_absensi') ?>">Data Absensi</a>
+                        <li><a class="nav-link" href="<?= base_url('admin/data_absensi') ?>">Data Presensi</a>
                         </li>
                     </ul>
                 </li>
                 <li class="menu-header">Management User</li>
                 <li class="nav-item dropdown <?= $page == 'guru'?'active':''?>">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-chalkboard-teacher"></i>
-                    <span>Guru</span></a>
+                    <span>Pendidik</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="<?= base_url('admin/data_guru') ?>">Data Guru</a>
+                    <li><a class="nav-link" href="<?= base_url('admin/data_guru') ?>">Data Pendidik</a>
                     </li>
-                    <li><a class="nav-link" href="<?= base_url('admin/add_guru') ?>">Tambah Data Guru</a>
+                    <li><a class="nav-link" href="<?= base_url('admin/add_guru') ?>">Tambah Data</a>
                     </li>
                 </ul>
                 </li>
                 <li class="nav-item dropdown <?= $page == 'siswa'?'active':''?>">
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user"></i>
-                        <span>Siswa</span></a>
+                        <span>Peserta Didik</span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Data Siswa</a>
+                        <li><a class="nav-link" href="<?= base_url('admin/data_siswa') ?>">Data Peserta Didik</a>
                         </li>
-                        <li><a class="nav-link" href="<?= base_url('user/registration') ?>">Tambah Data Siswa</a>
+                        <li><a class="nav-link" href="<?= base_url('user/registration') ?>">Tambah Data</a>
                         </li>
                     </ul>    
                 </li>

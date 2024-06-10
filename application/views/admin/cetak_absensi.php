@@ -29,14 +29,14 @@
         <div class="container w-75">
             <div class="d-flex justify-content-between mx-3">
                 <a class="btn btn-success mb-3 cetak" href="<?= site_url('admin/data_absensi')?>"> <i class="fas fa-chevron-left"></i> Kembali</a>
-                <button class="btn btn-success mb-3 cetak" onclick='cetak()'>Cetak <i class="fas fa-download"></i></button>
+                <button class="btn btn-success mb-3 cetak" onclick='cetak()'>Cetak<i class="fas fa-download"></i></button>
             </div>
             <div class="header container-fluid">
                 <div class="d-flex justify-content-between">
                     <div>
                         <div style="font-size: 30px;font-weight:900;font-family: 'Poppins', sans-serif;" class="text-success text-center">PEDAGOGI</div>
                     </div> 
-                    <p class="text-center m-0 fw-normal" style="font-size:24px">Rekap Absensi</p>
+                    <p class="text-center m-0 fw-normal" style="font-size:24px">Rekap Presensi</p>
                 </div>
                 <hr class="border-top border-bottom border-dark my-2" style="height:3px">
             </div>
@@ -59,16 +59,21 @@
                     <tbody>
                         <?php 
                             $nomor = 1;
-                            foreach ($absensi as $nisn => $data) { 
+                            if(isset($absensi)){
+                                foreach ($absensi as $nisn => $data) { 
+                            ?>
+                                    <tr>
+                                        <th scope="row"><?=$nomor++?></th>
+                                        <td><?=$data['nama']?></td>
+                                        <td><?=$data['hadir']?></td>
+                                        <td><?=$data['izin']?></td>
+                                        <td><?=$data['sakit']?></td>
+                                        <td><?=$data['tKeterangan']?></td>
+                                    </tr>
+                        <?php   }
+                            } else { 
                         ?>
-                        <tr>
-                            <th scope="row"><?=$nomor++?></th>
-                            <td><?=$data['nama']?></td>
-                            <td><?=$data['hadir']?></td>
-                            <td><?=$data['izin']?></td>
-                            <td><?=$data['sakit']?></td>
-                            <td><?=$data['tKeterangan']?></td>
-                        </tr>
+                                    <th colspan="6" class="text-center text-secondary"><h3>Belum Ada Data Presensi</h3></th>
                         <?php } ?>
                     </tbody>
                 </table>
