@@ -20,10 +20,6 @@
             <p class="col-lg-8 col-md-8 footer-text m-0">
             </p>
             <div class="col-lg-4 col-md-4 footer-social">
-                <a href=""><i class="fas fa-envelope"></i></a>
-                <a href=""><i class="fab fa-facebook-f"></i></a>
-                <a href=""><i class="fab fa-github"></i></a>
-                <a href=""><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </div>

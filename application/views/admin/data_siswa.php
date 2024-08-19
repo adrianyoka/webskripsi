@@ -3,10 +3,9 @@
 <section class="section">
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title" style="color: black;">Management Data Siswa</h2>
+            <h2 class="card-title" style="color: black;">Management Data Peserta Didik</h2>
             <hr>
-            <a href="<?= base_url('user/registration') ?>" class="btn btn-success">Tambah
-                Data Siswa ⭢ </a>
+            <p class="card-text">Halaman ini menampilkan data peserta didik</p>
         </div>
     </div>
     <div class="row">
@@ -18,7 +17,7 @@
                             <tr class="text-center">
                                 <th scope="col">NO</th>
                                 <th scope="col">NISN</th>
-                                <th scope="col">Nama Siswa</th>
+                                <th scope="col">Nama Peserta didik</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Gambar</th>
                                 <th scope="col">Kelas</th>
@@ -63,7 +62,10 @@
 
                                     <td class="text-center">
                                         <a href="<?php echo site_url('admin/update_siswa/' . $u->id_siswa); ?>" class="btn btn-info">Update ⭢</a>
-                                        <a href="<?php echo site_url('admin/delete_siswa/' . $u->id_user); ?>" class="btn btn-danger remove">Delete ✖</a>
+
+                                        <button data-url="<?php echo site_url('admin/delete_siswa/' . $u->id_user); ?>" class="btn btn-danger remove" onclick="handleDelete(this)" >Delete ✖</button>
+
+                                        <a href="<?php echo site_url('admin/reset_password/' . $u->id_user); ?>" class="btn btn-success">Reset Password <span><i class=" fas fa-sync"></i></span></a>
                                     </td>
 
                                 </tr>
@@ -72,7 +74,7 @@
                             ?>
                         </tbody>
                     </table>
-
+                    <p class="small font-weight-bold"> </p>
                 </div>
             </div>
         </div>
@@ -90,7 +92,7 @@
         Swal.fire({
             icon: 'success',
             title: '<?=$this->session->flashdata('success-edit')?>',
-            text: 'Data Siswa Telah Dirubah!',
+            text: 'Data Peserta Didik Telah Dirubah!',
             showConfirmButton: false,
             timer: 2500
         })
@@ -102,7 +104,7 @@
         Swal.fire({
             icon: 'success',
             title: '<?=$this->session->flashdata('success-reg')?>',
-            text: 'Data Siswa Telah Ditambahkan!',
+            text: 'Data Peserta Didik Telah Ditambahkan!',
             showConfirmButton: false,
             timer: 2500
         })
@@ -114,13 +116,24 @@
         Swal.fire({
             icon: 'success',
             title: '<?=$this->session->flashdata('user-delete')?>',
-            text: 'Data Siswa Telah Dihapus!',
+            text: 'Data Peserta Didik Telah Dihapus!',
             showConfirmButton: false,
             timer: 2500
         })
     </script>
 <?php unset($_SESSION['user-delete']);endif; ?>
 
+<?php if ($this->session->flashdata('success-reset')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Password Peserta Didik Telah Direset!',
+                text: 'Selamat Password  telah Direset!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        </script>
+    <?php unset($_SESSION['success-reset']); endif; ?>
 <!-- End Sweetalert -->
 
 <!-- Start Footer -->

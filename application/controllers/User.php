@@ -11,42 +11,16 @@ class User extends CI_Controller
             $this->session->set_flashdata('not-login', 'Harap Login Terlebih Dahulu !');
             redirect('welcome');
         }
+        $this->load->model('m_siswa');
+        $this->load->model('m_materi');
     }
 
     public function index()
     {
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-        $this->session->userdata('id')])->row_array();
-        
+        $data['user'] = $this->m_siswa->get_siswa($this->session->userdata('id'))->row_array();
+        $data['user']['mata_pelajaran'] = $this->m_materi->mapel()->result();
+        // var_dump($data['user']);exit();
         $this->load->view('user/index',$data['user']);
-        $this->load->view('template/footer');
-    }
-
-    public function kelas4()
-    {
-        // var_dump($_SESSION);exit();
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-
-        $this->load->view('user/kelas4',$data['user']);
-        $this->load->view('template/footer');
-    }
-
-    public function kelas5()
-    {
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-
-        $this->load->view('user/kelas5',$data['user']);
-        $this->load->view('template/footer');
-    }
-
-    public function kelas6()
-    {
-        $data['user'] = $this->db->get_where('siswa', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-
-        $this->load->view('user/kelas6',$data['user']);
         $this->load->view('template/footer');
     }
 
@@ -54,11 +28,19 @@ class User extends CI_Controller
     {
         $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
+        $data['page'] = 'siswa';
+        $data['kelas'] = $this->m_materi->kelas()->result();
+        $this->load->view('admin/template/side_bar',$data);
         $this->load->view('user/registration',$data);
     }
 
     public function registration_act()
     {
+        $this->form_validation->set_rules('nisn', 'Nomor Induk Siswa Nasional', 'required|min_length[4]|numeric', [
+            'required' => 'Harap isi kolom Nomor Induk Siswa Nasional.',
+            'min_length' => 'Nomor Induk Siswa Nasional terlalu pendek.',
+            'numeric' => 'Nomor Induk Siswa Nasional harus berupa angka.',
+        ]);
         $this->form_validation->set_rules('nama', 'Nama', 'required|min_length[4]', [
             'required' => 'Harap isi kolom username.',
             'min_length' => 'Nama terlalu pendek.',
@@ -71,22 +53,25 @@ class User extends CI_Controller
             'required' => 'Harap isi kolom email.',
             'valid_email' => 'Masukan email yang valid.',
         ]);
-        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]|matches[retype_password]', [
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]', [
             'required' => 'Harap isi kolom Password.',
             'matches' => 'Password tidak sama!',
             'min_length' => 'Password terlalu pendek',
         ]);
-        $this->form_validation->set_rules('retype_password', 'Password', 'required|trim|matches[password]', [
+        $this->form_validation->set_rules('password2', 'Konfirmasi Password', 'required|trim|matches[password]', [
             'matches' => 'Password tidak sama!',
+            'required' => 'Harap isi kolom Konfirmasi Password.',
         ]);
 
         if ($this->form_validation->run() == false) {
-            $this->load->view('template/nav');
-            $this->load->view('user/registration');
-            $this->load->view('template/footer');
+            $data['user'] = $this->db->get_where('user', ['id' =>
+                $this->session->userdata('id')])->row_array();
+            $data['page'] = 'siswa';
+            $data['kelas'] = $this->m_materi->kelas()->result();
+            $this->load->view('admin/template/side_bar',$data);
+            $this->load->view('user/registration',$data);
         } else {
             $email = $this->input->post('email', true);
-
             $user = [
                 'username'=>htmlspecialchars(ltrim($this->input->post('nama', true)," ")),
                 'email' => htmlspecialchars($email),
@@ -98,9 +83,10 @@ class User extends CI_Controller
             $id_user = $this->db->insert_id();
 
             $siswa = [
+                'nisn' => $this->input->post('nisn', true),
                 'nama' => htmlspecialchars($this->input->post('nama', true)),
                 'image' => 'default.jpg',
-                'kelas' => htmlspecialchars($this->input->post('kelas', true)),
+                'kelas_id' => htmlspecialchars($this->input->post('kelas', true)),
                 'is_active' => 1,
                 'date_created' => time(),
                 'id_user' => $id_user
@@ -120,7 +106,7 @@ class User extends CI_Controller
             // $this->_sendEmail($token, 'verify');
 
             $this->session->set_flashdata('success-reg', 'Berhasil!');
-            redirect(base_url('welcome'));
+            redirect(base_url('admin/data_siswa'));
         }
     }
 
@@ -162,5 +148,4 @@ class User extends CI_Controller
             die();
         }
     }
-
 }

@@ -20,6 +20,12 @@ class M_guru extends CI_Model
         $query = $this->db->get_where('guru', array('id_user' => $id))->row();
         return $query;
     }
+    public function get_nip($kelas)
+    {
+        $this->db->select('nip');
+        $query = $this->db->get_where('guru', array('kelas_id' => $kelas))->row();
+        return $query;
+    }
 
     public function delete_guru($id)
     {

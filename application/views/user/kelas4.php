@@ -117,6 +117,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Lesson Card 2 -->
     <div class="container">
         <div class="row mt-4 mb-5">

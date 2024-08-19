@@ -3,10 +3,9 @@
     <section class="section">
         <div class="card" style="width:100%;">
             <div class="card-body">
-                <h2 class="card-title" style="color: black;">Management Data Guru</h2>
+                <h2 class="card-title" style="color: black;">Management Data Pendidik</h2>
                 <hr>
-                <a href="<?= base_url('admin/add_guru') ?>" class="btn btn-success">Tambah
-                    Data Guru ⭢</a>
+                <p class="card-text">Halaman ini menampilkan list data pendidik yang telah terdaftar</p>
             </div>
         </div>
         <div class="row">
@@ -18,7 +17,7 @@
                                 <tr class="text-center">
                                     <th scope="col">NO</th>
                                     <th scope="col">NIP</th>
-                                    <th scope="col">Nama Guru</th>
+                                    <th scope="col">Nama Pendidik</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Detail</th>
@@ -59,7 +58,8 @@
                                         <td class="text-center">
                                             <a href="<?php echo site_url('admin/update_guru/' . $u->id_user); ?>" class="btn btn-info">Update ⭢</a>
 
-                                            <a href="<?php echo site_url('admin/delete_guru/' . $u->id_user); ?>" class="btn btn-danger remove">Delete ✖</a>
+                                            <button data-url="<?php echo site_url('admin/delete_guru/' . $u->id_user); ?>" class="btn btn-danger remove" onclick="handleDelete(this)" >Delete ✖</button>
+                                            <a href="<?php echo site_url('admin/reset_password/' . $u->id_user); ?>" class="btn btn-success">Reset Password <span><i class=" fas fa-sync"></i></span></a>
                                         </td>
 
                                     </tr>
@@ -84,25 +84,37 @@
         <script>
             Swal.fire({
                 icon: 'success',
-                title: 'Data Guru Telah Dirubah!',
+                title: 'Data Pendidik Telah Dirubah!',
                 text: 'Selamat data berubah!',
                 showConfirmButton: false,
                 timer: 2500
             })
         </script>
-    <?php endif; ?>
+    <?php unset($_SESSION['success-edit']);endif; ?>
 
     <?php if ($this->session->flashdata('user-delete')) : ?>
         <script>
             Swal.fire({
                 icon: 'success',
-                title: 'Data Guru Telah Dihapus!',
+                title: 'Data Pendidik Telah Dihapus!',
                 text: 'Selamat data telah Dihapus!',
                 showConfirmButton: false,
                 timer: 2500
             })
         </script>
-    <?php endif; ?>
+    <?php unset($_SESSION['user-delete']);endif; ?>
+
+    <?php if ($this->session->flashdata('success-reset')) : ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Password pendidik Telah Direset!',
+                text: 'Selamat Password telah Direset!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        </script>
+    <?php unset($_SESSION['success-reset']);endif; ?>
     <!-- End Sweetalert -->
 
     <!-- Start Footer -->

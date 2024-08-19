@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jul 2023 pada 16.39
+-- Waktu pembuatan: 14 Des 2023 pada 23.10
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 7.4.27
 
@@ -18,28 +18,106 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `learnify`
+-- Database: `pedagogi`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Struktur dari tabel `absensi_data`
 --
 
-CREATE TABLE `admin` (
-  `id` int(64) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `email` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `absensi_data` (
+  `id` int(11) NOT NULL,
+  `siswa_id` int(11) NOT NULL,
+  `keterangan` set('Hadir','Izin','Sakit','-') NOT NULL,
+  `master_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `admin`
+-- Dumping data untuk tabel `absensi_data`
 --
 
-INSERT INTO `admin` (`id`, `username`, `password`, `email`) VALUES
-(0, 'admin', '$2y$10$EX0L5MeIQldpkCuTZW.mjujTaj.Yy20IW0GOluecU/c.es.9r6E5.', 'admin@gmail.com');
+INSERT INTO `absensi_data` (`id`, `siswa_id`, `keterangan`, `master_id`) VALUES
+(7, 39, 'Hadir', 7),
+(8, 48, 'Izin', 7),
+(9, 49, 'Hadir', 7),
+(10, 50, 'Hadir', 7),
+(11, 39, 'Izin', 8),
+(12, 48, 'Hadir', 8),
+(13, 49, 'Hadir', 8),
+(14, 50, '-', 8),
+(15, 39, 'Hadir', 9),
+(16, 48, 'Izin', 9),
+(17, 39, 'Hadir', 10),
+(18, 48, 'Izin', 10),
+(19, 1917051043, 'Hadir', 11),
+(20, 1957051014, 'Izin', 11),
+(21, 1917051043, 'Hadir', 12),
+(22, 1957051014, 'Izin', 12),
+(23, 1917051043, 'Hadir', 13),
+(24, 1957051014, 'Izin', 13),
+(25, 1917051043, 'Hadir', 14),
+(26, 1957051014, 'Izin', 14),
+(27, 1917051043, 'Hadir', 15),
+(28, 1957051014, 'Hadir', 15),
+(29, 1917051043, 'Hadir', 16),
+(30, 1957051014, '-', 16);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `absensi_master`
+--
+
+CREATE TABLE `absensi_master` (
+  `id` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `kelas_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `absensi_master`
+--
+
+INSERT INTO `absensi_master` (`id`, `tanggal`, `kelas_id`) VALUES
+(7, '2023-08-28', 1),
+(8, '2023-09-03', 1),
+(9, '2023-09-04', 1),
+(10, '2023-09-05', 1),
+(11, '2023-09-25', 1),
+(12, '2023-09-26', 1),
+(13, '2023-09-30', 1),
+(14, '2023-10-03', 1),
+(15, '2023-10-04', 1),
+(16, '2023-10-06', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `bab`
+--
+
+CREATE TABLE `bab` (
+  `id` int(11) NOT NULL,
+  `judul_bab` varchar(255) NOT NULL,
+  `deskripsi` varchar(255) NOT NULL,
+  `mapel_id` int(11) NOT NULL,
+  `kelas_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `bab`
+--
+
+INSERT INTO `bab` (`id`, `judul_bab`, `deskripsi`, `mapel_id`, `kelas_id`) VALUES
+(6, 'BAB 1 - Operasi Hitung Bilangan Bulat', 'Pada ...', 1, 1),
+(7, 'BAB 2 – Pengukuran Waktu, Sudut, Jarak, & Kecepatan', 'Pada ...', 1, 1),
+(8, 'BAB 1 - PUEBI', 'materi tentang ...', 2, 1),
+(24, 'BAB 1 - Zat Alam', 'pada pertemuan kali ini ...', 3, 1),
+(27, 'Sejarah Perkembangan Indonesia', 'Majapahit', 4, 1),
+(30, 'BAB 3 - Pengukuran Massa', 'testt', 1, 1),
+(31, 'BAB 1 - Tematik 1', 'ini materi kelas 5', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -50,7 +128,8 @@ INSERT INTO `admin` (`id`, `username`, `password`, `email`) VALUES
 CREATE TABLE `guru` (
   `nip` int(64) NOT NULL,
   `nama_guru` varchar(128) NOT NULL,
-  `nama_mapel` varchar(64) NOT NULL,
+  `kelas_id` int(11) NOT NULL,
+  `mapel_id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -58,8 +137,9 @@ CREATE TABLE `guru` (
 -- Dumping data untuk tabel `guru`
 --
 
-INSERT INTO `guru` (`nip`, `nama_guru`, `nama_mapel`, `id_user`) VALUES
-(214748365, 'Saauky', 'Matematika', 2);
+INSERT INTO `guru` (`nip`, `nama_guru`, `kelas_id`, `mapel_id`, `id_user`) VALUES
+(214748365, 'Adrian Septa Yoka', 1, 1, 2),
+(903240901, 'Muhammad Fadhil Hakim', 2, 2, 6);
 
 -- --------------------------------------------------------
 
@@ -68,10 +148,33 @@ INSERT INTO `guru` (`nip`, `nama_guru`, `nama_mapel`, `id_user`) VALUES
 --
 
 CREATE TABLE `kelas` (
-  `id` int(255) NOT NULL,
-  `kelas` varchar(128) NOT NULL,
-  `nama_siswa` varchar(128) NOT NULL
+  `id` int(11) NOT NULL,
+  `tingkat` int(11) NOT NULL,
+  `rombel` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `mapel`
+--
+
+CREATE TABLE `mapel` (
+  `id` int(11) NOT NULL,
+  `nama_mapel` varchar(255) NOT NULL,
+  `tujuan_pembelajaran` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `mapel`
+--
+
+INSERT INTO `mapel` (`id`, `nama_mapel`, `tujuan_pembelajaran`) VALUES
+(1, 'Matematika', ''),
+(2, 'Bahasa Indonesia', ''),
+(3, 'IPA', ''),
+(4, 'IPS', ''),
+(5, 'PKN', '');
 
 -- --------------------------------------------------------
 
@@ -81,49 +184,30 @@ CREATE TABLE `kelas` (
 
 CREATE TABLE `materi` (
   `id` int(11) NOT NULL,
-  `nama_guru` varchar(128) NOT NULL,
-  `nama_mapel` varchar(128) NOT NULL,
-  `video` varchar(255) NOT NULL,
-  `deskripsi` varchar(1024) NOT NULL,
-  `kelas` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `judul` varchar(255) NOT NULL,
+  `attachment` varchar(255) NOT NULL,
+  `tipe` set('video','youtube','pdf','ppt','link lainnya') NOT NULL,
+  `deskripsi` varchar(255) NOT NULL,
+  `guru_id` int(64) NOT NULL,
+  `kelas_id` int(11) NOT NULL,
+  `mapel_id` int(11) NOT NULL,
+  `bab_id` int(11) NOT NULL,
+  `is_tampil` set('0','1') NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `materi`
 --
 
-INSERT INTO `materi` (`id`, `nama_guru`, `nama_mapel`, `video`, `deskripsi`, `kelas`) VALUES
-(38, 'Saauky', 'Matematika', 'Matematika_-_Dummy_-_1.mp4', '                                                                                RG Squad, siapa yang pernah dengar kata aljabar? Ini merupakan satu cabang matematika dalam pemecahan masalah dengan menggunakan huruf-huruf untuk mewakili angka-angka. Berasal dari bahasa Arab, al-jabr yang artinya penyelesaian. Kamu tahu siapa penemunya? Ia merupakan cendikiawan bernama Al-Khawarizmi. Sekarang, mari kita simak lebih lanjut tentang definisi dan bentuk-bentuk aljabar secara lebih mendalam ya! s', 'X'),
-(42, 'Saauky', 'Matematika', 'Matematika_-_Dummy_-_1.mp4', 'Dalam matematika dan ilmu komputer, Aljabar Boolean adalah struktur aljabar yang &quot;mencakup intisari&quot; operasi logika AND, OR, NOR, dan NAND dan juga teori himpunan untuk operasi union, interseksi dan komplemen. Penamaan Aljabar Boolean sendiri berasal dari nama seorang matematikawan asal Inggris, bernama George Boole.', 'X'),
-(43, 'Saauky', 'Matematika', 'Matematika_-_Dummy_-_2.mp4', 'Aljabar linear adalah bidang studi matematika yang mempelajari sistem persamaan linear dan solusinya, vektor, serta transformasi linear. Matriks dan operasinya juga merupakan hal yang berkaitan erat dengan bidang aljabar linear.', 'XI'),
-(44, 'Saauky', 'Matematika', 'Matematika_-_Dummy_3.mp4', 'Vektor merupakan kajian aljabar yang biasanya digunakan untuk memecahkan permasalahan fisika seperti gerak, gaya, dan sebagainya. ... Sebuah vektor bisa dinyatakan dalam bentuk geometri yang digambarkan sebagai sebuah ruas garis dengan arah tertentu dimana salah satunya merupakan pangkal dan satunya lagi merupakan ujung.', 'XI'),
-(45, 'Saauky', 'Matematika', 'Matematika_-_Dummy_4.mp4', 'Vektor dalam matematika dan fisika adalah objek geometri yang memiliki besar dan arah. Vektor jika dilambangkan dengan tanda panah. Besar vektor proporsional dengan panjang panah dan arahnya bertepatan dengan arah panah. Vektor dapat melambangkan perpindahan dari titik A ke B. Vektor sering ditandai sebagai', 'XII'),
-(46, 'Saauky', 'Matematika', 'Matematika_-_Dummy_5.mp4', 'Pecahan, atau disebut fraksi adalah istilah dalam matematika yang terdiri dari pembilang dan penyebut. Hakikat transaksi dalam bilangan pecahan adalah bagaimana cara menyederhanakan pembilang dan penyebut.', 'XII'),
-(47, 'Zaaidan', 'IPA', 'IPA_-_Dummy_1.mp4', 'Fisika adalah salah satu disiplin akademik paling tua, mungkin yang tertua melalui astronomi yang juga termasuk di dalamnya.[6] Lebih dari dua milenia, fisika menjadi bagian dari Ilmu Alam bersama dengan kimia, biologi, dan cabang tertentu matematika, tetapi ketika munculnya revolusi ilmiah pada abad ke-17, ilmu alam berkembang sebagai program penelitian sendiri.[b] Fisika berkembang dengan banyak spesialisasi bidang ilmu lain, seperti biofisika dan kimia kuantum, dan batasan fisiknya tidak didefinisikan dengan jelas. Ilmu baru dalam fisika terkadang digunakan untuk menjelaskan mekanisme dasar sains lainnya[3] serta membuka jalan area penelitian lainnya seperti matematika dan filsafat.', 'X'),
-(50, 'Zaaidan', 'IPA', 'IPA_-_Dummy_2.mp4', 'Kristalisasi adalah proses pembentukan bahan padat dari pengendapan larutan, melt, atau lebih jarang pengendapan langsung dari gas. Kristalisasi juga merupakan teknik pemisahan kimia antara bahan padat-cair, di mana terjadi perpindahan massa dari suat zat terlarut dari cairan larutan ke fase kristal padat', 'X'),
-(51, 'Zaaidan', 'IPA', 'IPA_-_Dummy_3.mp4', 'Peleburan adalah proses reduksi bijih sehingga menjadi logam unsur yang dapat digunakan berbagai macam zat seperti karbid, hidrogen, logam aktif atau dengan cara elektrolisis. Pemilihan zat pereduksi ini tergantung dari kereaktifan masing-masing zat.', 'XI'),
-(52, 'Zaaidan', 'IPA', 'IPA_-_Dummy_4.mp4', 'Pencairan, pelelehan atau Peleburan adalah proses yang menghasilkan perubahan fase zat dari padat ke cair. Energi internal dari zat padat meningkat mencapai temperatur tertentu saat zat ini berubah menjadi cair.Benda yang telah mencair sepenuhnya disebut benda cair.', 'XI'),
-(53, 'Zaaidan', 'IPA', 'IPA_-_Dummy_5.mp4', 'Dalam ilmu fisika dan kimia, pembekuan adalah proses di mana cairan berubah menjadi padatan. Titik beku adalah temperatur di mana hal ini terjadi. Peleburan, adalah proses kebalikan dari pembekuan di mana padatan berubah manjadi cairan. Pada sebagian besar zat, titik beku dan titik lebur biasanya sama.', 'XII'),
-(54, 'Zaaidan', 'IPA', 'IPA_-_Dummy_6.mp4', 'Teknologi pembekuan makanan adalah teknologi mengawetkan makanan dengan menurunkan temperaturnya hingga di bawah titik beku air.', 'XII'),
-(55, 'Khaairan', 'Bahasa Inggris', 'Inggris_-_Dummy_1.mp4', 'Bahasa Inggris adalah bahasa Jermanik yang pertama kali dituturkan di Inggris pada Abad Pertengahan Awal dan saat ini merupakan bahasa yang paling umum digunakan di seluruh dunia.[4] Bahasa Inggris dituturkan sebagai bahasa pertama oleh mayoritas penduduk di berbagai negara, termasuk Britania Raya, Irlandia, Amerika Serikat, Kanada, Australia, Selandia Baru, dan sejumlah negara-negara Karibia; serta menjadi bahasa resmi di hampir 60 negara berdaulat. Bahasa Inggris adalah bahasa ibu ketiga yang paling banyak dituturkan di seluruh dunia, setelah bahasa Mandarin dan bahasa Spanyol.[5] Bahasa Inggris juga digunakan sebagai bahasa kedua dan bahasa resmi oleh Uni Eropa, Negara Persemakmuran, dan Perserikatan Bangsa-Bangsa, serta beragam organisasi lainnya.', 'X'),
-(56, 'Khaairan', 'Bahasa Inggris', 'Inggris_-_Dummy_2.mp4', 'Bahasa Inggris berkembang pertama kali di Kerajaan Anglo-Saxon Inggris dan di wilayah yang saat ini membentuk Skotlandia tenggara. Setelah meluasnya pengaruh Britania Raya pada abad ke-17 dan ke-20 melalui Imperium Britania, bahasa Inggris tersebar luas di seluruh dunia.[6][7][8] Di samping itu, luasnya penggunaan bahasa Inggris juga disebabkan oleh penyebaran kebudayaan dan teknologi Amerika Serikat yang mendominasi di sepanjang abad ke-20.[9] Hal-hal tersebut telah menyebabkan bahasa Inggris saat ini menjadi bahasa utama dan secara tidak resmi (de facto) dianggap sebagai lingua franca di berbagai belahan dunia.[10][11]', 'X'),
-(57, 'Khaairan', 'Bahasa Inggris', 'Inggris_-_Dummy_3.mp4', 'Menurut sejarahnya, bahasa Inggris berasal dari peleburan beragam dialek terkait, yang saat ini secara kolektif dikenal sebagai bahasa Inggris Kuno, yang dibawa ke pantai timur Pulau Britania oleh pendatang Jermanik (Anglo-Saxons) pada abad ke-5; kata English\' berasal dari nama Angles.[12] Suku Anglo-Saxons ini sendiri berasal dari wilayah Angeln (saat ini Schleswig-Holstein, Jerman). Bahasa Inggris awal juga dipengaruhi oleh bahasa Norse Kuno setelah Viking menaklukkan Inggris pada abad ke-9 dan ke-10.', 'XI'),
-(58, 'Khaairan', 'Bahasa Inggris', 'Inggris_-_Dummy_4.mp4', 'Penaklukan Normandia terhadap Inggris pada abad ke-11 menyebabkan bahasa Inggris juga mendapat pengaruh dari bahasa Prancis Norman, dan kosakata serta ejaan dalam bahasa Inggris mulai dipengaruhi oleh bahasa Latin Romawi (meskipun bahasa Inggris sendiri bukanlah rumpun bahasa Romawi),[13][14] yang kemudian dikenal dengan bahasa Inggris Pertengahan. Pergeseran Vokal yang dimulai di Inggris bagian selatan pada abad ke-15 adalah salah satu peristiwa bersejarah yang menandai peralihan bahasa Inggris Pertengahan menjadi bahasa Inggris Modern.', 'XI'),
-(59, 'Khaairan', 'Bahasa Inggris', 'Inggris_-_Dummy_5.mp4', 'Selain Anglo-Saxons dan Prancis Norman, sejumlah besar kata dalam bahasa Inggris juga berakar dari bahasa Latin, karena Latin adalah lingua franca Gereja Kristen dan bahasa utama di kalangan intelektual Eropa,[15] dan telah menjadi dasar kosakata bagi bahasa Inggris modern.', 'XII'),
-(60, 'Khaairan', 'Bahasa Inggris', 'Inggris_-_Dummy_6.mp4', 'Karena telah mengalami perpaduan beragam kata dari berbagai bahasa di sepanjang sejarah, bahasa Inggris modern memiliki kosakata yang sangat banyak, dengan pengejaan yang kompleks dan tidak teratur (irregular), khususnya vokal. Bahasa Inggris modern tidak hanya merupakan perpaduan dari bahasa-bahasa Eropa, tetapi juga dari berbagai bahasa di seluruh dunia. Oxford English Dictionary memuat daftar lebih dari 250.000 kata berbeda, tidak termasuk istilah-istilah teknis, sains, dan bahasa gaul yang jumlahnya juga sangat banyak.[16][17]', 'XII'),
-(61, 'Khairi Firdaus', 'Bahasa Indonesia', 'Indonesia_-_Dummy_1.mp4', 'Bahasa Indonesia adalah bahasa Melayu yang dijadikan sebagai bahasa resmi Republik Indonesia[1] dan bahasa persatuan bangsa Indonesia.[2] Bahasa Indonesia diresmikan penggunaannya setelah Proklamasi Kemerdekaan Indonesia, tepatnya sehari sesudahnya, bersamaan dengan mulai berlakunya konstitusi. Di Timor Leste, bahasa Indonesia berstatus sebagai bahasa kerja.', 'X'),
-(62, 'Khairi Firdaus', 'Bahasa Indonesia', 'Indonesia_-_Dummy_2.mp4', 'Dari sudut pandang linguistik, bahasa Indonesia adalah salah satu dari banyak varietas bahasa Melayu.[3] Dasar yang dipakai sebagai dasar bahasa Indonesia baku adalah bahasa Melayu Tinggi (&quot;Riau&quot;).[4][5] Dalam perkembangannya, ia mengalami perubahan akibat penggunaannya sebagai bahasa kerja di lingkungan administrasi kolonial dan berbagai proses pembakuan sejak awal abad ke-20. Penamaan &quot;bahasa Indonesia&quot; diawali sejak dicanangkannya Sumpah Pemuda, 28 Oktober 1928, untuk menghindari kesan &quot;imperialisme bahasa&quot; apabila nama bahasa Melayu tetap digunakan.[6] Proses ini menyebabkan berbedanya bahasa Indonesia saat ini dari varian bahasa Melayu yang digunakan di Riau maupun Semenanjung Malaya. Hingga saat ini, bahasa Indonesia merupakan bahasa yang hidup, yang terus menghasilkan kata-kata baru, baik melalui penciptaan maupun penyerapan dari bahasa daerah dan bahasa asing.', 'X'),
-(63, 'Khairi Firdaus', 'Bahasa Indonesia', 'Indonesia_-_Dummy_3.mp4', 'Meskipun dipahami dan dituturkan oleh lebih dari 90% warga Indonesia, bahasa Indonesia bukanlah bahasa ibu bagi kebanyakan penuturnya. Sebagian besar warga Indonesia menggunakan salah satu dari 748 bahasa yang ada di Indonesia sebagai bahasa ibu.[7] Istilah &quot;bahasa Indonesia&quot; paling umum dikaitkan dengan bahasa baku yang digunakan dalam situasi formal.[4] Ragam bahasa baku tersebut berhubungan diglosik dengan bentuk-bentuk bahasa Melayu vernacular yang digunakan sebagai peranti komunikasi sehari-hari.[4] Artinya, penutur bahasa Indonesia kerap kali menggunakan versi sehari-hari (colloquial) dan/atau mencampuradukkan dengan dialek Melayu lainnya atau bahasa ibunya. Meskipun demikian, bahasa Indonesia digunakan sangat luas di perguruan-perguruan, di media massa, sastra, perangkat lunak, surat-menyurat resmi, dan berbagai forum publik lainnya,[8] sehingga dapatlah dikatakan bahwa bahasa Indonesia digunakan oleh semua warga Indonesia.', 'XI'),
-(64, 'Khairi Firdaus', 'Bahasa Indonesia', 'Indonesia_-_Dummy_4.mp4', 'Aksara pertama dalam bahasa Melayu atau Jawi ditemukan di pesisir tenggara Pulau Sumatra, menunjukkan bahwa bahasa ini menyebar ke berbagai tempat di Nusantara dari wilayah ini, berkat penggunaannya oleh Kerajaan Sriwijaya yang menguasai jalur perdagangan. Istilah Melayu atau sebutan bagi wilayahnya sebagai Malaya sendiri berasal dari Kerajaan Malayu yang bertempat di Batang Hari, Jambi.', 'XI'),
-(65, 'Khairi Firdaus', 'Bahasa Indonesia', 'Indonesia_-_Dummy_5.mp4', 'stilah Melayu atau Malayu berasal dari Kerajaan Malayu, sebuah kerajaan Hindu-Buddha pada abad ke-7 di hulu sungai Batanghari, Jambi di pulau Sumatra, jadi secara geografis semula hanya mengacu kepada wilayah kerajaan tersebut yang merupakan sebagian dari wilayah pulau Sumatra. Dalam perkembangannya, pemakaian istilah Melayu mencakup wilayah geografis yang lebih luas dari wilayah Kerajaan Malayu tersebut, mencakup negeri-negeri di pulau Sumatra sehingga pulau tersebut disebut juga Bumi Melayu seperti disebutkan dalam Kakawin Nagarakretagama.', 'XII'),
-(67, 'Khairi Firdaus', 'Bahasa Indonesia', 'Indonesia_-_Dummy_6.mp4', 'Ibu kota Kerajaan Melayu semakin mundur ke pedalaman karena serangan Sriwijaya dan masyarakatnya diaspora keluar Bumi Melayu, belakangan masyarakat pendukungnya yang mundur ke pedalaman berasimilasi ke dalam masyarakat Minangkabau menjadi klan Malayu (suku Melayu Minangkabau) yang merupakan salah satu marga di Sumatra Barat. Sriwijaya berpengaruh luas hingga ke Filipina membawa penyebaran Bahasa Melayu semakin meluas, tampak dalam prasasti Keping Tembaga Laguna.\r\n\r\nBahasa Melayu kuno yang berkembang di Bumi Melayu tersebut berlogat &quot;o&quot; seperti Melayu Jambi, Minangkabau, Kerinci, Palembang dan Bengkulu. Semenanjung Malaka dalam Nagarakretagama disebut Hujung Medini artinya Semenanjung Medini.', 'XII'),
-(69, 'Ahmad Saugi', 'Pendidikan Agama Islam', 'Agama_Islam_-_Dummy_-_1.mp4', 'Islam (bahasa Arab: ???????, translit. al-isl?m?, Tentang suara ini dengarkan) adalah salah satu agama dari kelompok agama yang diterima oleh seorang nabi (agama samawi) yang mengajarkan monoteisme tanpa kompromi, iman terhadap wahyu, iman terhadap akhir zaman, dan tanggung jawab.[1] Bersama para pengikut Yudaisme dan Kekristenan, seluruh muslim–pengikut ajaran Islam–adalah anak turun Ibrahim.[2] Islam diikuti oleh 1,8 miliar orang di seluruh dunia sehingga menjadi agama terbesar kedua setelah Kristen.[3]', 'X'),
-(70, 'Ahmad Saugi', 'Pendidikan Agama Islam', 'Agama_Islam_-_Dummy_-_2.mp4', 'Kata “isl?m” berasal dari bahasa Arab aslama - yuslimu dengan arti semantik sebagai berikut: tunduk dan patuh (khadha‘a wa istaslama), berserah diri, menyerahkan, memasrahkan (sallama), mengikuti (atba‘a), menunaikan, menyampaikan (add?), masuk dalam kedamaian, keselamatan, atau kemurnian (dakhala fi al-salm au al-silm au al-sal?m).[4] Dari istilah-istilah lain yang akar katanya sama, “isl?m” berhubungan erat dengan makna keselamatan, kedamaian, dan kemurnian.[5]', 'X'),
-(71, 'Ahmad Saugi', 'Pendidikan Agama Islam', 'Agama_Islam_-_Dummy_-_3.mp4', 'Islam dapat juga disebut dengan iman, millah, dan syariah dalam pengertiannya sebagai aturan yang diturunkan oleh Allah melalui para utusan yang mencakup kepercayaan, keyakinan, adab, akhlak, perintah, dan larangan.[9] Agama Islam berdasarkan kewajiban untuk berserah diri dan menunaikan ajarannya disebut islam; jika dilihat berdasarkan kepercayaan terhadap Allah dan yang Dia turunkan, maka disebut iman; karena Islam itu diktatif dan terdokumentasikan, maka disebut millah; dan karena sumber hukumnya adalah Allah, maka disebut syariah.[9]', 'XI'),
-(72, 'Ahmad Saugi', 'Pendidikan Agama Islam', 'Agama_Islam_-_Dummy_-_4.mp4', 'Allah, menurut ajaran Islam, adalah satu-satunya Tuhan yang berhak disembah, memiliki nama-nama terbaik, dan memiliki sifat dan karakter tertinggi.[11] Ajaran monoteisme Islam disebut tauhid, yang didefinisikan sebagai pengesaan Allah dalam hal-hal yang menjadi kekhususan Tuhan dan yang Dia wajibkan.[12] Pengesaan Allah dalam hal-hal kekhususan Tuhan dibagi menjadi dua bahasan: tauhid rububiyah dan tauhid asma\' wash-shifat, sedangkan pengesaan Allah dalam hal-hal yang Dia wajibkan dibahas dalam tauhid uluhiyah.[13]', 'XI'),
-(73, 'Ahmad Saugi', 'Pendidikan Agama Islam', 'Agama_Islam_-_Dummy_-_4.mp4', 'Dalam tauhid rububiyah, Allah diakui sebagai satu-satunya Rabb (Yang Menguasai), sehingga semua selain Allah adalah ‘abd (hamba/budak/yang dikuasai).[14] Allah adalah Rabb Yang Berkuasa dalam penciptaan, pengurusan, dan kerajaan alam semesta.[15] Allah sebagai satu-satunya Pencipta adalah juga Yang Memberi rezeki, Yang Menghidupkan, Yang Mematikan, serta Yang Memberi kebaikan dan keburukan.[16] Allah yang mengurus segala sesuatu; semua urusan yang Dia tangani adalah kebaikan; dan Allah Mahakuasa terhadap apa yang Dia kehendaki.[16] Dalilnya adalah ayat dalam Alquran, “Segala penciptaan dan urusan menjadi hak-Nya.”[Al-A\'raf:54][15]', 'XII'),
-(76, 'Ahmad Saugi', 'Pendidikan Agama Islam', 'Agama_Islam_-_Dummy_-_6.mp4', 'Islam adalah salah satu agama dari kelompok agama yang diterima oleh seorang nabi yang mengajarkan monoteisme tanpa kompromi, iman terhadap wahyu, iman terhadap akhir zaman, dan tanggung jawab. Bersama para pengikut Yudaisme dan Kekristenan, seluruh muslim–pengikut ajaran Islam–adalah anak turun Ibrahim.', 'XII'),
-(77, 'Saauky', 'Matematika', 'Agama_Islam_-_Dummy_-_6.mp4', 'Test', 'X');
+INSERT INTO `materi` (`id`, `judul`, `attachment`, `tipe`, `deskripsi`, `guru_id`, `kelas_id`, `mapel_id`, `bab_id`, `is_tampil`) VALUES
+(1, 'Operasi Hitung Bilangan Bulat - Teori', 'Matematika_-_Dummy_-_1.mp4', 'video', 'perkalian dek', 214748365, 1, 1, 6, '1'),
+(2, 'ini judul 2', '2107051028_NurrohGalbie_BasisData.pdf', 'pdf', 'perkalian dek', 214748365, 1, 1, 7, '1'),
+(3, 'ini judul bab 1 - 2 yang panjang ya adik adik', 'https://www.youtube.com/embed/p2Y0rDFRSmo', 'youtube', 'perkalian dek', 214748365, 1, 1, 6, '1'),
+(4, 'ini judul ppt nya', 'flamesorria.pptx', 'ppt', 'perkalian dek', 214748365, 1, 1, 6, '1'),
+(5, 'ini judul link lainnya', 'https://www.youtube.com/embed/p2Y0rDFRSmo', 'link lainnya', 'perkalian dek', 214748365, 1, 1, 6, '1'),
+(6, 'dekk', 'https://www.youtube.com/embed/p2Y0rDFRSmo', 'link lainnya', 'Puebi dek', 214748365, 1, 2, 8, '1'),
+(11, 'Materi Kelas 5', 'Modul_2.pdf', 'pdf', 'test materi kelas 5', 903240901, 2, 2, 31, '1'),
+(12, 'contoh materi baru', 'Modul_2.pdf', 'pdf', 'ini contoh materi baru yang di sembunyikan dari siswa', 214748365, 1, 1, 30, '1');
 
 -- --------------------------------------------------------
 
@@ -132,9 +216,10 @@ INSERT INTO `materi` (`id`, `nama_guru`, `nama_mapel`, `video`, `deskripsi`, `ke
 --
 
 CREATE TABLE `siswa` (
-  `id` int(64) NOT NULL,
+  `nisn` int(64) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
+  `kelas_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
   `date_created` int(64) NOT NULL,
   `id_user` int(64) NOT NULL
@@ -144,8 +229,9 @@ CREATE TABLE `siswa` (
 -- Dumping data untuk tabel `siswa`
 --
 
-INSERT INTO `siswa` (`id`, `nama`, `image`, `is_active`, `date_created`, `id_user`) VALUES
-(39, 'Muhammad Fadhil Hakim', 'fadhil.jpg', 1, 1586163321, 5);
+INSERT INTO `siswa` (`nisn`, `nama`, `image`, `kelas_id`, `is_active`, `date_created`, `id_user`) VALUES
+(1917051043, 'Adrian Septa Yoka', 'default.jpg', 1, 1, 1689806063, 7),
+(1957051014, 'Muhammad Fadhil Hakim', 'fadhil1.jpg', 1, 1, 1586163321, 5);
 
 -- --------------------------------------------------------
 
@@ -179,27 +265,45 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `role`) VALUES
-(1, 'zaidanline67', '$2y$10$djI2M/FQH2k3H7b6tLK5X.MZG1R.wrARoR6NerH3tsScNnsNCnexa', 'zaidanline67@gmail.com', '2'),
-(2, 'adrianyoka', '$2y$10$3qQ2TYrtQHy44LblPMexnu4ZQrCWD.dYh20P.sOL5cyo6Z48fJQEq', 'adrian@gmail.com', '1'),
+(2, '197410102008011015', '$2y$10$3qQ2TYrtQHy44LblPMexnu4ZQrCWD.dYh20P.sOL5cyo6Z48fJQEq', 'adrian@gmail.com', '1'),
 (3, 'admin', '$2y$10$EX0L5MeIQldpkCuTZW.mjujTaj.Yy20IW0GOluecU/c.es.9r6E5.', 'admin@gmail.com', '0'),
-(5, 'fadhilhakim35', '$2y$10$djI2M/FQH2k3H7b6tLK5X.MZG1R.wrARoR6NerH3tsScNnsNCnexa', 'fadhilhakim645@gmail.com', '2');
+(5, '1957051014', '$2y$10$djI2M/FQH2k3H7b6tLK5X.MZG1R.wrARoR6NerH3tsScNnsNCnexa', 'fadhilhakim645@gmail.com', '2'),
+(6, '198010102008011015', '$2y$10$Q6OS/CQx53X.23R7BPYnKe9iHGltaIoP8V7fY8H4BIP0IVjRnBt2.', 'jess@gmail.com', '1'),
+(7, '1917051043', '$2y$10$QSuSFFmFxfYljyW/k60GZuUy13lRXH4S9D2SwYq2jS3FoQBEUB6NK', 'adriansepta@gmail.com', '2');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `admin`
+-- Indeks untuk tabel `absensi_data`
 --
-ALTER TABLE `admin`
+ALTER TABLE `absensi_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `absensi_master_data` (`master_id`);
+
+--
+-- Indeks untuk tabel `absensi_master`
+--
+ALTER TABLE `absensi_master`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `bab`
+--
+ALTER TABLE `bab`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mapel_id` (`mapel_id`) USING BTREE,
+  ADD KEY `fk_bab_kelas` (`kelas_id`);
 
 --
 -- Indeks untuk tabel `guru`
 --
 ALTER TABLE `guru`
   ADD PRIMARY KEY (`nip`),
-  ADD KEY `fk_guru` (`id_user`);
+  ADD KEY `fk_guru` (`id_user`),
+  ADD KEY `fk_mapel_guru` (`mapel_id`),
+  ADD KEY `kelas_id` (`kelas_id`,`mapel_id`) USING BTREE;
 
 --
 -- Indeks untuk tabel `kelas`
@@ -208,17 +312,28 @@ ALTER TABLE `kelas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `mapel`
+--
+ALTER TABLE `mapel`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `materi`
 --
 ALTER TABLE `materi`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_kelas_materi` (`kelas_id`),
+  ADD KEY `fk_mapel_materi` (`mapel_id`),
+  ADD KEY `fk_bab_materi` (`bab_id`),
+  ADD KEY `guru_id` (`guru_id`,`kelas_id`,`mapel_id`,`bab_id`) USING BTREE;
 
 --
 -- Indeks untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_siswa` (`id_user`);
+  ADD PRIMARY KEY (`nisn`),
+  ADD KEY `fk_siswa` (`id_user`),
+  ADD KEY `fk_siswa_kelas` (`kelas_id`);
 
 --
 -- Indeks untuk tabel `token`
@@ -237,16 +352,34 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `absensi_data`
+--
+ALTER TABLE `absensi_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT untuk tabel `absensi_master`
+--
+ALTER TABLE `absensi_master`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT untuk tabel `bab`
+--
+ALTER TABLE `bab`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT untuk tabel `mapel`
+--
+ALTER TABLE `mapel`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT untuk tabel `materi`
 --
 ALTER TABLE `materi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
-
---
--- AUTO_INCREMENT untuk tabel `siswa`
---
-ALTER TABLE `siswa`
-  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `token`
@@ -258,23 +391,48 @@ ALTER TABLE `token`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
+-- Ketidakleluasaan untuk tabel `absensi_data`
+--
+ALTER TABLE `absensi_data`
+  ADD CONSTRAINT `absensi_master_data` FOREIGN KEY (`master_id`) REFERENCES `absensi_master` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `bab`
+--
+ALTER TABLE `bab`
+  ADD CONSTRAINT `fk_bab_kelas` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`id`),
+  ADD CONSTRAINT `fk_bab_mapel` FOREIGN KEY (`mapel_id`) REFERENCES `mapel` (`id`) ON UPDATE NO ACTION;
+
+--
 -- Ketidakleluasaan untuk tabel `guru`
 --
 ALTER TABLE `guru`
-  ADD CONSTRAINT `fk_guru` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `fk_guru` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `fk_kelas_guru` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`id`),
+  ADD CONSTRAINT `fk_mapel_guru` FOREIGN KEY (`mapel_id`) REFERENCES `mapel` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `materi`
+--
+ALTER TABLE `materi`
+  ADD CONSTRAINT `fk_bab_materi` FOREIGN KEY (`bab_id`) REFERENCES `bab` (`id`),
+  ADD CONSTRAINT `fk_guru_materi` FOREIGN KEY (`guru_id`) REFERENCES `guru` (`nip`),
+  ADD CONSTRAINT `fk_kelas_materi` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`id`),
+  ADD CONSTRAINT `fk_mapel_materi` FOREIGN KEY (`mapel_id`) REFERENCES `mapel` (`id`);
 
 --
 -- Ketidakleluasaan untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  ADD CONSTRAINT `fk_siswa` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_siswa` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_siswa_kelas` FOREIGN KEY (`kelas_id`) REFERENCES `kelas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

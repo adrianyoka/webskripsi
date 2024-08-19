@@ -5,7 +5,8 @@
             <div class="card-body">
                 <h2 class="card-title" style="color: black;">Detail absensi</h2>
                 <hr>
-                <p class="card-text"> </p>
+                <p class="card-text">
+                </p>
             </div>
         </div>
         <div class="row">

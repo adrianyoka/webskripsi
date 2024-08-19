@@ -76,8 +76,8 @@
                     </h1>
                     <h4 data-aos="fade-down" data-aos-duration="1700"><?php
                                                                         echo $user['nama'];
-                                                                        ?> - Learnify Students</h3>
-                        <p><?= $detail->nama_mapel ?> - Kelas <?= $detail->kelas ?></p>
+                                                                        ?> - SmartLearn Students</h3>
+                        <p><?= $detail->nama_mapel ?> - Kelas <?= $user['tingkat'].$user['rombel'] ?></p>
                         <hr align="left" width="600;">
                         <p style="line-height: 3px;">Kita akan mempelajari tentang</p>
                         <p class="font-weight-bold mt--5">
@@ -94,9 +94,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 mx-auto mt-4">
-                <video class="afterglow" autoplay id="myvideo" width="1280" height="720">
-                    <source type="video/mp4" autoplay src="<?= base_url() . 'assets/materi_video/' . $detail->video; ?>" />
-                </video>
+                <iframe class="afterglow" autoplay id="myvideo" width="1140" height="640" src="<?=$detail->attachment?>">
+                    <!-- <source type="video/mp4" autoplay  /> -->
+                </iframe>
             </div>
         </div>
     </div>

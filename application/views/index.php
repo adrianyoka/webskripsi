@@ -33,13 +33,13 @@
                         <a href="<?=base_url('welcome')?>"> <img src="<?=base_url('assets/')?>/img/logo.png" alt="logo"
                                 width="150" class=" mb-5 mt-2"></a>
                         <h4 class="text-dark font-weight-normal">Selamat datang di <span
-                                class="font-weight-bold">Pedagogi</span>
+                                class="font-weight-bold">PEDAGOGI</span>
                         </h4>
                         <form method="post" action="<?=base_url('welcome/validateLogin')?>" class="needs-validation"
                             novalidate="">
                             <div class="form-group">
-                                <label for="username">Username</label>
-                                <input id="username" type="text" class="form-control" name="username" tabindex="1" required
+                                <label for="email">username</label>
+                                <input id="email" type="email" class="form-control" name="email" tabindex="1" required
                                     autofocus>
                                 <div class="invalid-feedback">
                                     Harap isi bidang username
@@ -66,12 +66,12 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom"
-                    data-background="<?=base_url('assets/')?>stisla-assets/img/unsplash/login-bg.jpg">
+                    data-background="<?=base_url('assets/')?>stisla-assets/img/unsplash/modal-login.png">
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold text-white">Selamat datang!</h1>
-                                <h5 class="font-weight-normal text-muted-transparent text-white">Silahkan login untuk masuk</h5>
+                                <h1 class="mb-2 display-4 font-weight-bold text-dark">Selamat datang!</h1>
+                                <h5 class="font-weight-normal text-muted-transparent text-dark">Silahkan login untuk masuk</h5>
                             </div>
                         </div>
                     </div>

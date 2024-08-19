@@ -3,62 +3,75 @@
     <section class="section">
         <div class="card" style="width:100%;">
             <div class="card-body">
-                <h2 class="card-title" style="color: black;">Management absensi</h2>
+                <h2 class="card-title" style="color: black;">Management Presensi</h2>
                 <hr>
-                <p class="card-text"> </p>
-            </div>
-        </div>
-        <div class="row">
-        <div class="col-md-12">
-            <div class="bg-white p-4" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px;">
-                <div class="table-responsive">
-                    <table id="example" class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr class="text-center">
-                                <th scope="col">NO</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Kelas</th>
-                                <th scope="col">Total Kehadiran</th>
-                                <th scope="col">Option</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php
-                            $nomor = 1;    
-                            foreach ($absensi as $u) {
-                                ?>
-                                <tr class="text-center">
-
-                                    <th scope="row">
-                                        <?php echo $nomor++ ?>
-                                    </th>
-                                    <td>
-                                        <?=nice_date($u['tanggal'],'d/m/Y')?>
-                                    </td>
-                                    <td>
-                                        <?php echo $u['tingkat'] ?><?php echo $u['rombel'] ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $u['total'] ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="<?php echo site_url('admin/detail_absensi/' . $u['master_id']); ?>" class="btn btn-success">Detail ⭢</a>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-
+                <p class="card-text">Halaman ini menampilkan data rekapan presensi</p>
+                <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                Cetak Presensi
+                </button>
+                <div class="dropdown-menu">
+                    <?php
+                        $tingkat = 0;
+                        $rombel = '';
+                        foreach ($cetak as $k) {
+                            if($k['tingkat'] != $tingkat || $k['rombel'] != $rombel){
+                    ?>
+                        <a class="dropdown-item" href="<?=base_url('admin/cetak_absensi/' . $k['id'])?>">Kelas <?=$k['tingkat']?><?=strtoupper($k['rombel'])?></a>
+                        
+                        <?php $tingkat = $k['tingkat'];$rombel= $k['rombel']; } else { continue; }} ?>
+                </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-</div>
-</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bg-white p-4" style="border-radius:3px;box-shadow:rgba(0, 0, 0, 0.03) 0px 4px 8px 0px;">
+                    <div class="table-responsive">
+                        <table id="example" class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr class="text-center">
+                                    <th scope="col">NO</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Kelas</th>
+                                    <th scope="col">Total Kehadiran</th>
+                                    <th scope="col">Detail</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php
+                                $nomor = 1;    
+                                foreach ($absensi as $u) {
+                                    ?>
+                                    <tr class="text-center">
+
+                                        <th scope="row">
+                                            <?php echo $nomor++ ?>
+                                        </th>
+                                        <td>
+                                            <?=nice_date($u['tanggal'],'d/m/Y')?>
+                                        </td>
+                                        <td>
+                                            <?php echo $u['tingkat'] ?><?php echo $u['rombel'] ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $u['total'] ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="<?php echo site_url('admin/detail_absensi/' . $u['master_id']); ?>" class="btn btn-success">Detail ⭢</a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </section>
 </div>
 <!-- End Main Content -->
 
@@ -85,6 +98,7 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
+
 </script>
 <!-- Template JS File -->
 <script src="<?= base_url('assets/') ?>stisla-assets/js/scripts.js"></script>

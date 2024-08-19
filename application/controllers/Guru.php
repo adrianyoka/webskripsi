@@ -18,127 +18,21 @@ class Guru extends CI_Controller
 
     function index(){
         $absensi = $this->db->get_where('absensi_master',array('tanggal' => mdate('%Y,%m,%d',now())))->row_array();
-        $data['page'] = 'index';
         $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
+                        $this->session->userdata('id')])->row_array();
         $data['user']['mata_pelajaran']= $this->m_materi->mapel()->result();
         $data['user']['absen']= null !== $absensi ? 
                                 $this->db->select('*,absensi_data.id as absensi_id')
                                 ->join('siswa', 'siswa.nisn = absensi_data.siswa_id')
                                 ->get_where('absensi_data',array('master_id' => $absensi['id']))->result() : 
                                 $this->m_siswa->get_siswa_kelas($data['user']['kelas_id'])->result();
-        $data['user']['rekap_absensi'] = $this->db->like('tanggal',date('Y-m'))->get_where('absensi_master',['kelas_id'=>$data['user']['kelas_id']])->result_array();
+        $data['user']['rekap_absensi'] = $this->db->get('absensi_master')->result_array();
         for($i=0;$i<count($data['user']['rekap_absensi']);$i++){
             $data['user']['rekap_absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.nisn = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
-                                                         ->get_where('absensi_data',array('master_id' => $data['user']['rekap_absensi'][$i]['id']))->result_array();
+                                                            ->get_where('absensi_data',array('master_id' => $data['user']['rekap_absensi'][$i]['id']))->result_array();
         }
-        $this->load->view('template/nav_guru', $data);
         $this->load->view('guru/index', $data['user']);
         $this->load->view('template/footer');
-    }
-
-    
-    function materiGuru($kelas,$mapel){
-        if(isset($_POST['submit_bab'])){
-            $this->form_validation->set_rules('judul_bab', 'Judul Bab', 'required|min_length[4]', [
-                'required' => 'Harap isi judul bab',
-                'min_length' => 'Judul bab terlalu pendek.',
-            ]);
-    
-            $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|min_length[4]', [
-                'required' => 'Harap isi deskripsi',
-                'min_length' => 'Deskripsi terlalu pendek.',
-            ]);
-    
-            if($this->form_validation->run() == true){
-                $judul_bab = $this->input->post('judul_bab', true);
-                $deskripsi = $this->input->post('deskripsi', true);
-                $bab = [
-                    'judul_bab' => $judul_bab, 
-                    'deskripsi' => $deskripsi,
-                    'mapel_id' => $mapel,
-                    'kelas_id' => $kelas
-                ];
-    
-                $this->db->insert('bab', $bab);
-                $this->session->set_flashdata('success-reg', 'Berhasil!');
-            }else{
-                $this->session->set_flashdata('form-error', 'Gagal');
-            }
-        }else if (isset($_POST['submit_materi'])){
-            $this->form_validation->set_rules('judul_materi', 'Judul Materi', 'required|min_length[4]', [
-                'required' => 'Harap isi kolom judul.',
-                'min_length' => 'Judul terlalu pendek.',
-            ]);
-            $this->form_validation->set_rules('deskripsi_materi', 'Deskripsi', 'required|min_length[4]', [
-                'required' => 'Harap isi kolom deskripsi.',
-                'min_length' => 'deskripsi terlalu pendek.',
-            ]);
-
-            if ($this->form_validation->run() == true) {
-                $upload = $_FILES['attachment'];
-    
-                if ($upload) {
-                    $config['allowed_types'] = 'pdf|mp4|mkv';
-                    $config['max_size'] = '10240000';
-                    $config['upload_path'] = './assets/materi_attachment';
-                    $config['overwrite'] = true;
-                    $this->load->library('upload', $config);
-    
-                    if ($this->upload->do_upload('attachment')) {
-                        $attachment = $this->upload->data('file_name');
-                        $data = [
-                            'judul' => htmlspecialchars($this->input->post('judul_materi', true)),
-                            'deskripsi' => htmlspecialchars($this->input->post('deskripsi_materi', true)),
-                            'tipe' => htmlspecialchars($this->input->post('tipe', true)),
-                            'attachment' => $attachment,
-                            'guru_id' => htmlspecialchars($this->input->post('guru_id', true)),
-                            'kelas_id' => htmlspecialchars($this->input->post('kelas_id', true)),
-                            'mapel_id'=> htmlspecialchars($this->input->post('mapel_id', true)),
-                            'bab_id'=> htmlspecialchars($this->input->post('bab_id', true)),
-                            'is_tampil' => htmlspecialchars($this->input->post('is_tampil', true)),
-                        ];
-                        $this->db->insert('materi', $data);
-                        $this->session->set_flashdata('success-reg', 'Berhasil!');
-                    } else {
-                        var_dump($this->upload->display_errors());exit();
-                    }
-                }
-            } else {
-                $this->session->set_flashdata('form-error', 'Gagal');
-            }
-        }
-        
-        
-        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-        $data['topik']=$this->m_materi->bab($kelas,$mapel);
-        $data['page'] = 'materiGuru';
-        foreach($data['topik'] as $bab){
-            $data['topik'][array_search($bab,$data['topik'])]->materi = $this->m_materi->materi_guru($bab->bab_id)->result();
-            if(count($data['topik'][array_search($bab,$data['topik'])]->materi) == 0){
-                $data['topik'][array_search($bab,$data['topik'])]->materi = 0;
-            }
-        }
-        
-        if($data['topik'] == null){
-            $data['topik'] = $this->m_materi->mapel_detail($mapel)->result();
-        }
-        $this->load->view('template/nav_guru', $data);
-        $this->load->view('guru/materi_guru', $data);
-        $this->load->view('template/footer');
-    }
-
-    public function materi($id)
-    {
-        $where = array('id' => $id);
-        $detail = $this->m_materi->belajar($id);
-        $data['detail'] = $detail;
-        $data['page'] = 'materi';
-        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
-            $this->session->userdata('id')])->row_array();
-        $this->load->view('template/nav_guru', $data);
-        $this->load->view('guru/materi', $data);
     }
 
     public function inputAbsensi()
@@ -151,9 +45,12 @@ class Guru extends CI_Controller
         if($this->input->post('exist') == 1){
             $master = $this->db->select('id')->get_where('absensi_master',array('tanggal' => $master['tanggal']))->row_array();
             $master_id = $master['id'];
+            // var_dump($master_id);exit();
         }else{
             $this->db->insert('absensi_master', $master);
             $master_id = $this->db->insert_id();
+
+
         }
         $data_absensi = $this->input->post('Data');
         foreach($data_absensi as $absensi){
@@ -170,39 +67,16 @@ class Guru extends CI_Controller
         }
         return redirect('guru');
     }
-
-    public function updatebab($id)
-    {
-        $this->form_validation->set_rules('judul_bab', 'Judul Bab', 'required|min_length[4]', [
-            'required' => 'Harap isi judul bab',
-            'min_length' => 'Judul bab terlalu pendek.',
-        ]);
-
-        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|min_length[4]', [
-            'required' => 'Harap isi deskripsi',
-            'min_length' => 'Deskripsi terlalu pendek.',
-        ]);
-
-        if ($this->form_validation->run() == false) {
-            $mapel_id = $this->input->post('mapel_id', true);
-            $kelas_id = $this->input->post('kelas_id', true);
-            return redirect(base_url('guru/materiGuru/'.$kelas_id.'/'.$mapel_id));
-        } else {
-            $judul_bab = $this->input->post('judul_bab', true);
-            $deskripsi = $this->input->post('deskripsi', true);
-            $bab = [
-                'judul_bab' => $judul_bab, 
-                'deskripsi' => $deskripsi,
-            ];
-
-            $this->db->where('id', $id);
-            $this->db->update('bab', $bab);
-            $mapel_id = $this->input->post('mapel_id', true);
-            $kelas_id = $this->input->post('kelas_id', true);
-            $this->session->set_flashdata('update-bab', 'Berhasil!');
-            redirect(base_url('guru/materiGuru/'.$kelas_id.'/'.$mapel_id));
-        }
-    }
+    // public function index()
+    // {
+    //     $this->load->model('m_materi');
+    //     $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->get_where('guru', ['id_user' =>
+    //         $this->session->userdata('id')])->row_array();
+    //     $data['user']['kelas']= $this->m_materi->kelas()->row_array();
+    //     $data['page'] = 'dashboard';
+    //     $this->load->view('admin/template/side_bar',$data);
+    //     $this->load->view('admin/index',$data['user']);
+    // }
 
     public function deletebab($id)
     {
@@ -271,6 +145,27 @@ class Guru extends CI_Controller
         redirect(base_url('guru/materiGuru/'.$kelas_id.'/'.$mapel_id));
     }
 
+    function materiDashboard($kelas,$mapel){
+        $data['user'] = $this->db->join('user', 'user.id = guru.id_user')->join('kelas', 'kelas.id = guru.kelas_id')->get_where('guru', ['id_user' =>
+                        $this->session->userdata('id')])->row_array();
+        $data['topik']=$this->m_materi->bab($kelas,$mapel);
+        foreach($data['topik'] as $bab){
+            $data['topik'][array_search($bab,$data['topik'])]->materi = $this->m_materi->materi($bab->id)->result();
+            if(count($data['topik'][array_search($bab,$data['topik'])]->materi) == 0){
+                unset($data['topik'][array_search($bab,$data['topik'])]);
+            }
+            
+        }
+
+        if($data['topik'] == null){
+            $object = new stdClass();
+            $object->materi = $this->m_materi->mapel_detail($mapel)->result();
+            array_push($data['topik'],$object);
+        }
+        $this->load->view('guru/materi', $data);
+        $this->load->view('template/footer');
+    }
+    
     private function _uploadImage()
     {
         $config['upload_path'] = './assets/materi_video';
