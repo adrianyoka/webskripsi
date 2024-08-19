@@ -70,9 +70,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        
+        </div>      
     </section>
 </div>
 <!-- End Main Content -->

@@ -37,14 +37,37 @@
     <script>
         Swal.fire({
             icon: 'success',
-            title: 'Kamu berhasil daftar!',
-            text: 'Sekarang kamu boleh login!',
+            title: 'Bab berhasil ditambahkan!',
+            text: 'Silahkan lihat bab terbaru!',
             showConfirmButton: false,
             timer: 2500
         })
     </script>
-<?php session_destroy(); endif; ?>
+<?php unset($_SESSION['success-reg']); endif; ?>
 
+<?php if ($this->session->flashdata('delete-bab')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Bab berhasil dihapus!',
+            text: 'Bab telah berhasil dihapus!',
+            showConfirmButton: false,
+            timer: 2500
+        })
+    </script>
+<?php unset($_SESSION['delete-bab']); endif; ?>
+
+<?php if ($this->session->flashdata('update-bab')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Bab berhasil diubah!',
+            text: 'Silahkan lihat perubahan bab!',
+            showConfirmButton: false,
+            timer: 2500
+        })
+    </script>
+<?php unset($_SESSION['update-bab']); endif; ?>
 
 <?php if ($this->session->flashdata('login-success')) : ?>
     <script>
@@ -56,20 +79,7 @@
             timer: 2500
         })
     </script>
-<?php session_destroy(); endif; ?>
-
-
-<?php if ($this->session->flashdata('success-verify')) : ?>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Email Telah Diverifikasi!',
-            text: 'Sekarang login yuk!',
-            showConfirmButton: false,
-            timer: 2500
-        })
-    </script>
-<?php session_destroy(); endif; ?>
+<?php unset($_SESSION['login-success']); endif; ?>
 
 
 <?php if ($this->session->flashdata('success-logout')) : ?>
@@ -82,7 +92,7 @@
             timer: 2500
         })
     </script>
-<?php session_destroy(); endif; ?>
+<?php unset($_SESSION['success-logout']); endif; ?>
 
 
 <?php if ($this->session->flashdata('fail-login')) : ?>
@@ -95,20 +105,7 @@
             timer: 2500
         });
     </script>
-<?php session_destroy(); endif; ?>
-
-
-<?php if ($this->session->flashdata('fail-email')) : ?>
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Email Belum Diverifikasi!',
-            text: 'Silahkan Cek Email Kamu Dahulu!',
-            showConfirmButton: false,
-            timer: 2500
-        })
-    </script>
-<?php session_destroy(); endif; ?>
+<?php unset($_SESSION['fail-login']); endif; ?>
 
 
 <?php if ($this->session->flashdata('fail-pass')) : ?>
@@ -121,7 +118,7 @@
             timer: 2500
         });
     </script>
-<?php session_destroy(); endif; ?>
+<?php unset($_SESSION['fail-pass']); endif; ?>
 
 
 <?php if ($this->session->flashdata('not-login')) : ?>
@@ -134,13 +131,13 @@
             timer: 2500
         });
     </script>
-<?php session_destroy();endif; ?>
+<?php unset($_SESSION['not-login']);endif; ?>
 
 <?php if ($this->session->flashdata('false-login')) : ?>
     <script>
         $("#exampleModalCenter").modal("show")
     </script>
-<?php session_destroy(); endif; ?>
+<?php unset($_SESSION['false-login']); endif; ?>
 
 <script src="<?= base_url('assets/') ?>js/stellar.js"></script>
 <script src="<?= base_url('assets/') ?>vendors/lightbox/simpleLightbox.min.js"></script>

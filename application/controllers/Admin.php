@@ -151,6 +151,7 @@ class Admin extends CI_Controller
     
     // manajemen absensi
 
+
     public function data_absensi()
     {
         $this->load->model('M_kelas');
@@ -169,6 +170,22 @@ class Admin extends CI_Controller
         $this->load->view('admin/data_absensi', $data);
     }
 
+=======
+
+    public function data_absensi()
+    {
+        $data['user'] = $this->db->get_where('user', ['id' =>
+            $this->session->userdata('id')])->row_array();
+        $data['page'] = 'absensi';
+        $data['absensi'] = $this->db->select('*,absensi_master.id as master_id')->join('kelas','kelas.id = absensi_master.kelas_id')->get('absensi_master')->result_array();
+        for($i=0;$i<count($data['absensi']);$i++){
+            $data['absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.nisn = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
+            ->get_where('absensi_data',array('master_id' => $data['absensi'][$i]['master_id']))->result_array();
+            $data['absensi'][$i]['total'] = count($data['absensi'][$i]['data']);
+        }
+        $this->load->view('admin/template/side_bar',$data);
+        $this->load->view('admin/data_absensi', $data);
+    }
     public function detail_absensi($id)
     {
         $data['user'] = $this->db->get_where('user', ['id' =>
@@ -294,7 +311,11 @@ class Admin extends CI_Controller
             $data['user'] = $this->db->get_where('user', ['id' =>
             $this->session->userdata('id')])->row_array();
             $this->load->model('m_materi');
+
             $data['kelas'] = $this->m_materi->tampil_seluruh_kelas()->result();
+
+            $data['kelas'] = $this->m_materi->kelas()->result();
+
             $this->load->view('admin/template/side_bar',$data);
             $this->load->view('guru/registration',$data);
         } else {

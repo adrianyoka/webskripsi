@@ -32,6 +32,7 @@ class M_siswa extends CI_Model
     public function detail_siswa($id = null)
     {
         $this->db->select('*, siswa.nisn as id_siswa');
+
         $this->db->join('user', 'user.id = siswa.id_user');
         $query = $this->db->get_where('siswa', array('siswa.nisn' => $id))->row();
         return $query;

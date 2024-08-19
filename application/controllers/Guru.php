@@ -31,14 +31,12 @@ class Guru extends CI_Controller
             $data['user']['rekap_absensi'][$i]['data'] = $this->db->join('siswa', 'siswa.nisn = absensi_data.siswa_id')->select('*,absensi_data.id as absensi_id')
                                                             ->get_where('absensi_data',array('master_id' => $data['user']['rekap_absensi'][$i]['id']))->result_array();
         }
-
         $this->load->view('guru/index', $data['user']);
         $this->load->view('template/footer');
     }
 
     public function inputAbsensi()
     {   
-
         $master = [
             'tanggal' => htmlspecialchars($this->input->post('tanggal', true)),
             'kelas_id' => htmlspecialchars($this->input->post('kelas_id', true)),
@@ -51,6 +49,7 @@ class Guru extends CI_Controller
         }else{
             $this->db->insert('absensi_master', $master);
             $master_id = $this->db->insert_id();
+
 
         }
         $data_absensi = $this->input->post('Data');
@@ -79,35 +78,50 @@ class Guru extends CI_Controller
     //     $this->load->view('admin/index',$data['user']);
     // }
 
-    public function add_materi()
+    public function deletebab($id)
     {
-        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|trim|min_length[1]', [
+        $this->load->model('m_materi');
+        $where = array('id' => $id);
+        $bab = $this->db->get_where('bab',array('id'=>$id))->result();
+        $this->m_materi->delete_materi($where, 'bab');
+        $this->session->set_flashdata('user-delete', 'berhasil');
+        $this->session->set_flashdata('delete-bab', 'Berhasil!');
+        redirect(base_url('guru/materiGuru/'.$bab[0]->kelas_id.'/'.$bab[0]->mapel_id));
+    }
+
+    public function add_materi($kelas, $mapel, $bab)
+    {
+        $this->form_validation->set_rules('judul_materi', 'Judul Materi', 'required|min_length[4]', [
+            'required' => 'Harap isi kolom judul.',
+            'min_length' => 'Judul terlalu pendek.',
+        ]);
+        $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|min_length[4]', [
             'required' => 'Harap isi kolom deskripsi.',
             'min_length' => 'deskripsi terlalu pendek.',
         ]);
         if ($this->form_validation->run() == false) {
-            $this->load->view('guru/add_materi');
+            $this->load->view('guru/materiGuru/.');
         } else {
-            $upload_video = $_FILES['video'];
+            $upload = $_FILES['attachment'];
 
-            if ($upload_video) {
-                $config['allowed_types'] = 'mp4|mkv';
+            if ($upload) {
+                $config['allowed_types'] = 'pdf|ppt|pptx|mp4|mkv';
                 $config['max_size'] = '0';
-                $config['upload_path'] = './assets/materi_video';
+                $config['upload_path'] = './assets/materi_attachment';
 
                 $this->load->library('upload', $config);
 
-                if ($this->upload->do_upload('video')) {
-                    $video = $this->upload->data('file_name');
+                if ($this->upload->do_upload('attachment')) {
+                    $attachment = $this->upload->data('file_name');
                 } else {
                     $this->upload->display_errors();
                 }
             }
             $data = [
-                'nama_guru' => htmlspecialchars($this->input->post('nama_guru', true)),
-                'nama_mapel' => htmlspecialchars($this->input->post('nama_mapel', true)),
-                'video' => $video,
+                'judul_materi' => htmlspecialchars($this->input->post('judul', true)),
                 'deskripsi' => htmlspecialchars($this->input->post('deskripsi', true)),
+                'tipe' => htmlspecialchars($this->input->post('tipe', true)),
+                'attachment' => $attachment,
                 'kelas' => htmlspecialchars($this->input->post('kelas', true)),
             ];
 
@@ -115,6 +129,20 @@ class Guru extends CI_Controller
             $this->session->set_flashdata('success-reg', 'Berhasil!');
             redirect(base_url('guru'));
         }
+    }
+    
+    public function changeTampil($id){
+        $status = $this->db->select('is_tampil,mapel_id,kelas_id')->get_where('materi',array('id'=>$id))->row_array();
+        $is_tampil = $status['is_tampil'];
+        $data = [
+            'is_tampil' => ($is_tampil == 0? '1':'0')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('materi', $data);
+        $mapel_id = $status['mapel_id'];
+        $kelas_id = $status['kelas_id'];
+        // $this->session->set_flashdata('update-bab', 'Berhasil!');
+        redirect(base_url('guru/materiGuru/'.$kelas_id.'/'.$mapel_id));
     }
 
     function materiDashboard($kelas,$mapel){

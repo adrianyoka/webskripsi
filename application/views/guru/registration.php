@@ -5,6 +5,7 @@
                         <div class="card" style="width:100%;">
                             <div class="card-body">
                                 <h2 class="card-title" style="color: black;">Tambah Data Pendidik</h2>
+
                             </div>
 
 

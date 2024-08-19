@@ -6,6 +6,7 @@ class M_materi extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('kelas');
+
         $this->db->join('guru', 'kelas.id = guru.kelas_id');
         $query = $this->db->get();
         return $query;

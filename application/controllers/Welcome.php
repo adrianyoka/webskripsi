@@ -13,9 +13,8 @@ class Welcome extends CI_Controller
 
     public function validateLogin()
     {
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email', [
+        $this->form_validation->set_rules('username', 'Username', 'trim|required', [
             'required' => 'Harap isi bidang email!',
-            'valid_email' => 'Email tidak valid!',
         ]);
         $this->form_validation->set_rules('password', 'Password', 'trim|required', [
             'required' => 'Harap isi bidang password!',
@@ -40,10 +39,10 @@ class Welcome extends CI_Controller
 
     private function login()
     {
-        $email = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('user', ['email' => $email])->row_array();
+        $user = $this->db->get_where('user', ['username' => $username])->row_array();
         if ($user) {
             //user ada
             if ($user['role'] == 0) {
@@ -75,7 +74,7 @@ class Welcome extends CI_Controller
             } else if ($user['role'] == 2) {
                 //cek password
                 $siswa = $this->db->get_where('siswa', ['id_user' => $user['id']])->row_array();
-                //var_dump($siswa); exit();
+                // var_dump($user);exit();
                 if ($siswa['is_active'] == 1) {
                     if (password_verify($password, $user['password'])) {
                         $data = [
@@ -218,15 +217,13 @@ class Welcome extends CI_Controller
                     $this->session->set_flashdata('fail-token-expired', 'gagal');
                     redirect(base_url('welcome'));
                 }
-            } else {
-                $this->session->set_flashdata('fail-token', 'gagal');
-                redirect(base_url('welcome'));
             }
         } else {
-            $this->session->set_flashdata('fail-verify', 'gagal');
+            $this->session->set_flashdata('fail-login', 'Gagal!');
             redirect(base_url('welcome'));
         }
     }
+
 
     public function email()
     {

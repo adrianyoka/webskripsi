@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Learnify - Admin Login</title>
+    <title>Pedagogi - Smart Learn</title>
     <link rel="icon" href="<?=base_url('assets/')?>img/favicon.png" type="image/png">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -42,7 +42,7 @@
                                 <input id="email" type="email" class="form-control" name="email" tabindex="1" required
                                     autofocus>
                                 <div class="invalid-feedback">
-                                    Harap isi bidang userna
+                                    Harap isi bidang username
                                 </div>
                             </div>
                             <div class="form-group">
